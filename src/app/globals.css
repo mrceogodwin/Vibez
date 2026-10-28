@@ -118,3 +118,7 @@
 .station-share-row code{font:10px 'DM Sans',sans-serif;color:#ff956d;overflow-wrap:anywhere}
 .station-share-row .small-ghost{flex-shrink:0}
 @media(max-width:520px){.station-share-row{align-items:stretch;flex-direction:column}.station-share-row .small-ghost{width:100%}}
+
+
+.station-detail-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+.station-detail-actions .primary{margin-top:0!important}
