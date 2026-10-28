@@ -35,13 +35,17 @@ export async function PUT(request: Request) {
   if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
 
   try {
-    const body = await request.json();
-    const name = typeof body.name === "string" ? body.name.trim().slice(0, 48) : "";
-    const tagline = typeof body.tagline === "string" ? body.tagline.trim().slice(0, 90) : "";
-    const genre = typeof body.genre === "string" ? body.genre.trim().slice(0, 40) : "Mixed genres";
-    const visibility = ["public", "unlisted", "private"].includes(body.visibility) ? body.visibility : "public";
-    const queue = Array.isArray(body.queue)
-      ? body.queue.slice(0, 250).map((item: unknown, index: number) => {
+    const body: unknown = await request.json();
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json({ error: "A station settings object is required." }, { status: 400 });
+    }
+    const input = body as Record<string, unknown>;
+    const name = typeof input.name === "string" ? input.name.trim().slice(0, 48) : "";
+    const tagline = typeof input.tagline === "string" ? input.tagline.trim().slice(0, 90) : "";
+    const genre = typeof input.genre === "string" ? input.genre.trim().slice(0, 40) : "Mixed genres";
+    const visibility = ["public", "unlisted", "private"].includes(input.visibility) ? input.visibility : "public";
+    const queue = Array.isArray(input.queue)
+      ? input.queue.slice(0, 250).map((item: unknown, index: number) => {
           const track = item && typeof item === "object" ? item as Record<string, unknown> : {};
           return {
             id: typeof track.id === "number" || typeof track.id === "string" ? String(track.id).slice(0, 80) : String(index + 1),
@@ -51,8 +55,8 @@ export async function PUT(request: Request) {
           };
         }).filter((track: {title:string}) => track.title.length > 0)
       : [];
-    const volume = Number.isFinite(body.settings?.volume) ? Math.max(0, Math.min(100, Math.round(body.settings.volume))) : 72;
-    const crossfade = Number.isFinite(body.settings?.crossfade) ? Math.max(0, Math.min(12, Math.round(body.settings.crossfade))) : 4;
+    const volume = Number.isFinite(input.settings?.volume) ? Math.max(0, Math.min(100, Math.round(input.settings.volume))) : 72;
+    const crossfade = Number.isFinite(input.settings?.crossfade) ? Math.max(0, Math.min(12, Math.round(input.settings.crossfade))) : 4;
 
     if (!name) return NextResponse.json({ error: "Station name is required." }, { status: 400 });
 
