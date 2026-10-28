@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 type Track = { id: number; title: string; artist: string; duration: string };
 
@@ -11,6 +13,12 @@ const starterTracks: Track[] = [
 ];
 
 export default function StudioPage() {
+  const router = useRouter();
+  const { data: session, isPending: sessionPending } = authClient.useSession();
+  useEffect(() => {
+    if (!sessionPending && !session) router.replace("/login");
+  }, [sessionPending, session, router]);
+
   const [stationName, setStationName] = useState("Godwin's Frequency");
   const [tagline, setTagline] = useState("Good music. No bad energy.");
   const [category, setCategory] = useState("Afrobeats");
@@ -24,6 +32,8 @@ export default function StudioPage() {
   const [crossfade, setCrossfade] = useState(4);
   const [broadcast, setBroadcast] = useState(false);
   const [notice, setNotice] = useState("");
+
+  if (sessionPending || !session) return <main className="studio-loading"><span className="brandmark">v.</span><p>Opening your creator studio…</p></main>;
 
   const selectedTrack = tracks[currentTrack];
   const totalTracks = useMemo(() => tracks.length, [tracks]);
@@ -57,7 +67,7 @@ export default function StudioPage() {
       </aside>
 
       <section className="studio-main">
-        <header className="studio-topbar"><div><span className="studio-breadcrumb">VIBEZ / CREATOR STUDIO</span><h1>Your sound. Your station.</h1></div><div className="profile-pill"><span className="profile-avatar">G</span><span>Creator account<small>Demo workspace</small></span><span>⌄</span></div></header>
+        <header className="studio-topbar"><div><span className="studio-breadcrumb">VIBEZ / CREATOR STUDIO</span><h1>Your sound. Your station.</h1></div><div className="profile-pill"><span className="profile-avatar">{(session.user.name || session.user.email || "V").slice(0,1).toUpperCase()}</span><span>{session.user.name || "Creator account"}<small>{session.user.email}</small></span><button className="studio-signout" onClick={async () => { await authClient.signOut(); router.replace("/"); router.refresh(); }}>Sign out</button></div></header>
 
         <div className="studio-banner"><div><span className="studio-live-indicator"><i /> STUDIO PREVIEW</span><h2>Make the airwaves yours.</h2><p>Set up your station, build a queue, tune your sound and prepare your show.</p></div><div className="banner-mark">v<span>✳</span></div></div>
         {notice && <div className="studio-notice" role="status"><span>ⓘ</span>{notice}<button onClick={() => setNotice("")} aria-label="Dismiss notice">×</button></div>}
@@ -70,7 +80,7 @@ export default function StudioPage() {
               <label className="field-label" htmlFor="station-name">Station name</label><input id="station-name" className="studio-input" value={stationName} onChange={(e) => setStationName(e.target.value)} maxLength={48}/>
               <label className="field-label" htmlFor="station-tagline">Tagline</label><input id="station-tagline" className="studio-input" value={tagline} onChange={(e) => setTagline(e.target.value)} maxLength={90}/>
               <div className="field-pair"><div><label className="field-label" htmlFor="station-category">Main genre</label><select id="station-category" className="studio-input" value={category} onChange={(e) => setCategory(e.target.value)}><option>Afrobeats</option><option>Hip-hop</option><option>R&B / Soul</option><option>Gospel</option><option>Electronic</option><option>Talk & culture</option><option>Mixed genres</option></select></div><div><label className="field-label" htmlFor="station-visibility">Discovery</label><select id="station-visibility" className="studio-input" value={visibility} onChange={(e) => setVisibility(e.target.value)}><option>Public</option><option>Unlisted</option><option>Private</option></select></div></div>
-              <div className="station-preview"><div className="mini-art">v.</div><div><b>{stationName || "Your station"}</b><p>{tagline || "Your station tagline"}</p><span>{category.toUpperCase()} · {visibility.toUpperCase()}</span></div><button className="small-ghost" onClick={() => setNotice("Station branding is a local preview. Saving to your account will be enabled after authentication is implemented.")}>Save setup</button></div>
+              <div className="station-preview"><div className="mini-art">v.</div><div><b>{stationName || "Your station"}</b><p>{tagline || "Your station tagline"}</p><span>{category.toUpperCase()} · {visibility.toUpperCase()}</span></div><button className="small-ghost" onClick={() => setNotice("Station Station branding preview. Persistent station saving is the next studio feature.")}>Save setup</button></div>
             </section>
 
             <section className="studio-panel" id="playlist"><div className="panel-heading"><div><span className="panel-kicker">02 / YOUR SOUND</span><h3>Music & queue</h3></div><span className="queue-count">{totalTracks.toString().padStart(2, "0")} TRACKS</span></div>
