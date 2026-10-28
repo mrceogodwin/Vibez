@@ -43,7 +43,8 @@ export async function PUT(request: Request) {
     const name = typeof input.name === "string" ? input.name.trim().slice(0, 48) : "";
     const tagline = typeof input.tagline === "string" ? input.tagline.trim().slice(0, 90) : "";
     const genre = typeof input.genre === "string" ? input.genre.trim().slice(0, 40) : "Mixed genres";
-    const visibility = ["public", "unlisted", "private"].includes(input.visibility) ? input.visibility : "public";
+    const requestedVisibility = typeof input.visibility === "string" ? input.visibility : "public";
+    const visibility = ["public", "unlisted", "private"].includes(requestedVisibility) ? requestedVisibility : "public";
     const queue = Array.isArray(input.queue)
       ? input.queue.slice(0, 250).map((item: unknown, index: number) => {
           const track = item && typeof item === "object" ? item as Record<string, unknown> : {};
@@ -55,8 +56,11 @@ export async function PUT(request: Request) {
           };
         }).filter((track: {title:string}) => track.title.length > 0)
       : [];
-    const volume = Number.isFinite(input.settings?.volume) ? Math.max(0, Math.min(100, Math.round(input.settings.volume))) : 72;
-    const crossfade = Number.isFinite(input.settings?.crossfade) ? Math.max(0, Math.min(12, Math.round(input.settings.crossfade))) : 4;
+    const settings = input.settings && typeof input.settings === "object" && !Array.isArray(input.settings)
+      ? input.settings as Record<string, unknown>
+      : {};
+    const volume = typeof settings.volume === "number" && Number.isFinite(settings.volume) ? Math.max(0, Math.min(100, Math.round(settings.volume))) : 72;
+    const crossfade = typeof settings.crossfade === "number" && Number.isFinite(settings.crossfade) ? Math.max(0, Math.min(12, Math.round(settings.crossfade))) : 4;
 
     if (!name) return NextResponse.json({ error: "Station name is required." }, { status: 400 });
 
