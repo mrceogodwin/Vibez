@@ -44,7 +44,10 @@ export async function PUT(request: Request) {
     const tagline = typeof input.tagline === "string" ? input.tagline.trim().slice(0, 90) : "";
     const genre = typeof input.genre === "string" ? input.genre.trim().slice(0, 40) : "Mixed genres";
     const requestedVisibility = typeof input.visibility === "string" ? input.visibility : "public";
-    const visibility = ["public", "unlisted", "private"].includes(requestedVisibility) ? requestedVisibility : "public";
+    if (!["public", "unlisted", "private"].includes(requestedVisibility)) {
+      return NextResponse.json({ error: "Visibility must be public, unlisted, or private." }, { status: 400 });
+    }
+    const visibility = requestedVisibility;
     const queue = Array.isArray(input.queue)
       ? input.queue.slice(0, 250).map((item: unknown, index: number) => {
           const track = item && typeof item === "object" ? item as Record<string, unknown> : {};
