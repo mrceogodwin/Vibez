@@ -19,6 +19,7 @@ export default function StudioPage() {
     if (!sessionPending && !session) router.replace("/login");
   }, [sessionPending, session, router]);
 
+  const [stationId, setStationId] = useState("");
   const [stationName, setStationName] = useState("Godwin's Frequency");
   const [tagline, setTagline] = useState("Good music. No bad energy.");
   const [category, setCategory] = useState("Afrobeats");
@@ -44,6 +45,7 @@ export default function StudioPage() {
         if (!response.ok) throw new Error(data.error || "Could not load station.");
         if (!cancelled && data.profile) {
           const profile = data.profile;
+          setStationId(typeof profile.id === "string" ? profile.id : "");
           setStationName(profile.name || "My Vibez Radio");
           setTagline(profile.tagline || "");
           setCategory(profile.genre || "Mixed genres");
@@ -84,6 +86,7 @@ export default function StudioPage() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not save your station.");
+      if (typeof data.profile?.id === "string") setStationId(data.profile.id);
       setNotice("Station settings and queue saved to your Vibez account.");
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Could not save your station.");
@@ -137,6 +140,8 @@ export default function StudioPage() {
               <label className="field-label" htmlFor="station-tagline">Tagline</label><input id="station-tagline" className="studio-input" value={tagline} onChange={(e) => setTagline(e.target.value)} maxLength={90}/>
               <div className="field-pair"><div><label className="field-label" htmlFor="station-category">Main genre</label><select id="station-category" className="studio-input" value={category} onChange={(e) => setCategory(e.target.value)}><option>Afrobeats</option><option>Hip-hop</option><option>R&B / Soul</option><option>Gospel</option><option>Electronic</option><option>Talk & culture</option><option>Mixed genres</option></select></div><div><label className="field-label" htmlFor="station-visibility">Discovery</label><select id="station-visibility" className="studio-input" value={visibility} onChange={(e) => setVisibility(e.target.value)}><option>Public</option><option>Unlisted</option><option>Private</option></select></div></div>
               <div className="station-preview"><div className="mini-art">v.</div><div><b>{stationName || "Your station"}</b><p>{tagline || "Your station tagline"}</p><span>{category.toUpperCase()} · {visibility.toUpperCase()}</span></div><button className="small-ghost" onClick={saveStation} disabled={saving}>{saving ? "Saving…" : "Save setup"}</button></div>
+              {stationId && visibility === "Public" && <div className="station-share-row"><div><span>PUBLIC STATION LINK</span><code>{typeof window !== "undefined" ? `${window.location.origin}/station/${stationId}` : `/station/${stationId}`}</code></div><button className="small-ghost" onClick={async () => { const url = `${window.location.origin}/station/${stationId}`; try { await navigator.clipboard.writeText(url); setNotice("Public station link copied."); } catch { setNotice(url); } }}>Copy link</button></div>}
+              {stationId && visibility !== "Public" && <p className="fine-print">Your station is {visibility.toLowerCase()}. It will not appear in public discovery or have a shareable public page until you set it to Public.</p>}
             </section>
 
             <section className="studio-panel" id="playlist"><div className="panel-heading"><div><span className="panel-kicker">02 / YOUR SOUND</span><h3>Music & queue</h3></div><span className="queue-count">{totalTracks.toString().padStart(2, "0")} TRACKS</span></div>
