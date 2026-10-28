@@ -108,3 +108,5 @@
 .queue-save-row .small-ghost{white-space:nowrap}
 .small-ghost:disabled{opacity:.6;cursor:wait}
 @media(max-width:520px){.queue-save-row{align-items:flex-start;flex-direction:column}.queue-save-row .small-ghost{width:100%}}
+
+.station-card-link{display:block;min-width:0;color:inherit;text-decoration:none}.station-card-link:focus-visible{outline:2px solid var(--orange);outline-offset:4px;border-radius:10px}.station-card-link .station{height:100%;transition:transform .18s ease,border-color .18s ease}.station-card-link:hover .station{transform:translateY(-3px);border-color:#ff6b3580}
