@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
@@ -12,6 +12,11 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const requestedMode = new URLSearchParams(window.location.search).get("mode");
+    if (requestedMode === "signup") setMode("signup");
+  }, []);
 
   return (
     <main className="auth-shell">
@@ -31,7 +36,7 @@ export default function LoginPage() {
             {mode==="signup"&&<label className="auth-field">Display name<input value={name} onChange={e=>setName(e.target.value)} autoComplete="name" placeholder="What should we call you?" required maxLength={50}/></label>}
             <label className="auth-field">Email address<input type="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="email" placeholder="you@example.com" required/></label>
             <label className="auth-field">Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} autoComplete={mode==="login"?"current-password":"new-password"} placeholder="At least 8 characters" minLength={8} required/></label>
-            {mode==="login"&&<div className="auth-inline"><label><input type="checkbox"/> Keep me signed in</label><button type="button" onClick={()=>setNotice("Password reset will be enabled after the authentication backend is configured.")}>Forgot password?</button></div>}
+            {mode==="login"&&<div className="auth-inline"><label><input type="checkbox"/> Keep me signed in</label><button type="button" onClick={()=>setNotice("Password reset is not available yet. We still need to configure a verified email provider.")}>Forgot password?</button></div>}
             <button className="auth-submit" type="submit" disabled={busy}>{busy?"Please wait…":mode==="login"?"Log in to Vibez":"Create my account"} <span>→</span></button>
           </form>
           {notice&&<div className="auth-notice" role="status">{notice}</div>}
