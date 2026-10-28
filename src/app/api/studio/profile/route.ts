@@ -1,0 +1,82 @@
+import { NextResponse } from "next/server";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
+import { getDb } from "@/lib/db";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+async function currentUser() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  return session?.user ?? null;
+}
+
+export async function GET() {
+  const user = await currentUser();
+  if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
+
+  try {
+    const sql = getDb();
+    const rows = await sql`
+      SELECT name, tagline, genre, visibility, queue, settings
+      FROM creator_station_profiles
+      WHERE owner_id = ${user.id}
+      LIMIT 1
+    `;
+    if (!rows.length) return NextResponse.json({ profile: null });
+    return NextResponse.json({ profile: rows[0] });
+  } catch {
+    return NextResponse.json({ error: "Could not load your station settings." }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request) {
+  const user = await currentUser();
+  if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
+
+  try {
+    const body = await request.json();
+    const name = typeof body.name === "string" ? body.name.trim().slice(0, 48) : "";
+    const tagline = typeof body.tagline === "string" ? body.tagline.trim().slice(0, 90) : "";
+    const genre = typeof body.genre === "string" ? body.genre.trim().slice(0, 40) : "Mixed genres";
+    const visibility = ["public", "unlisted", "private"].includes(body.visibility) ? body.visibility : "public";
+    const queue = Array.isArray(body.queue)
+      ? body.queue.slice(0, 250).map((item: unknown, index: number) => {
+          const track = item && typeof item === "object" ? item as Record<string, unknown> : {};
+          return {
+            id: typeof track.id === "number" || typeof track.id === "string" ? String(track.id).slice(0, 80) : String(index + 1),
+            title: typeof track.title === "string" ? track.title.trim().slice(0, 180) : "",
+            artist: typeof track.artist === "string" ? track.artist.trim().slice(0, 140) : "",
+            duration: typeof track.duration === "string" ? track.duration.slice(0, 20) : "—",
+          };
+        }).filter((track: {title:string}) => track.title.length > 0)
+      : [];
+    const volume = Number.isFinite(body.settings?.volume) ? Math.max(0, Math.min(100, Math.round(body.settings.volume))) : 72;
+    const crossfade = Number.isFinite(body.settings?.crossfade) ? Math.max(0, Math.min(12, Math.round(body.settings.crossfade))) : 4;
+
+    if (!name) return NextResponse.json({ error: "Station name is required." }, { status: 400 });
+
+    const sql = getDb();
+    const rows = await sql`
+      INSERT INTO creator_station_profiles (owner_id, name, tagline, genre, visibility, queue, settings, updated_at)
+      VALUES (
+        ${user.id}, ${name}, ${tagline}, ${genre}, ${visibility},
+        ${JSON.stringify(queue)}::jsonb,
+        ${JSON.stringify({ volume, crossfade })}::jsonb,
+        now()
+      )
+      ON CONFLICT (owner_id) DO UPDATE SET
+        name = EXCLUDED.name,
+        tagline = EXCLUDED.tagline,
+        genre = EXCLUDED.genre,
+        visibility = EXCLUDED.visibility,
+        queue = EXCLUDED.queue,
+        settings = EXCLUDED.settings,
+        updated_at = now()
+      RETURNING name, tagline, genre, visibility, queue, settings
+    `;
+    return NextResponse.json({ profile: rows[0] });
+  } catch {
+    return NextResponse.json({ error: "Could not save your station settings." }, { status: 500 });
+  }
+}
