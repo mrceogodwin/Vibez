@@ -34,11 +34,18 @@ export async function PUT(request: Request) {
   const user = await currentUser();
   if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
 
+  let body: unknown;
   try {
-    const body: unknown = await request.json();
-    if (!body || typeof body !== "object" || Array.isArray(body)) {
-      return NextResponse.json({ error: "A station settings object is required." }, { status: 400 });
-    }
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Request body must be valid JSON." }, { status: 400 });
+  }
+
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ error: "A station settings object is required." }, { status: 400 });
+  }
+
+  try {
     const input = body as Record<string, unknown>;
     const name = typeof input.name === "string" ? input.name.trim().slice(0, 48) : "";
     const tagline = typeof input.tagline === "string" ? input.tagline.trim().slice(0, 90) : "";
