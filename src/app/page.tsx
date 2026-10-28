@@ -9,8 +9,8 @@ export default function Home() {
     <main className="shell">
       <header className="nav">
         <a className="brand" href="#" aria-label="Vibez home"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></a>
-        <nav aria-label="Main navigation"><a href="#listen">Listen</a><a href="#community">Communities</a><a href="#about">About</a></nav>
-        <a className="login" href="#join">Get early access <span>↗</span></a>
+        <nav aria-label="Main navigation"><a href="#listen">Listen</a><a href="#community">Communities</a><a href="#about">About</a><a href="/studio">Creator Studio</a></nav>
+        <a className="login" href="/studio">Connect / Studio <span>↗</span></a>
       </header>
 
       <section className="hero">
