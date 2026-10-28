@@ -32,11 +32,70 @@ export default function StudioPage() {
   const [crossfade, setCrossfade] = useState(4);
   const [broadcast, setBroadcast] = useState(false);
   const [notice, setNotice] = useState("");
-
-  if (sessionPending || !session) return <main className="studio-loading"><span className="brandmark">v.</span><p>Opening your creator studio…</p></main>;
-
+  const [saving, setSaving] = useState(false);
+  const [profileLoaded, setProfileLoaded] = useState(false);
   const selectedTrack = tracks[currentTrack];
   const totalTracks = useMemo(() => tracks.length, [tracks]);
+
+  useEffect(() => {
+    if (!session) return;
+    let cancelled = false;
+    fetch("/api/studio/profile", { cache: "no-store" })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Could not load station.");
+        if (!cancelled && data.profile) {
+          const profile = data.profile;
+          setStationName(profile.name || "My Vibez Radio");
+          setTagline(profile.tagline || "");
+          setCategory(profile.genre || "Mixed genres");
+          setVisibility((profile.visibility || "public").replace(/^./, (letter: string) => letter.toUpperCase()));
+          if (Array.isArray(profile.queue)) {
+            setTracks(profile.queue.map((track: Record<string, unknown>, index: number) => ({
+              id: Number(track.id) || Date.now() + index,
+              title: String(track.title || ""),
+              artist: String(track.artist || ""),
+              duration: String(track.duration || "—"),
+            })));
+          }
+          if (profile.settings) {
+            setVolume(Number(profile.settings.volume ?? 72));
+            setCrossfade(Number(profile.settings.crossfade ?? 4));
+          }
+        }
+      })
+      .catch(() => { if (!cancelled) setNotice("Your studio is open, but saved settings could not be loaded. Try refreshing."); })
+      .finally(() => { if (!cancelled) setProfileLoaded(true); });
+    return () => { cancelled = true; };
+  }, [session]);
+
+  async function saveStation() {
+    setSaving(true);
+    setNotice("");
+    try {
+      const response = await fetch("/api/studio/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: stationName,
+          tagline,
+          genre: category,
+          visibility: visibility.toLowerCase(),
+          queue: tracks,
+          settings: { volume, crossfade },
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Could not save your station.");
+      setNotice("Station settings and queue saved to your Vibez account.");
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Could not save your station.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (sessionPending || !session) return <main className="studio-loading"><span className="brandmark">v.</span><p>Opening your creator studio…</p></main>;
 
   function addTrack() {
     const title = newTrack.trim();
@@ -87,7 +146,7 @@ export default function StudioPage() {
               <div className="queue-toolbar"><span>UP NEXT <small>· drag-and-drop ordering coming next</small></span><button className="small-ghost" onClick={() => setTracks([])}>Clear queue</button></div>
               {tracks.length === 0 ? <div className="empty-queue">Your queue is empty. Add a track below to get started.</div> : <div className="track-list">{tracks.map((track, index) => <div className={`track-row ${index === currentTrack ? "selected" : ""}`} key={track.id}><button className="track-play" onClick={() => {setCurrentTrack(index);setPlaying(true);}} aria-label={`Play ${track.title}`}>{index === currentTrack && playing ? "Ⅱ" : "▶"}</button><div className="track-title"><b>{track.title}</b><span>{track.artist}</span></div><span className="track-duration">{track.duration}</span><button className="remove-track" onClick={() => {setTracks((items) => items.filter((item) => item.id !== track.id));setCurrentTrack(0);setPlaying(false);}} aria-label={`Remove ${track.title}`}>×</button></div>)}</div>}
               <form className="add-track" onSubmit={(e) => {e.preventDefault();addTrack();}}><input className="studio-input" value={newTrack} onChange={(e) => setNewTrack(e.target.value)} placeholder="Add a track title to the demo queue" aria-label="New track title"/><button className="add-button" type="submit">+ Add</button></form>
-              <p className="fine-print">Demo queue only. Real music uploads, licensing checks and catalog integrations are not connected.</p>
+              <div className="queue-save-row"><p className="fine-print">Queue titles are saved to your account. Audio playback and music licensing are not connected yet.</p><button className="small-ghost" onClick={saveStation} disabled={saving}>{saving ? "Saving…" : "Save queue"}</button></div>
             </section>
           </div>
 
