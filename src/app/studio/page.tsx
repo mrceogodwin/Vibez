@@ -63,8 +63,7 @@ export default function StudioPage() {
           }
         }
       })
-      .catch(() => { if (!cancelled) setNotice("Your studio is open, but saved settings could not be loaded. Try refreshing."); })
-      .finally(() => { if (cancelled) return; });
+      .catch(() => { if (!cancelled) setNotice("Your studio is open, but saved settings could not be loaded. Try refreshing."); });
     return () => { cancelled = true; };
   }, [session]);
 
