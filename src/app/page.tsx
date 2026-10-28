@@ -47,6 +47,7 @@ export default function Home() {
   }, []);
 
   const visibleStations = stationList.slice(0, visibleCount);
+  const hasCreatorStations = stationList.some((station) => Boolean(station.id));
 
   return (
     <main className="shell">
@@ -68,14 +69,14 @@ export default function Home() {
       </section>
 
       <section className="section" id="listen">
-        <div className="section-head"><div><div className="eyebrow">THE AIRWAVES</div><h2>Find your frequency.</h2><p className="section-subtitle">Small stations. Big personalities. Discover a new sound.</p></div><span className="section-link">STATIONS · PREVIEW</span></div>
-        <div className="station-grid">{visibleStations.map((station, index) => <a className="station-card-link" href={station.id ? `/station/${station.id}` : "/login"} key={station.id || station.name}><article className={`station ${station.style}`}>
+        <div className="section-head"><div><div className="eyebrow">THE AIRWAVES</div><h2>Find your frequency.</h2><p className="section-subtitle">Small stations. Big personalities. Discover a new sound.</p></div><span className="section-link">{hasCreatorStations ? "PUBLIC CREATOR STATIONS" : "STATION PREVIEW"}</span></div>
+        <div className="station-grid">{visibleStations.map((station, index) => <a className="station-card-link" href={station.id ? `/station/${station.id}` : "/login?mode=signup"} aria-label={station.id ? `Open ${station.name}` : `Preview ${station.name}; create an account to start a station`} key={station.id || station.name}><article className={`station ${station.style}`}>
           <div className="station-top"><span className="live-dot" />{station.status}<span className="station-number">{String(index + 1).padStart(2,"0")}</span></div>
           <div className="art" aria-hidden="true"><span className="art-ring ring-one"/><span className="art-ring ring-two"/><span className="art-center">{station.code}</span><span className="equalizer"><i/><i/><i/><i/><i/></span></div>
           <div className="station-bottom"><div><h3>{station.name}</h3><p>{station.genre}</p></div><span className="play" aria-label="Open station">→</span></div>
         </article></a>)}</div>
         <div className="load-more-wrap">{visibleCount < stationList.length ? <button className="load-more" onClick={() => setVisibleCount((count) => Math.min(count + 6, stationList.length))}>Load more stations <span>↓</span></button> : visibleCount > 6 ? <button className="load-more" onClick={() => setVisibleCount(6)}>Show fewer stations <span>↑</span></button> : null}</div>
-        <p className="note">Station cards are a visual preview. Live playback will be enabled as verified stream sources are connected.</p>
+        <p className="note">{hasCreatorStations ? "Public creator stations are loaded from Vibez accounts. Live playback will be enabled when verified stream sources are connected." : "These are sample station designs, not live broadcasts. Create an account to build a real station; live playback requires a verified stream source."}</p>
       </section>
 
       <section className="creator-callout"><div className="creator-symbol">v.</div><div><div className="eyebrow">YOUR RADIO. YOUR RULES.</div><h2>Be the station everyone tunes into.</h2><p>Build your personal radio brand, prepare shows, shape your queue and grow a global audience from your own creator dashboard.</p></div><a className="primary" href="/studio">Open Creator Studio <span>→</span></a></section>
