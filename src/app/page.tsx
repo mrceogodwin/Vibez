@@ -5,18 +5,18 @@ import { useEffect, useState } from "react";
 type StationCard = { id?: string; name: string; genre: string; status: string; code: string; style: string };
 
 const stations: StationCard[] = [
-  { name: "Lagos Radio", genre: "Afrobeats · Lagos", status: "LIVE", code: "L", style: "orange" },
-  { name: "The Sound Room", genre: "R&B · Soul · Chill", status: "ON AIR", code: "S", style: "cream" },
-  { name: "Naija Mix", genre: "Street pop · Hits", status: "TRENDING", code: "N", style: "lime" },
-  { name: "Late Night FM", genre: "Chill · Global sounds", status: "ON AIR", code: "F", style: "cream" },
-  { name: "The Pulse", genre: "Hip-hop · New drops", status: "CURATED", code: "P", style: "orange" },
-  { name: "Soul Garden", genre: "Neo-soul · Easy listening", status: "CURATED", code: "G", style: "lime" },
-  { name: "Talk Naija", genre: "Culture · Conversations", status: "COMMUNITY", code: "T", style: "cream" },
-  { name: "Global Bounce", genre: "Afrobeats · Amapiano", status: "TRENDING", code: "B", style: "orange" },
-  { name: "Sunday Light", genre: "Gospel · Inspiration", status: "CURATED", code: "S", style: "lime" },
-  { name: "Indie Orbit", genre: "Indie · Alternative", status: "CURATED", code: "I", style: "cream" },
-  { name: "Club Frequency", genre: "Dance · Electronic", status: "ON AIR", code: "C", style: "orange" },
-  { name: "The Focus Room", genre: "Lo-fi · Study", status: "CURATED", code: "F", style: "lime" },
+  { name: "Lagos Radio", genre: "Afrobeats · Lagos", status: "PREVIEW", code: "L", style: "orange" },
+  { name: "The Sound Room", genre: "R&B · Soul · Chill", status: "PREVIEW", code: "S", style: "cream" },
+  { name: "Naija Mix", genre: "Street pop · Hits", status: "PREVIEW", code: "N", style: "lime" },
+  { name: "Late Night FM", genre: "Chill · Global sounds", status: "PREVIEW", code: "F", style: "cream" },
+  { name: "The Pulse", genre: "Hip-hop · New drops", status: "PREVIEW", code: "P", style: "orange" },
+  { name: "Soul Garden", genre: "Neo-soul · Easy listening", status: "PREVIEW", code: "G", style: "lime" },
+  { name: "Talk Naija", genre: "Culture · Conversations", status: "PREVIEW", code: "T", style: "cream" },
+  { name: "Global Bounce", genre: "Afrobeats · Amapiano", status: "PREVIEW", code: "B", style: "orange" },
+  { name: "Sunday Light", genre: "Gospel · Inspiration", status: "PREVIEW", code: "S", style: "lime" },
+  { name: "Indie Orbit", genre: "Indie · Alternative", status: "PREVIEW", code: "I", style: "cream" },
+  { name: "Club Frequency", genre: "Dance · Electronic", status: "PREVIEW", code: "C", style: "orange" },
+  { name: "The Focus Room", genre: "Lo-fi · Study", status: "PREVIEW", code: "F", style: "lime" },
 ];
 
 export default function Home() {
@@ -74,7 +74,7 @@ export default function Home() {
           <div className="art" aria-hidden="true"><span className="art-ring ring-one"/><span className="art-ring ring-two"/><span className="art-center">{station.code}</span><span className="equalizer"><i/><i/><i/><i/><i/></span></div>
           <div className="station-bottom"><div><h3>{station.name}</h3><p>{station.genre}</p></div><span className="play" aria-label="Open station">→</span></div>
         </article></a>)}</div>
-        <div className="load-more-wrap">{visibleCount < stationList.length ? <button className="load-more" onClick={() => setVisibleCount((count) => Math.min(count + 6, stationList.length))}>Load more stations <span>↓</span></button> : <button className="load-more" onClick={() => setVisibleCount(6)}>Show fewer stations <span>↑</span></button>}</div>
+        <div className="load-more-wrap">{visibleCount < stationList.length ? <button className="load-more" onClick={() => setVisibleCount((count) => Math.min(count + 6, stationList.length))}>Load more stations <span>↓</span></button> : visibleCount > 6 ? <button className="load-more" onClick={() => setVisibleCount(6)}>Show fewer stations <span>↑</span></button> : null}</div>
         <p className="note">Station cards are a visual preview. Live playback will be enabled as verified stream sources are connected.</p>
       </section>
 
