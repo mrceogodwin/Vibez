@@ -5,13 +5,11 @@ import { Pool } from "@neondatabase/serverless";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
-  // Keep build-time imports safe; runtime requests fail clearly until configured.
+  throw new Error("DATABASE_URL is required for Vibez authentication.");
 }
 
 export const auth = betterAuth({
-  database: new Pool({
-    connectionString: connectionString || "postgresql://placeholder:placeholder@localhost:5432/placeholder",
-  }),
+  database: new Pool({ connectionString }),
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL,
   emailAndPassword: { enabled: true, requireEmailVerification: false },
