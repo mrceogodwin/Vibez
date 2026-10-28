@@ -11,6 +11,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,11 +33,11 @@ export default function LoginPage() {
         <section className="auth-card">
           <div className="auth-tabs"><button className={mode==="login"?"selected":""} onClick={()=>{setMode("login");setNotice("");}}>Log in</button><button className={mode==="signup"?"selected":""} onClick={()=>{setMode("signup");setNotice("");}}>Create account</button></div>
           <div className="auth-heading"><h2>{mode==="login"?"Welcome back.":"Join the frequency."}</h2><p>{mode==="login"?"Your people and stations are waiting.":"Create your Vibez account to get started."}</p></div>
-          <form onSubmit={async (event)=>{event.preventDefault();setNotice("");setBusy(true);try{if(mode==="signup"){const result=await authClient.signUp.email({name:name.trim(),email:email.trim(),password,callbackURL:"/studio"});if(result.error)throw new Error(result.error.message||"Could not create your account.");setNotice("Account created. Taking you to your studio…");router.push("/studio");router.refresh();}else{const result=await authClient.signIn.email({email:email.trim(),password,callbackURL:"/studio"});if(result.error)throw new Error(result.error.message||"Could not sign in.");router.push("/studio");router.refresh();}}catch(error){setNotice(error instanceof Error?error.message:"Something went wrong. Please try again.");}finally{setBusy(false);}}}>
+          <form onSubmit={async (event)=>{event.preventDefault();setNotice("");setBusy(true);try{if(mode==="signup"){const result=await authClient.signUp.email({name:name.trim(),email:email.trim(),password,callbackURL:"/studio"});if(result.error)throw new Error(result.error.message||"Could not create your account.");setNotice("Account created. Taking you to your studio…");router.push("/studio");router.refresh();}else{const result=await authClient.signIn.email({email:email.trim(),password,rememberMe,callbackURL:"/studio"});if(result.error)throw new Error(result.error.message||"Could not sign in.");router.push("/studio");router.refresh();}}catch(error){setNotice(error instanceof Error?error.message:"Something went wrong. Please try again.");}finally{setBusy(false);}}}>
             {mode==="signup"&&<label className="auth-field">Display name<input value={name} onChange={e=>setName(e.target.value)} autoComplete="name" placeholder="What should we call you?" required maxLength={50}/></label>}
             <label className="auth-field">Email address<input type="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="email" placeholder="you@example.com" required/></label>
             <label className="auth-field">Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} autoComplete={mode==="login"?"current-password":"new-password"} placeholder="At least 8 characters" minLength={8} required/></label>
-            {mode==="login"&&<div className="auth-inline"><label><input type="checkbox"/> Keep me signed in</label><button type="button" onClick={()=>setNotice("Password reset is not available yet. We still need to configure a verified email provider.")}>Forgot password?</button></div>}
+            {mode==="login"&&<div className="auth-inline"><label><input type="checkbox" checked={rememberMe} onChange={e=>setRememberMe(e.target.checked)}/> Keep me signed in</label><button type="button" onClick={()=>setNotice("Password reset is not available yet. We still need to configure a verified email provider.")}>Forgot password?</button></div>}
             <button className="auth-submit" type="submit" disabled={busy}>{busy?"Please wait…":mode==="login"?"Log in to Vibez":"Create my account"} <span>→</span></button>
           </form>
           {notice&&<div className="auth-notice" role="status">{notice}</div>}
