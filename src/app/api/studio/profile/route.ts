@@ -12,10 +12,10 @@ async function currentUser() {
 }
 
 export async function GET() {
-  const user = await currentUser();
-  if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
-
   try {
+    const user = await currentUser();
+    if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
+
     const sql = getDb();
     const rows = await sql`
       SELECT id, name, tagline, genre, visibility, queue, settings
@@ -31,7 +31,12 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
-  const user = await currentUser();
+  let user: Awaited<ReturnType<typeof currentUser>>;
+  try {
+    user = await currentUser();
+  } catch {
+    return NextResponse.json({ error: "Could not verify your session. Please sign in again." }, { status: 503 });
+  }
   if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
 
   let body: unknown;
