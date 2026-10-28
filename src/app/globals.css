@@ -101,3 +101,10 @@
 .studio-signout{border:1px solid #3a3a3a;border-radius:6px;background:#171717;color:#e6ded6;padding:8px 10px;font:600 9px 'DM Sans';cursor:pointer}
 .studio-signout:hover{border-color:var(--orange);color:#ff956d}
 .auth-submit:disabled{opacity:.7;cursor:wait}
+
+
+.queue-save-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}
+.queue-save-row .fine-print{margin:0;max-width:420px}
+.queue-save-row .small-ghost{white-space:nowrap}
+.small-ghost:disabled{opacity:.6;cursor:wait}
+@media(max-width:520px){.queue-save-row{align-items:flex-start;flex-direction:column}.queue-save-row .small-ghost{width:100%}}
