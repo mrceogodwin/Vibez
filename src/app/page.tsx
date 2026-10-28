@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const stations = [
   { name: "Lagos Radio", genre: "Afrobeats · Lagos", status: "LIVE", code: "L", style: "orange" },
@@ -18,8 +18,32 @@ const stations = [
 ];
 
 export default function Home() {
+  const [stationList, setStationList] = useState(stations);
   const [visibleCount, setVisibleCount] = useState(6);
-  const visibleStations = stations.slice(0, visibleCount);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/stations", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) return null;
+        return response.json();
+      })
+      .then((data) => {
+        if (cancelled || !Array.isArray(data?.stations) || data.stations.length === 0) return;
+        const creatorStations = data.stations.map((station: { id: string; name: string; tagline?: string; genre?: string }, index: number) => ({
+          name: station.name,
+          genre: [station.genre, station.tagline].filter(Boolean).join(" · ") || "Vibez creator station",
+          status: "CREATOR STATION",
+          code: (station.name || "V").trim().charAt(0).toUpperCase() || "V",
+          style: (["orange", "cream", "lime"] as const)[index % 3],
+        }));
+        setStationList(creatorStations);
+      })
+      .catch(() => { /* Keep the designed preview if discovery is temporarily unavailable. */ });
+    return () => { cancelled = true; };
+  }, []);
+
+  const visibleStations = stationList.slice(0, visibleCount);
 
   return (
     <main className="shell">
