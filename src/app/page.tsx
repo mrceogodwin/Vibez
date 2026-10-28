@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-const stations = [
+type StationCard = { id?: string; name: string; genre: string; status: string; code: string; style: string };
+
+const stations: StationCard[] = [
   { name: "Lagos Radio", genre: "Afrobeats · Lagos", status: "LIVE", code: "L", style: "orange" },
   { name: "The Sound Room", genre: "R&B · Soul · Chill", status: "ON AIR", code: "S", style: "cream" },
   { name: "Naija Mix", genre: "Street pop · Hits", status: "TRENDING", code: "N", style: "lime" },
@@ -18,7 +20,7 @@ const stations = [
 ];
 
 export default function Home() {
-  const [stationList, setStationList] = useState(stations);
+  const [stationList, setStationList] = useState<StationCard[]>(stations);
   const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
@@ -30,7 +32,8 @@ export default function Home() {
       })
       .then((data) => {
         if (cancelled || !Array.isArray(data?.stations) || data.stations.length === 0) return;
-        const creatorStations = data.stations.map((station: { id: string; name: string; tagline?: string; genre?: string }, index: number) => ({
+        const creatorStations: StationCard[] = data.stations.map((station: { id: string; name: string; tagline?: string; genre?: string }, index: number) => ({
+          id: station.id,
           name: station.name,
           genre: [station.genre, station.tagline].filter(Boolean).join(" · ") || "Vibez creator station",
           status: "CREATOR STATION",
@@ -66,12 +69,12 @@ export default function Home() {
 
       <section className="section" id="listen">
         <div className="section-head"><div><div className="eyebrow">THE AIRWAVES</div><h2>Find your frequency.</h2><p className="section-subtitle">Small stations. Big personalities. Discover a new sound.</p></div><span className="section-link">STATIONS · PREVIEW</span></div>
-        <div className="station-grid">{visibleStations.map((station, index) => <article className={`station ${station.style}`} key={station.name}>
+        <div className="station-grid">{visibleStations.map((station, index) => <a className="station-card-link" href={station.id ? `/station/${station.id}` : "/login"} key={station.id || station.name}><article className={`station ${station.style}`}>
           <div className="station-top"><span className="live-dot" />{station.status}<span className="station-number">{String(index + 1).padStart(2,"0")}</span></div>
           <div className="art" aria-hidden="true"><span className="art-ring ring-one"/><span className="art-ring ring-two"/><span className="art-center">{station.code}</span><span className="equalizer"><i/><i/><i/><i/><i/></span></div>
-          <div className="station-bottom"><div><h3>{station.name}</h3><p>{station.genre}</p></div><span className="play" aria-label="Playback coming soon">▶</span></div>
-        </article>)}</div>
-        <div className="load-more-wrap">{visibleCount < stations.length ? <button className="load-more" onClick={() => setVisibleCount((count) => Math.min(count + 6, stations.length))}>Load more stations <span>↓</span></button> : <button className="load-more" onClick={() => setVisibleCount(6)}>Show fewer stations <span>↑</span></button>}</div>
+          <div className="station-bottom"><div><h3>{station.name}</h3><p>{station.genre}</p></div><span className="play" aria-label="Open station">→</span></div>
+        </article></a>)}</div>
+        <div className="load-more-wrap">{visibleCount < stationList.length ? <button className="load-more" onClick={() => setVisibleCount((count) => Math.min(count + 6, stationList.length))}>Load more stations <span>↓</span></button> : <button className="load-more" onClick={() => setVisibleCount(6)}>Show fewer stations <span>↑</span></button>}</div>
         <p className="note">Station cards are a visual preview. Live playback will be enabled as verified stream sources are connected.</p>
       </section>
 
