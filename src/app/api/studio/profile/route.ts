@@ -18,7 +18,7 @@ export async function GET() {
   try {
     const sql = getDb();
     const rows = await sql`
-      SELECT name, tagline, genre, visibility, queue, settings
+      SELECT id, name, tagline, genre, visibility, queue, settings
       FROM creator_station_profiles
       WHERE owner_id = ${user.id}
       LIMIT 1
@@ -91,7 +91,7 @@ export async function PUT(request: Request) {
         queue = EXCLUDED.queue,
         settings = EXCLUDED.settings,
         updated_at = now()
-      RETURNING name, tagline, genre, visibility, queue, settings
+      RETURNING id, name, tagline, genre, visibility, queue, settings
     `;
     return NextResponse.json({ profile: rows[0] });
   } catch {
