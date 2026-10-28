@@ -2,12 +2,13 @@
 
 A Next.js foundation for a premium black, white and orange social radio app.
 
-## Current implementation
-- Responsive landing page and visual system.
-- Neon PostgreSQL selected as the only database provider.
-- No Supabase dependency.
-- Radio artwork and chat cards are clearly marked as preview UI; they are not live services yet.
-- Environment template documents the Neon `DATABASE_URL`; real credentials must never be committed.
+## Implemented
+- Responsive public landing page.
+- Creator Studio UI at `/studio`: station identity, genre/discovery settings, local demo queue, DJ transport controls, master volume, crossfade and broadcast preview state.
+- Neon PostgreSQL as the database; no Supabase dependency.
+- Additive creator-radio schema: creator stations, playlists/items, subscription state, idempotent payment-event records, and broadcast-session tracking.
+- Bachs is the intended payment provider candidate; credentials are environment-only and payment processing is not yet enabled.
+- The Studio queue and controls are currently a frontend prototype. They do not yet broadcast audio, save stations, or charge subscriptions.
 
 ## Local development
 1. Use Node.js 22 or newer.
@@ -15,11 +16,14 @@ A Next.js foundation for a premium black, white and orange social radio app.
 3. Copy `.env.example` to `.env.local` and set `DATABASE_URL` using the Neon connection string.
 4. Run `npm run dev`.
 
-## Build stages
-1. Verify the Neon schema and add a server-only database module.
-2. Implement authentication and session handling.
-3. Add a curated radio catalog with verified stream URLs and a real audio player.
-4. Implement messaging, communities, friends, notifications and moderation with server-side authorization.
-5. Add tests, run production build and verify deployment.
+## Creator Radio roadmap
+1. Add server-only database access and authentication before persisting owner data.
+2. Provision a dedicated broadcast provider (for example, an Icecast-compatible hosted streaming service or a managed live-audio platform), then implement ingest, stream-key rotation, listener playback and status webhooks.
+3. Add licensed music source/catalog integrations. Do not accept arbitrary copyrighted uploads without rights checks.
+4. Implement Bachs sandbox checkout and webhook signature verification; grant premium access only after a verified, idempotently processed success event.
+5. Add creator plan entitlements, account billing management, moderation, tests and production monitoring.
 
-Do not expose database credentials to browser code. Neon PostgreSQL by itself is not a WebSocket-based real-time messaging service; realtime delivery needs a separately chosen and configured transport.
+## Security
+- Never expose `DATABASE_URL`, Bachs API keys, webhook secrets, or broadcast ingest keys in client code.
+- Do not trust the browser redirect as proof of payment; the verified server-side webhook is authoritative.
+- Neon PostgreSQL is not itself a realtime audio streaming service or a WebSocket messaging transport.
