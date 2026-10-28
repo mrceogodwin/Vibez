@@ -33,7 +33,6 @@ export default function StudioPage() {
   const [broadcast, setBroadcast] = useState(false);
   const [notice, setNotice] = useState("");
   const [saving, setSaving] = useState(false);
-  const [profileLoaded, setProfileLoaded] = useState(false);
   const selectedTrack = tracks[currentTrack];
   const totalTracks = useMemo(() => tracks.length, [tracks]);
 
@@ -65,7 +64,7 @@ export default function StudioPage() {
         }
       })
       .catch(() => { if (!cancelled) setNotice("Your studio is open, but saved settings could not be loaded. Try refreshing."); })
-      .finally(() => { if (!cancelled) setProfileLoaded(true); });
+      .finally(() => { if (cancelled) return; });
     return () => { cancelled = true; };
   }, [session]);
 
