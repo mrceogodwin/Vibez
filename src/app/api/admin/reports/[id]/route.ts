@@ -49,11 +49,24 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   try {
     const sql = getDb();
     const rows = await sql`
-      UPDATE content_reports
-      SET status = ${status},
-          resolved_at = CASE WHEN ${status} IN ('resolved', 'dismissed') THEN now() ELSE NULL END
-      WHERE id = ${id}::uuid
-      RETURNING id, status, resolved_at
+      WITH updated AS (
+        UPDATE content_reports
+        SET status = ${status},
+            resolved_at = CASE WHEN ${status} IN ('resolved', 'dismissed') THEN now() ELSE NULL END
+        WHERE id = ${id}::uuid
+        RETURNING id, status, resolved_at
+      ),
+      logged AS (
+        INSERT INTO admin_audit_log (actor_id, actor_email, action, target_type, target_id, details)
+        SELECT ${access.user.id}, ${(access.user.email ?? "").toLowerCase()},
+               'report.status_changed', 'content_report', updated.id::text,
+               jsonb_build_object('status', updated.status)
+        FROM updated
+        RETURNING target_id
+      )
+      SELECT updated.id, updated.status, updated.resolved_at
+      FROM updated
+      INNER JOIN logged ON logged.target_id = updated.id::text
     `;
     if (!rows.length) return NextResponse.json({ error: "Report not found." }, { status: 404 });
     return NextResponse.json({ report: rows[0] });
