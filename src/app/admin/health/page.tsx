@@ -53,7 +53,7 @@ export default async function AdminHealthPage() {
    <p className="admin-health-database">Database: <b>{database}</b> · {passed} of {checks.length} checks passed</p>
    {dbError&&<p className="admin-health-error" role="alert">{dbError}</p>}
    <div className="admin-health-checks">{checks.map(([label,ok])=><div className="admin-health-check" key={label}><span className={"admin-health-indicator "+(ok?"ok":"bad")}/><span>{label}</span><b>{ok?"Ready":"Needs attention"}</b></div>)}</div>
-   <Link className="admin-health-refresh" href="/admin/health">Refresh diagnostics ↻</Link>
+   <Link className="admin-health-refresh" href="/admin/health">Refresh system checks ↻</Link>
    <p className="admin-empty">For a JSON health response, <Link href="/api/health" target="_blank" rel="noreferrer">open the health endpoint</Link>.</p>
   </section>
  </section></main>;
