@@ -43,6 +43,7 @@ export default async function AdminPage() {
   let stats = { users: 0, stations: 0, posts: 0, openReports: 0, communities: 0, liveSessions: 0 };
   let recentUsers: Array<{ id: string; name: string; email: string; createdAt: string }> = [];
   let reports: Array<{ id: string; target_type: string; reason: string; status: string; created_at: string }> = [];
+  let auditEvents: Array<{ id: string; actor_email: string; action: string; target_type: string; target_id: string; details: Record<string, unknown>; created_at: string }> = [];
   let dataError = "";
 
   try {
@@ -79,6 +80,12 @@ export default async function AdminPage() {
       ORDER BY created_at DESC
       LIMIT 8
     `) as typeof reports;
+    auditEvents = (await sql`
+      SELECT id, actor_email, action, target_type, target_id, details, created_at
+      FROM admin_audit_log
+      ORDER BY created_at DESC
+      LIMIT 8
+    `) as typeof auditEvents;
   } catch {
     dataError = "The dashboard could not read one or more database tables. Check the production database connection and migrations.";
   }
@@ -129,6 +136,11 @@ export default async function AdminPage() {
             {reports.length ? <div className="admin-report-list">{reports.map((report) => <article className="admin-report" key={report.id}><span className="admin-report-icon">⚑</span><div><b>{report.reason}</b><p>{report.target_type} · {formatDate(report.created_at)}</p></div><ReportActions id={report.id} status={report.status} /></article>)}</div> : <p className="admin-empty">No reports have been submitted.</p>}
           </section>
         </div>
+
+        <section className="admin-panel admin-roadmap" id="audit-log">
+          <div className="admin-panel-heading"><div><span className="admin-kicker">SECURITY & ACCOUNTABILITY</span><h2>Admin activity log</h2></div><span className="admin-count">LATEST {auditEvents.length}</span></div>
+          {auditEvents.length ? <div className="admin-audit-list">{auditEvents.map((event) => <article className="admin-audit-row" key={event.id}><span className="admin-audit-dot" /><div><b>{event.action.replaceAll(".", " ")}</b><p>{event.actor_email} · {event.target_type} · {event.target_id.slice(0, 8)}…</p></div><time>{formatDate(event.created_at)}</time></article>)}</div> : <p className="admin-empty">Privileged actions will be recorded here as they occur.</p>}
+        </section>
 
         <section className="admin-panel admin-roadmap" id="stations"><div className="admin-panel-heading"><div><span className="admin-kicker">ADMIN MODULES</span><h2>Control centre roadmap</h2></div><span className="admin-count">IN PROGRESS</span></div><div className="admin-module-grid"><article><span>01</span><b>Accounts & access</b><p>Account lookup is visible. Ban, restore and role changes need audited server actions.</p></article><article><span>02</span><b>Stations & broadcasts</b><p>Station counts are connected. Stream health depends on a real provider integration.</p></article><article><span>03</span><b>Moderation queue</b><p>Report records are visible. Resolve/dismiss controls need audited moderation endpoints.</p></article><article><span>04</span><b>Billing & platform settings</b><p>Payments, plan changes and global settings are not connected yet.</p></article></div></section>
         <footer className="admin-footer"><span>VIBEZ SUPER ADMIN · PRIVATE CONTROL ROOM</span><span>Signed in as {email}</span></footer>
