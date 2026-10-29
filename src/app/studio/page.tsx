@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 
 type Track = { id: number; title: string; artist: string; duration: string };
@@ -115,14 +116,14 @@ export default function StudioPage() {
   return (
     <main className="studio-shell">
       <aside className="studio-sidebar">
-        <a className="brand" href="/"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></a>
+        <Link className="brand" href="/"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></Link>
         <div className="sidebar-label">CREATOR SPACE</div>
         <a className="side-link active" href="/studio"><span>◉</span> Studio overview</a>
         <a className="side-link" href="#station"><span>▧</span> Station setup</a>
         <a className="side-link" href="#playlist"><span>♫</span> Music & queue</a>
         <a className="side-link" href="#controls"><span>☷</span> DJ controls</a>
         <a className="side-link" href="#growth"><span>↗</span> Audience & growth</a>
-        <div className="sidebar-bottom"><div className="plan-chip">✦ CREATOR PRO <span>PREVIEW</span></div><a href="/">← Back to Vibez</a></div>
+        <div className="sidebar-bottom"><div className="plan-chip">✦ CREATOR PRO <span>PREVIEW</span></div><Link href="/">← Back to Vibez</Link></div>
       </aside>
 
       <section className="studio-main">
@@ -168,7 +169,7 @@ export default function StudioPage() {
             <section className="studio-panel growth-panel" id="growth"><div className="panel-heading"><div><span className="panel-kicker">04 / YOUR AUDIENCE</span><h3>Build your audience</h3></div></div><div className="growth-row"><span className="growth-icon">↗</span><div><b>Station profile & share link</b><p>Let listeners find your station</p></div><span className="coming-soon">NEXT</span></div><div className="growth-row"><span className="growth-icon">♧</span><div><b>Listener chat & requests</b><p>Bring your audience into the show</p></div><span className="coming-soon">NEXT</span></div><div className="growth-row"><span className="growth-icon">✦</span><div><b>Tips & premium access</b><p>Monetization setup comes after payments integration</p></div><span className="coming-soon">NEXT</span></div></section>
           </div>
         </div>
-        <footer className="studio-footer"><span>VIBEZ CREATOR STUDIO · CONCEPT BUILD</span><span>Black / white / orange</span><a href="/">View public landing page ↗</a></footer>
+        <footer className="studio-footer"><span>VIBEZ CREATOR STUDIO · CONCEPT BUILD</span><span>Black / white / orange</span><Link href="/">View public landing page ↗</Link></footer>
       </section>
     </main>
   );
