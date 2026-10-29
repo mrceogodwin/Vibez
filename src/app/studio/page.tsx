@@ -70,17 +70,22 @@ export default function StudioPage() {
         const savedVisibility = typeof profile.visibility === "string" ? profile.visibility.toLowerCase() : "public";
         setVisibility(savedVisibility === "private" ? "Private" : savedVisibility === "unlisted" ? "Unlisted" : "Public");
         const savedQueue = Array.isArray(profile.queue) ? profile.queue : [];
-        setTracks(savedQueue.slice(0, 250).map((item: unknown, index: number) => {
+        const usedTrackIds = new Set<number>();
+        const restoredTracks = savedQueue.slice(0, 250).map((item: unknown, index: number) => {
           const track = item && typeof item === "object" ? item as Record<string, unknown> : {};
           const numericId = Number(track.id);
+          let id = Number.isSafeInteger(numericId) && numericId > 0 ? numericId : Date.now() + index;
+          while (usedTrackIds.has(id)) id += 1;
+          usedTrackIds.add(id);
           return {
-            id: Number.isSafeInteger(numericId) && numericId > 0 ? numericId : Date.now() + index,
+            id,
             title: typeof track.title === "string" ? track.title : "",
             artist: typeof track.artist === "string" ? track.artist : "",
             duration: typeof track.duration === "string" ? track.duration : "—",
             audioUrl: typeof track.audioUrl === "string" ? track.audioUrl : "",
           };
-        }).filter((track: Track) => track.title.trim().length > 0));
+        }).filter((track: Track) => track.title.trim().length > 0);
+        setTracks(restoredTracks);
         const settings = profile.settings && typeof profile.settings === "object" ? profile.settings as Record<string, unknown> : {};
         if (typeof settings.volume === "number" && Number.isFinite(settings.volume)) setVolume(Math.max(0, Math.min(100, Math.round(settings.volume))));
         if (typeof settings.crossfade === "number" && Number.isFinite(settings.crossfade)) setCrossfade(Math.max(0, Math.min(12, Math.round(settings.crossfade))));
@@ -242,7 +247,9 @@ export default function StudioPage() {
         return;
       }
     }
-    setTracks((items) => [...items, { id: Date.now(), title, artist: "Added to your queue", duration: "—", audioUrl }]);
+    let id = Date.now();
+    while (tracks.some((track) => track.id === id)) id += 1;
+    setTracks((items) => [...items, { id, title, artist: "Added to your queue", duration: "—", audioUrl }]);
     setNewTrack("");
     setNewTrackUrl("");
     setNotice(audioUrl ? "Track added. You can try playing its audio URL." : "Track added without an audio source. Add an HTTPS audio URL to play it.");
