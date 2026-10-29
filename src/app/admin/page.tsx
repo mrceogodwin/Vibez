@@ -5,6 +5,7 @@ import { getDb } from "@/lib/db";
 import { ReportActions } from "./report-actions";
 import { UserSearch } from "./user-search";
 import { AdminSignOut } from "./sign-out";
+import { StationVisibility } from "./station-visibility";
 
 export const dynamic = "force-dynamic";
 
@@ -148,7 +149,7 @@ export default async function AdminPage() {
 
         <section className="admin-panel admin-roadmap" id="stations">
           <div className="admin-panel-heading"><div><span className="admin-kicker">CREATOR OPERATIONS</span><h2>Recent stations</h2></div><span className="admin-count">{stations.length} SHOWN</span></div>
-          {stations.length ? <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Station</th><th>Creator</th><th>Visibility</th><th>Updated</th></tr></thead><tbody>{stations.map((station) => <tr key={station.id}><td><b>{station.name}</b><small>{station.genre || "Mixed genres"} · {station.id.slice(0, 8)}…</small></td><td>{station.owner_email || "Account unavailable"}</td><td><span className={`admin-status ${station.visibility}`}>{station.visibility}</span></td><td>{formatDate(station.updated_at)}</td></tr>)}</tbody></table></div> : <p className="admin-empty">No creator stations have been saved yet.</p>}
+          {stations.length ? <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Station</th><th>Creator</th><th>Visibility</th><th>Updated</th></tr></thead><tbody>{stations.map((station) => <tr key={station.id}><td><b>{station.name}</b><small>{station.genre || "Mixed genres"} · {station.id.slice(0, 8)}…</small></td><td>{station.owner_email || "Account unavailable"}</td><td><StationVisibility id={station.id} initialVisibility={station.visibility} /></td><td>{formatDate(station.updated_at)}</td></tr>)}</tbody></table></div> : <p className="admin-empty">No creator stations have been saved yet.</p>}
         </section>
 
         <section className="admin-panel admin-roadmap" id="audit-log">
