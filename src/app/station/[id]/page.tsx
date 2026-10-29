@@ -49,14 +49,21 @@ export default function StationPage() {
     }
     setCurrentTrack(index);
     if (!track.audioUrl) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.removeAttribute("src");
+        audioRef.current.load();
+      }
       setPlaying(false);
-      setNotice(`“${track.title}” has no playable audio source. The station owner needs to add a direct HTTPS audio file URL they are licensed to stream.`);
+      setCurrentTime(0);
+      setDuration(0);
+      setNotice(`“${track.title}” has no playable audio source. Previous playback has stopped; the station owner needs to add a direct HTTPS audio file URL they are licensed to stream.`);
       return;
     }
     const audio = audioRef.current;
     if (!audio) return;
     try {
-      if (audio.src !== track.audioUrl) audio.src = track.audioUrl;
+      if (audio.src !== track.audioUrl) { audio.pause(); audio.src = track.audioUrl; audio.load(); setCurrentTime(0); setDuration(0); }
       audio.volume = Math.max(0, Math.min(100, volume)) / 100;
       await audio.play();
       setPlaying(true);
@@ -74,6 +81,14 @@ export default function StationPage() {
   }, [station, currentTrack, playTrack]);
 
   const selectedTrack = station?.queue?.[currentTrack];
+
+  useEffect(() => () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.removeAttribute("src");
+      audioRef.current.load();
+    }
+  }, []);
 
   return (
     <main className="shell" style={{ minHeight: "100vh", paddingTop: 36, paddingBottom: 64 }}>
