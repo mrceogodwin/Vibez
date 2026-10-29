@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const env = {
-    databaseUrlConfigured: Boolean(process.env.DATABASE_URL),
+    databaseUrlConfigured: Boolean(process.env.VIBEZ_DATABASE_URL || process.env.DATABASE_URL),
     authSecretConfigured: Boolean(process.env.BETTER_AUTH_SECRET),
     authUrlConfigured: Boolean(process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL),
   };
