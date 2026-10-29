@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -31,12 +32,12 @@ export default async function AdminPage() {
   if (!email || !adminEmails.has(email)) {
     return (
       <main className="admin-denied">
-        <a className="admin-brand" href="/">v. <span>VIBEZ</span></a>
+        <Link className="admin-brand" href="/">v. <span>VIBEZ</span></Link>
         <section>
           <span className="admin-kicker">RESTRICTED AREA · 403</span>
           <h1>Admin access only.</h1>
           <p>This account is not on the Vibez Super Admin allowlist. No admin data has been shown.</p>
-          <a className="admin-button" href="/">Back to Vibez</a><AdminSignOut redirectTo="/login?next=/admin" />
+          <Link className="admin-button" href="/">Back to Vibez</Link><AdminSignOut redirectTo="/login?next=/admin" />
         </section>
       </main>
     );
@@ -112,14 +113,14 @@ export default async function AdminPage() {
   return (
     <main className="admin-shell">
       <aside className="admin-sidebar">
-        <a className="admin-brand" href="/">v. <span>VIBEZ</span></a>
+        <Link className="admin-brand" href="/">v. <span>VIBEZ</span></Link>
         <div className="admin-sidebar-label">SUPER ADMIN</div>
-        <a className="admin-nav active" href="/admin">▦ <span>Overview</span></a>
+        <Link className="admin-nav active" href="/admin">▦ <span>Overview</span></Link>
         <a className="admin-nav" href="#users">◎ <span>User accounts</span></a>
         <a className="admin-nav" href="#stations">♫ <span>Stations</span></a>
         <a className="admin-nav" href="#moderation">⚑ <span>Moderation</span></a>
-        <a className="admin-nav" href="/admin/health">⌁ <span>System health</span></a>
-        <div className="admin-sidebar-bottom"><span className="admin-secure-dot" /> Protected admin session <a href="/">← View public site</a><AdminSignOut /></div>
+        <Link className="admin-nav" href="/admin/health">⌁ <span>System health</span></Link>
+        <div className="admin-sidebar-bottom"><span className="admin-secure-dot" /> Protected admin session <Link href="/">← View public site</Link><AdminSignOut /></div>
       </aside>
 
       <section className="admin-main">
