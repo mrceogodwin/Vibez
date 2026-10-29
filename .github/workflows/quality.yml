@@ -1,0 +1,44 @@
+name: Vibez quality checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vibez-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, typecheck and production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VIBEZ_DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/vibez_ci
+      DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/vibez_ci
+      BETTER_AUTH_SECRET: ci-only-secret-value-long-enough-for-build-tests
+      BETTER_AUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      VIBEZ_ADMIN_EMAILS: admin@example.invalid
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run ESLint
+        run: npm run lint
+      - name: Check TypeScript
+        run: npm run typecheck
+      - name: Build Next.js production bundle
+        run: npm run build
