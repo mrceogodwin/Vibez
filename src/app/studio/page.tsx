@@ -167,15 +167,18 @@ export default function StudioPage() {
 
   function moveQueueTrack(fromId: number, toId: number) {
     if (fromId === toId) return;
-    setTracks((items) => {
-      const from = items.findIndex((item) => item.id === fromId);
-      const to = items.findIndex((item) => item.id === toId);
-      if (from < 0 || to < 0) return items;
-      const next = [...items];
-      const [moved] = next.splice(from, 1);
-      next.splice(to, 0, moved);
-      return next;
-    });
+    const selectedId = tracks[currentTrack]?.id;
+    const from = tracks.findIndex((item) => item.id === fromId);
+    const to = tracks.findIndex((item) => item.id === toId);
+    if (from < 0 || to < 0) return;
+    const next = [...tracks];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    setTracks(next);
+    if (selectedId !== undefined) {
+      const selectedIndex = next.findIndex((item) => item.id === selectedId);
+      if (selectedIndex >= 0) setCurrentTrack(selectedIndex);
+    }
     setNotice("Queue order updated. Save queue to keep the new order on your account.");
   }
 
