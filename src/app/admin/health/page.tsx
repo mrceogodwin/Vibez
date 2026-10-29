@@ -45,7 +45,7 @@ export default async function AdminHealthPage() {
   dbError = "Database query failed. Verify the production connection and migrations.";
   schema = [["Database connection", false]];
  }
- const checks = [...envChecks, ...schema];
+ const checks: Array<[string, boolean]> = [...envChecks, ...schema];
  const passed = checks.filter((x) => x[1]).length;
  return <main className="admin-shell"><section className="admin-main">
   <header className="admin-topbar"><div><span className="admin-kicker">VIBEZ / CONTROL ROOM</span><h1>System health</h1><p>Private production diagnostics. Secrets and connection strings are never displayed.</p></div><Link href="/admin">← Super Admin</Link></header>
