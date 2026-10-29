@@ -34,8 +34,8 @@ export async function GET() {
       WHERE owner_id = ${user.id}
       LIMIT 1
     `;
-    if (!rows.length) return NextResponse.json({ profile: null });
-    return NextResponse.json({ profile: rows[0] });
+    if (!rows.length) return NextResponse.json({ profile: null }, { headers: { "Cache-Control": "private, no-store, max-age=0" } });
+    return NextResponse.json({ profile: rows[0] }, { headers: { "Cache-Control": "private, no-store, max-age=0" } });
   } catch {
     return NextResponse.json({ error: "Could not load your station settings." }, { status: 500 });
   }
