@@ -110,7 +110,7 @@ export async function PUT(request: Request) {
         updated_at = now()
       RETURNING id, name, tagline, genre, visibility, queue, settings
     `;
-    return NextResponse.json({ profile: rows[0] });
+    return NextResponse.json({ profile: rows[0] }, { headers: { "Cache-Control": "private, no-store, max-age=0" } });
   } catch {
     return NextResponse.json({ error: "Could not save your station settings." }, { status: 500 });
   }
