@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -10,7 +11,7 @@ export default async function AdminHealthPage() {
  if (!session?.user) redirect("/login?next=/admin/health");
  const email = (session.user.email ?? "").toLowerCase();
  const admins = new Set((process.env.VIBEZ_ADMIN_EMAILS ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean));
- if (!admins.has(email)) return <main className="admin-denied"><section><h1>Admin access only.</h1><p>This account is not on the Super Admin allowlist.</p><a href="/">Back to Vibez</a></section></main>;
+ if (!admins.has(email)) return <main className="admin-denied"><section><h1>Admin access only.</h1><p>This account is not on the Super Admin allowlist.</p><Link href="/">Back to Vibez</Link></section></main>;
 
  const envChecks = [
   ["Vibez database URL", Boolean(process.env.VIBEZ_DATABASE_URL || process.env.DATABASE_URL)],
@@ -47,13 +48,13 @@ export default async function AdminHealthPage() {
  const checks = [...envChecks, ...schema];
  const passed = checks.filter((x) => x[1]).length;
  return <main className="admin-shell"><section className="admin-main">
-  <header className="admin-topbar"><div><span className="admin-kicker">VIBEZ / CONTROL ROOM</span><h1>System health</h1><p>Private production diagnostics. Secrets and connection strings are never displayed.</p></div><a href="/admin">← Super Admin</a></header>
+  <header className="admin-topbar"><div><span className="admin-kicker">VIBEZ / CONTROL ROOM</span><h1>System health</h1><p>Private production diagnostics. Secrets and connection strings are never displayed.</p></div><Link href="/admin">← Super Admin</Link></header>
   <section className="admin-panel admin-health-panel"><div className="admin-panel-heading"><div><span className="admin-kicker">READINESS CHECKS</span><h2>System status</h2></div><span className={"admin-health-badge "+(passed===checks.length?"healthy":"warning")}>{passed===checks.length?"HEALTHY":"ATTENTION"}</span></div>
    <p className="admin-health-database">Database: <b>{database}</b> · {passed} of {checks.length} checks passed</p>
    {dbError&&<p className="admin-health-error" role="alert">{dbError}</p>}
    <div className="admin-health-checks">{checks.map(([label,ok])=><div className="admin-health-check" key={label}><span className={"admin-health-indicator "+(ok?"ok":"bad")}/><span>{label}</span><b>{ok?"Ready":"Needs attention"}</b></div>)}</div>
-   <a className="admin-health-refresh" href="/admin/health">Refresh diagnostics ↻</a>
-   <p className="admin-empty">For a JSON health response, <a href="/api/health" target="_blank" rel="noreferrer">open the health endpoint</a>.</p>
+   <Link className="admin-health-refresh" href="/admin/health">Refresh diagnostics ↻</Link>
+   <p className="admin-empty">For a JSON health response, <Link href="/api/health" target="_blank" rel="noreferrer">open the health endpoint</Link>.</p>
   </section>
  </section></main>;
 }
