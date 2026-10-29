@@ -118,6 +118,7 @@ export default async function AdminPage() {
         <a className="admin-nav" href="#users">◎ <span>User accounts</span></a>
         <a className="admin-nav" href="#stations">♫ <span>Stations</span></a>
         <a className="admin-nav" href="#moderation">⚑ <span>Moderation</span></a>
+        <a className="admin-nav" href="/admin/health">⌁ <span>System health</span></a>
         <div className="admin-sidebar-bottom"><span className="admin-secure-dot" /> Protected admin session <a href="/">← View public site</a><AdminSignOut /></div>
       </aside>
 
