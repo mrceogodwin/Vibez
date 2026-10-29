@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 
-type Track = { id: number; title: string; artist: string; duration: string };
+type Track = { id: number; title: string; artist: string; duration: string; audioUrl?: string };
 
 const starterTracks: Track[] = [
   { id: 1, title: "City Lights", artist: "Vibez Selects", duration: "3:24" },
@@ -15,6 +15,7 @@ const starterTracks: Track[] = [
 
 export default function StudioPage() {
   const router = useRouter();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const { data: session, isPending: sessionPending } = authClient.useSession();
   useEffect(() => {
     if (!sessionPending && !session) router.replace("/login");
@@ -27,6 +28,8 @@ export default function StudioPage() {
   const [visibility, setVisibility] = useState("Public");
   const [tracks, setTracks] = useState(starterTracks);
   const [newTrack, setNewTrack] = useState("");
+  const [newTrackUrl, setNewTrackUrl] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [volume, setVolume] = useState(72);
   const [mic, setMic] = useState(false);
@@ -57,6 +60,7 @@ export default function StudioPage() {
               title: String(track.title || ""),
               artist: String(track.artist || ""),
               duration: String(track.duration || "—"),
+              audioUrl: typeof track.audioUrl === "string" ? track.audioUrl : undefined,
             })));
           }
           if (profile.settings) {
@@ -101,9 +105,22 @@ export default function StudioPage() {
   function addTrack() {
     const title = newTrack.trim();
     if (!title) return;
-    setTracks((items) => [...items, { id: Date.now(), title, artist: "Added to your queue", duration: "—" }]);
+    const candidate = newTrackUrl.trim();
+    let audioUrl: string | undefined;
+    if (candidate) {
+      try {
+        const parsed = new URL(candidate);
+        if (parsed.protocol !== "https:") throw new Error("Use a secure HTTPS audio URL.");
+        audioUrl = parsed.toString();
+      } catch {
+        setNotice("Enter a valid HTTPS link to a playable audio file, or leave the URL empty.");
+        return;
+      }
+    }
+    setTracks((items) => [...items, { id: Date.now(), title, artist: "Added to your queue", duration: "—", audioUrl }]);
     setNewTrack("");
-    setNotice("Track added to your local studio queue.");
+    setNewTrackUrl("");
+    setNotice(audioUrl ? "Track added. You can try playing its audio URL." : "Track added without an audio source. Add an HTTPS audio URL to play it.");
   }
 
   function toggleBroadcast() {
@@ -147,20 +164,20 @@ export default function StudioPage() {
 
             <section className="studio-panel" id="playlist"><div className="panel-heading"><div><span className="panel-kicker">02 / YOUR SOUND</span><h3>Music & queue</h3></div><span className="queue-count">{totalTracks.toString().padStart(2, "0")} TRACKS</span></div>
               <div className="queue-toolbar"><span>UP NEXT <small>· drag-and-drop ordering coming next</small></span><button className="small-ghost" onClick={() => setTracks([])}>Clear queue</button></div>
-              {tracks.length === 0 ? <div className="empty-queue">Your queue is empty. Add a track below to get started.</div> : <div className="track-list">{tracks.map((track, index) => <div className={`track-row ${index === currentTrack ? "selected" : ""}`} key={track.id}><button className="track-play" onClick={() => {setCurrentTrack(index);setNotice("Track selected. Actual audio playback is not connected yet.");}} aria-label={`Select ${track.title}`}>▶</button><div className="track-title"><b>{track.title}</b><span>{track.artist}</span></div><span className="track-duration">{track.duration}</span><button className="remove-track" onClick={() => {setTracks((items) => items.filter((item) => item.id !== track.id));setCurrentTrack(0);}} aria-label={`Remove ${track.title}`}>×</button></div>)}</div>}
-              <form className="add-track" onSubmit={(e) => {e.preventDefault();addTrack();}}><input className="studio-input" value={newTrack} onChange={(e) => setNewTrack(e.target.value)} placeholder="Add a track title to the demo queue" aria-label="New track title"/><button className="add-button" type="submit">+ Add</button></form>
-              <div className="queue-save-row"><p className="fine-print">Queue titles are saved to your account. Audio playback and music licensing are not connected yet.</p><button className="small-ghost" onClick={saveStation} disabled={saving}>{saving ? "Saving…" : "Save queue"}</button></div>
+              {tracks.length === 0 ? <div className="empty-queue">Your queue is empty. Add a track below to get started.</div> : <div className="track-list">{tracks.map((track, index) => <div className={`track-row ${index === currentTrack ? "selected" : ""}`} key={track.id}><button className="track-play" onClick={async () => { setCurrentTrack(index); if (!track.audioUrl || !audioRef.current) { setNotice("This queue item has no playable audio URL. Add a secure HTTPS audio file link."); return; } try { audioRef.current.src = track.audioUrl; await audioRef.current.play(); setIsPlaying(true); setNotice(`Playing ${track.title}.`); } catch { setIsPlaying(false); setNotice("Playback failed. Check that the HTTPS URL points directly to an audio file and allows browser playback."); } }} aria-label={`Play ${track.title}`}>▶</button><div className="track-title"><b>{track.title}</b><span>{track.artist}</span></div><span className="track-duration">{track.duration}</span><button className="remove-track" onClick={() => {setTracks((items) => items.filter((item) => item.id !== track.id));setCurrentTrack(0);}} aria-label={`Remove ${track.title}`}>×</button></div>)}</div>}
+              <form className="add-track" onSubmit={(e) => {e.preventDefault();addTrack();}}><input className="studio-input" value={newTrack} onChange={(e) => setNewTrack(e.target.value)} placeholder="Track title" aria-label="New track title" required/><input className="studio-input" type="url" value={newTrackUrl} onChange={(e) => setNewTrackUrl(e.target.value)} placeholder="HTTPS audio file URL (optional)" aria-label="Direct audio file URL"/><button className="add-button" type="submit">+ Add</button></form>
+              <div className="queue-save-row"><p className="fine-print">Queue entries are saved to your account. Add a direct HTTPS audio URL to try browser playback; use only audio you own or are licensed to stream.</p><button className="small-ghost" onClick={saveStation} disabled={saving}>{saving ? "Saving…" : "Save queue"}</button></div>
             </section>
           </div>
 
           <div className="studio-column">
             <section className="studio-panel on-air-panel"><div className="panel-heading"><div><span className="panel-kicker">BROADCAST CONTROL</span><h3>On-air console</h3></div><span className={`on-air-badge ${broadcast ? "active" : ""}`}><i/>{broadcast ? "PREVIEW ON" : "OFFLINE"}</span></div>
-              <div className="console-screen"><div className="console-art"><span>v.</span><div className="console-eq"><i/><i/><i/><i/><i/><i/><i/><i/><i/></div></div><div className="console-track"><span>NOW SELECTED</span><b>{selectedTrack?.title || "Nothing in queue"}</b><small>{selectedTrack?.artist || "Add a track to begin"}</small></div><div className="console-timeline"><span>00:00</span><div><i/></div><span>{selectedTrack?.duration || "—"}</span></div></div>
-              <div className="transport"><button onClick={() => {setCurrentTrack((n) => tracks.length ? (n - 1 + tracks.length) % tracks.length : 0);}} aria-label="Previous track">|◀</button><button className="transport-main" onClick={() => { setNotice("Audio playback is not connected yet. This console is a visual preview only."); }} aria-label="Audio playback not connected">▶</button><button onClick={() => {setCurrentTrack((n) => tracks.length ? (n + 1) % tracks.length : 0);}} aria-label="Next track">▶|</button><span className="transport-divider"/><button className={mic ? "control-active" : ""} onClick={() => setMic((value) => !value)} aria-label="Toggle microphone preview">♩ Mic {mic ? "on" : "off"}</button></div>
+              <div className="console-screen"><audio ref={audioRef} onEnded={() => setIsPlaying(false)} onPause={() => setIsPlaying(false)} onPlay={() => setIsPlaying(true)} /><div className="console-art"><span>v.</span><div className="console-eq"><i/><i/><i/><i/><i/><i/><i/><i/><i/></div></div><div className="console-track"><span>NOW SELECTED</span><b>{selectedTrack?.title || "Nothing in queue"}</b><small>{selectedTrack?.artist || "Add a track to begin"}</small></div><div className="console-timeline"><span>00:00</span><div><i/></div><span>{selectedTrack?.duration || "—"}</span></div></div>
+              <div className="transport"><button onClick={() => {setCurrentTrack((n) => tracks.length ? (n - 1 + tracks.length) % tracks.length : 0);}} aria-label="Previous track">|◀</button><button className="transport-main" onClick={async () => { const track = tracks[currentTrack]; if (!track?.audioUrl || !audioRef.current) { setNotice("Select a queue item with a direct HTTPS audio URL to play audio."); return; } try { if (isPlaying) { audioRef.current.pause(); setIsPlaying(false); } else { if (audioRef.current.src !== track.audioUrl) audioRef.current.src = track.audioUrl; await audioRef.current.play(); setIsPlaying(true); } } catch { setNotice("Playback failed. The URL may not be a direct audio file or may block browser playback."); } }} aria-label={isPlaying ? "Pause audio" : "Play audio"}>{isPlaying ? "Ⅱ" : "▶"}</button><button onClick={() => {setCurrentTrack((n) => tracks.length ? (n + 1) % tracks.length : 0);}} aria-label="Next track">▶|</button><span className="transport-divider"/><button className={mic ? "control-active" : ""} onClick={() => setMic((value) => !value)} aria-label="Toggle microphone preview">♩ Mic {mic ? "on" : "off"}</button></div>
               <div className="slider-control"><div><label htmlFor="volume">Master volume</label><span>{volume}%</span></div><input id="volume" type="range" min="0" max="100" value={volume} onChange={(e) => setVolume(Number(e.target.value))}/></div>
               <div className="slider-control"><div><label htmlFor="crossfade">Crossfade</label><span>{crossfade}s</span></div><input id="crossfade" type="range" min="0" max="12" value={crossfade} onChange={(e) => setCrossfade(Number(e.target.value))}/></div>
               <button className={`go-live ${broadcast ? "stop" : ""}`} onClick={toggleBroadcast}>{broadcast ? "■ Stop studio preview" : "● Prepare to go live"} <span>↗</span></button>
-              <p className="broadcast-warning">This control only changes the preview state. Public live audio requires a configured streaming server/provider, encoder ingest, stream-key security and production checks.</p>
+              <p className="broadcast-warning">Browser playback can work for queue items with playable HTTPS audio URLs. This is not a public broadcast: live radio still requires a streaming provider, secure ingest and server-side broadcast controls.</p>
             </section>
 
             <section className="studio-panel" id="controls"><div className="panel-heading"><div><span className="panel-kicker">03 / YOUR SHOW</span><h3>DJ tools</h3></div><span className="panel-symbol">♫</span></div>
