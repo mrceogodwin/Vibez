@@ -6,6 +6,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) {
+    return NextResponse.json({ error: "Station not found." }, { status: 404 });
+  }
   try {
     const sql = getDb();
     const rows = await sql`SELECT id, name, tagline, genre, queue FROM creator_station_profiles WHERE id = ${id} AND visibility = 'public' LIMIT 1`;
