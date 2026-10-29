@@ -70,22 +70,40 @@ export async function PUT(request: Request) {
     if (!["public", "unlisted", "private"].includes(requestedVisibility)) {
       return NextResponse.json({ error: "Visibility must be public, unlisted, or private." }, { status: 400 });
     }
+    if (!Array.isArray(input.queue)) {
+      return NextResponse.json({ error: "Queue must be an array. Your existing queue was not changed." }, { status: 400 });
+    }
+    if (input.queue.length > 250) {
+      return NextResponse.json({ error: "A station can contain at most 250 tracks." }, { status: 400 });
+    }
+    if (!input.settings || typeof input.settings !== "object" || Array.isArray(input.settings)) {
+      return NextResponse.json({ error: "Station settings must be an object." }, { status: 400 });
+    }
     const visibility = requestedVisibility;
-    const queue = Array.isArray(input.queue)
-      ? input.queue.slice(0, 250).map((item: unknown, index: number) => {
-          const track = item && typeof item === "object" ? item as Record<string, unknown> : {};
-          return {
-            id: typeof track.id === "number" || typeof track.id === "string" ? String(track.id).slice(0, 80) : String(index + 1),
-            title: typeof track.title === "string" ? track.title.trim().slice(0, 180) : "",
-            artist: typeof track.artist === "string" ? track.artist.trim().slice(0, 140) : "",
-            duration: typeof track.duration === "string" ? track.duration.slice(0, 20) : "—",
-            audioUrl: normalizeAudioUrl(track.audioUrl),
-          };
-        }).filter((track: {title:string}) => track.title.length > 0)
-      : [];
-    const settings = input.settings && typeof input.settings === "object" && !Array.isArray(input.settings)
-      ? input.settings as Record<string, unknown>
-      : {};
+    const queue: { id: string; title: string; artist: string; duration: string; audioUrl: string }[] = [];
+    for (const [index, item] of input.queue.entries()) {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return NextResponse.json({ error: `Track ${index + 1} is invalid. Your existing queue was not changed.` }, { status: 400 });
+      }
+      const track = item as Record<string, unknown>;
+      const title = typeof track.title === "string" ? track.title.trim().slice(0, 180) : "";
+      if (!title) {
+        return NextResponse.json({ error: `Track ${index + 1} needs a title. Your existing queue was not changed.` }, { status: 400 });
+      }
+      const rawAudioUrl = typeof track.audioUrl === "string" ? track.audioUrl.trim() : "";
+      const audioUrl = rawAudioUrl ? normalizeAudioUrl(rawAudioUrl) : "";
+      if (rawAudioUrl && !audioUrl) {
+        return NextResponse.json({ error: `Track ${index + 1} has an invalid audio URL. Use a valid HTTPS URL without embedded credentials.` }, { status: 400 });
+      }
+      queue.push({
+        id: typeof track.id === "number" || typeof track.id === "string" ? String(track.id).slice(0, 80) : String(index + 1),
+        title,
+        artist: typeof track.artist === "string" ? track.artist.trim().slice(0, 140) : "",
+        duration: typeof track.duration === "string" ? track.duration.slice(0, 20) : "—",
+        audioUrl,
+      });
+    }
+    const settings = input.settings as Record<string, unknown>;
     const volume = typeof settings.volume === "number" && Number.isFinite(settings.volume) ? Math.max(0, Math.min(100, Math.round(settings.volume))) : 72;
     const crossfade = typeof settings.crossfade === "number" && Number.isFinite(settings.crossfade) ? Math.max(0, Math.min(12, Math.round(settings.crossfade))) : 4;
 
