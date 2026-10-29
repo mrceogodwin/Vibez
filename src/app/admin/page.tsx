@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
+import { ReportActions } from "./report-actions";
 
 export const dynamic = "force-dynamic";
 
@@ -122,7 +123,7 @@ export default async function AdminPage() {
           </section>
 
           <section className="admin-panel" id="moderation"><div className="admin-panel-heading"><div><span className="admin-kicker">TRUST & SAFETY</span><h2>Latest reports</h2></div><span className="admin-count">{stats.openReports} OPEN</span></div>
-            {reports.length ? <div className="admin-report-list">{reports.map((report) => <article className="admin-report" key={report.id}><span className="admin-report-icon">⚑</span><div><b>{report.reason}</b><p>{report.target_type} · {formatDate(report.created_at)}</p></div><span className={`admin-status ${report.status}`}>{report.status}</span></article>)}</div> : <p className="admin-empty">No reports have been submitted.</p>}
+            {reports.length ? <div className="admin-report-list">{reports.map((report) => <article className="admin-report" key={report.id}><span className="admin-report-icon">⚑</span><div><b>{report.reason}</b><p>{report.target_type} · {formatDate(report.created_at)}</p></div><ReportActions id={report.id} status={report.status} /></article>)}</div> : <p className="admin-empty">No reports have been submitted.</p>}
           </section>
         </div>
 
