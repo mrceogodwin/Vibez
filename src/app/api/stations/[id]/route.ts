@@ -32,7 +32,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
         audioUrl,
       };
     }).filter((track: { title: string }) => track.title.length > 0);
-    return NextResponse.json({ station: { ...rows[0], queue } }, { headers: { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60" } });
+    return NextResponse.json({ station: { ...rows[0], queue } }, { headers: { "Cache-Control": "private, no-store, max-age=0" } });
   } catch {
     return NextResponse.json({ error: "Station details are temporarily unavailable." }, { status: 503 });
   }
