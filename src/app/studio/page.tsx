@@ -13,11 +13,7 @@ function formatClock(seconds: number) {
   return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, "0")}`;
 }
 
-const starterTracks: Track[] = [
-  { id: 1, title: "City Lights", artist: "Vibez Selects", duration: "3:24" },
-  { id: 2, title: "No Pressure", artist: "The After Hours", duration: "2:58" },
-  { id: 3, title: "Outside Tonight", artist: "Vibez Selects", duration: "3:41" },
-];
+const starterTracks: Track[] = [];
 
 export default function StudioPage() {
   const router = useRouter();
@@ -200,7 +196,7 @@ export default function StudioPage() {
         <div className="studio-banner"><div><span className="studio-live-indicator"><i /> STUDIO PREVIEW · NO AUDIO STREAM</span><h2>Make the airwaves yours.</h2><p>Set up your station, build a queue, tune your sound and prepare your show.</p></div><div className="banner-mark">v<span>✳</span></div></div>
         {notice && <div className="studio-notice" role="status"><span>ⓘ</span>{notice}<button onClick={() => setNotice("")} aria-label="Dismiss notice">×</button></div>}
 
-        <div className="studio-stats"><article><span>YOUR STATION</span><b>{stationName || "Untitled station"}</b><small>Ready to configure</small></article><article><span>QUEUE LENGTH</span><b>{totalTracks} tracks</b><small>Local demo queue</small></article><article><span>BROADCAST STATUS</span><b className={broadcast ? "status-orange" : ""}>{broadcast ? "Preview active" : "Offline"}</b><small>{broadcast ? "Not publicly streaming" : "No audience connected"}</small></article><article><span>SUBSCRIPTION</span><b>Creator Pro</b><small>Plan preview · not billed</small></article></div>
+        <div className="studio-stats"><article><span>YOUR STATION</span><b>{stationName || "Untitled station"}</b><small>Ready to configure</small></article><article><span>QUEUE LENGTH</span><b>{totalTracks} tracks</b><small>{tracks.some((track) => track.audioUrl) ? "Playable sources added" : "Add playable audio sources"}</small></article><article><span>BROADCAST STATUS</span><b className={broadcast ? "status-orange" : ""}>{broadcast ? "Preview active" : "Offline"}</b><small>{broadcast ? "Not publicly streaming" : "No audience connected"}</small></article><article><span>SUBSCRIPTION</span><b>Creator Pro</b><small>Plan preview · not billed</small></article></div>
 
         <div className="studio-columns">
           <div className="studio-column">
@@ -214,7 +210,7 @@ export default function StudioPage() {
             </section>
 
             <section className="studio-panel" id="playlist"><div className="panel-heading"><div><span className="panel-kicker">02 / YOUR SOUND</span><h3>Music & queue</h3></div><span className="queue-count">{totalTracks.toString().padStart(2, "0")} TRACKS</span></div>
-              <div className="queue-toolbar"><span>UP NEXT <small>· drag-and-drop ordering coming next</small></span><button className="small-ghost" onClick={() => setTracks([])}>Clear queue</button></div>
+              <div className="queue-toolbar"><span>UP NEXT <small>· drag tracks to reorder</small></span><button className="small-ghost" onClick={() => setTracks([])}>Clear queue</button></div>
               {tracks.length === 0 ? <div className="empty-queue">Your queue is empty. Add a track below to get started.</div> : <div className="track-list">{tracks.map((track, index) => <div className={`track-row ${index === currentTrack ? "selected" : ""} ${draggedTrackId === track.id ? "dragging" : ""}`} key={track.id} draggable onDragStart={(event) => { setDraggedTrackId(track.id); event.dataTransfer.effectAllowed = "move"; event.dataTransfer.setData("text/plain", String(track.id)); }} onDragOver={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = "move"; }} onDrop={(event) => { event.preventDefault(); const sourceId = Number(event.dataTransfer.getData("text/plain")) || draggedTrackId; if (sourceId !== null) moveQueueTrack(sourceId, track.id); setDraggedTrackId(null); }} onDragEnd={() => setDraggedTrackId(null)}><button className="track-play" onClick={() => void playQueueTrack(index)} aria-label={`Play ${track.title}`}>▶</button><div className="track-title"><b>{track.title}</b><span>{track.artist}</span></div><span className="track-duration">{track.duration}</span><button className="remove-track" onClick={() => {setTracks((items) => items.filter((item) => item.id !== track.id));setCurrentTrack(0);}} aria-label={`Remove ${track.title}`}>×</button></div>)}</div>}
               <form className="add-track" onSubmit={(e) => {e.preventDefault();addTrack();}}><input className="studio-input" value={newTrack} onChange={(e) => setNewTrack(e.target.value)} placeholder="Track title" aria-label="New track title" required/><input className="studio-input" type="url" value={newTrackUrl} onChange={(e) => setNewTrackUrl(e.target.value)} placeholder="HTTPS audio file URL (optional)" aria-label="Direct audio file URL"/><button className="add-button" type="submit">+ Add</button></form>
               <div className="queue-save-row"><p className="fine-print">Queue entries are saved to your account. Add a direct HTTPS audio URL to try browser playback; use only audio you own or are licensed to stream.</p><button className="small-ghost" onClick={saveStation} disabled={saving}>{saving ? "Saving…" : "Save queue"}</button></div>
