@@ -11,7 +11,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
   }
   try {
     const sql = getDb();
-    const rows = await sql`SELECT id, name, tagline, genre, queue FROM creator_station_profiles WHERE id = ${id} AND visibility = 'public' LIMIT 1`;
+    const rows = await sql`SELECT id, name, tagline, genre, queue FROM creator_station_profiles WHERE id = ${id} AND visibility IN ('public', 'unlisted') LIMIT 1`;
     if (!rows.length) return NextResponse.json({ error: "Station not found." }, { status: 404 });
     const rawQueue = Array.isArray(rows[0].queue) ? rows[0].queue : [];
     const queue = rawQueue.slice(0, 250).map((item: unknown, index: number) => {
