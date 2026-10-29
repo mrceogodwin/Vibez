@@ -13,7 +13,7 @@ export default async function AdminHealthPage() {
  const admins = new Set((process.env.VIBEZ_ADMIN_EMAILS ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean));
  if (!admins.has(email)) return <main className="admin-denied"><section><h1>Admin access only.</h1><p>This account is not on the Super Admin allowlist.</p><Link href="/">Back to Vibez</Link></section></main>;
 
- const envChecks = [
+ const envChecks: Array<[string, boolean]> = [
   ["Vibez database URL", Boolean(process.env.VIBEZ_DATABASE_URL || process.env.DATABASE_URL)],
   ["Better Auth secret", Boolean(process.env.BETTER_AUTH_SECRET)],
   ["Better Auth base URL", Boolean(process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL)],
