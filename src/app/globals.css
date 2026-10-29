@@ -211,3 +211,14 @@
 .admin-search-form button:disabled{opacity:.55;cursor:wait}
 .admin-search-error{font-size:10px;color:#ffad9d;margin:10px 0 0}
 @media(max-width:430px){.admin-search-form{align-items:stretch;flex-direction:column}.admin-search-form button{width:100%}}
+
+
+.admin-audit-list{display:flex;flex-direction:column}
+.admin-audit-row{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #252525;min-width:0}
+.admin-audit-row:last-child{border-bottom:0}
+.admin-audit-dot{width:7px;height:7px;border-radius:50%;background:#ff956d;flex-shrink:0}
+.admin-audit-row>div{flex:1;min-width:0}
+.admin-audit-row b{font-size:10px;text-transform:capitalize}
+.admin-audit-row p{font-size:9px;color:#928a81;overflow-wrap:anywhere;margin:5px 0 0}
+.admin-audit-row time{font-size:9px;color:#8f887f;white-space:nowrap}
+@media(max-width:520px){.admin-audit-row{align-items:flex-start;flex-wrap:wrap}.admin-audit-row time{padding-left:18px}}
