@@ -18,6 +18,8 @@ const starterTracks: Track[] = [];
 export default function StudioPage() {
   const router = useRouter();
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const micStreamRef = useRef<MediaStream | null>(null);
+  const micContextRef = useRef<AudioContext | null>(null);
   const { data: session, isPending: sessionPending } = authClient.useSession();
   useEffect(() => {
     if (!sessionPending && !session) router.replace("/login");
@@ -48,6 +50,45 @@ export default function StudioPage() {
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = Math.max(0, Math.min(100, volume)) / 100;
   }, [volume]);
+
+  useEffect(() => () => {
+    micStreamRef.current?.getTracks().forEach((track) => track.stop());
+    void micContextRef.current?.close().catch(() => undefined);
+  }, []);
+
+  async function toggleMicrophone() {
+    if (micStreamRef.current) {
+      micStreamRef.current.getTracks().forEach((track) => track.stop());
+      micStreamRef.current = null;
+      if (micContextRef.current) {
+        await micContextRef.current.close().catch(() => undefined);
+        micContextRef.current = null;
+      }
+      setMic(false);
+      setNotice("Microphone preview stopped. No audio was broadcast to listeners.");
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setNotice("Microphone access is unavailable in this browser or page context. Use a secure HTTPS page.");
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true }, video: false });
+      const context = new AudioContext();
+      const source = context.createMediaStreamSource(stream);
+      const gain = context.createGain();
+      gain.gain.value = 0;
+      source.connect(gain);
+      gain.connect(context.destination);
+      micStreamRef.current = stream;
+      micContextRef.current = context;
+      setMic(true);
+      setNotice("Microphone permission is active, but monitoring is muted to prevent feedback. This is local preview only, not a broadcast.");
+    } catch {
+      setMic(false);
+      setNotice("Microphone access was denied or unavailable. Check browser permissions and try again.");
+    }
+  }
 
   async function playQueueTrack(index: number) {
     const track = tracks[index];
@@ -220,7 +261,7 @@ export default function StudioPage() {
           <div className="studio-column">
             <section className="studio-panel on-air-panel"><div className="panel-heading"><div><span className="panel-kicker">BROADCAST CONTROL</span><h3>On-air console</h3></div><span className={`on-air-badge ${broadcast ? "active" : ""}`}><i/>{broadcast ? "PREVIEW ON" : "OFFLINE"}</span></div>
               <div className="console-screen"><audio ref={audioRef} onTimeUpdate={(event) => setPlaybackTime(event.currentTarget.currentTime || 0)} onLoadedMetadata={(event) => setPlaybackDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={(event) => setPlaybackDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onEnded={() => { setIsPlaying(false); if (tracks.length > 1) void playQueueTrack((currentTrack + 1) % tracks.length); }} onPause={() => setIsPlaying(false)} onPlay={() => setIsPlaying(true)} /><div className="console-art"><span>v.</span><div className="console-eq"><i/><i/><i/><i/><i/><i/><i/><i/><i/></div></div><div className="console-track"><span>NOW SELECTED</span><b>{selectedTrack?.title || "Nothing in queue"}</b><small>{selectedTrack?.artist || "Add a track to begin"}</small></div><div className="console-timeline"><span>{formatClock(playbackTime)}</span><input aria-label="Seek through current track" className="playback-seek" type="range" min="0" max={playbackDuration || 0} step="0.1" value={Math.min(playbackTime, playbackDuration || 0)} onChange={(event) => { const next = Number(event.target.value); if (audioRef.current && Number.isFinite(next)) { audioRef.current.currentTime = next; setPlaybackTime(next); } }} disabled={!playbackDuration} /><span>{formatClock(playbackDuration)}</span></div></div>
-              <div className="transport"><button onClick={() => { if (tracks.length) void playQueueTrack((currentTrack - 1 + tracks.length) % tracks.length); }} aria-label="Previous track">|◀</button><button className="transport-main" onClick={async () => { if (isPlaying && audioRef.current) { audioRef.current.pause(); setIsPlaying(false); } else { await playQueueTrack(currentTrack); } }} aria-label={isPlaying ? "Pause audio" : "Play audio"}>{isPlaying ? "Ⅱ" : "▶"}</button><button onClick={() => { if (tracks.length) void playQueueTrack((currentTrack + 1) % tracks.length); }} aria-label="Next track">▶|</button><span className="transport-divider"/><button className={mic ? "control-active" : ""} onClick={() => setMic((value) => !value)} aria-label="Toggle microphone preview">♩ Mic {mic ? "on" : "off"}</button></div>
+              <div className="transport"><button onClick={() => { if (tracks.length) void playQueueTrack((currentTrack - 1 + tracks.length) % tracks.length); }} aria-label="Previous track">|◀</button><button className="transport-main" onClick={async () => { if (isPlaying && audioRef.current) { audioRef.current.pause(); setIsPlaying(false); } else { await playQueueTrack(currentTrack); } }} aria-label={isPlaying ? "Pause audio" : "Play audio"}>{isPlaying ? "Ⅱ" : "▶"}</button><button onClick={() => { if (tracks.length) void playQueueTrack((currentTrack + 1) % tracks.length); }} aria-label="Next track">▶|</button><span className="transport-divider"/><button className={mic ? "control-active" : ""} onClick={() => void toggleMicrophone()} aria-label={mic ? "Stop microphone preview" : "Enable microphone preview"}>♩ Mic {mic ? "on" : "off"}</button></div>
               <div className="slider-control"><div><label htmlFor="volume">Master volume</label><span>{volume}%</span></div><input id="volume" type="range" min="0" max="100" value={volume} onChange={(e) => setVolume(Number(e.target.value))}/></div>
               <div className="slider-control"><div><label htmlFor="crossfade">Crossfade</label><span>{crossfade}s</span></div><input id="crossfade" type="range" min="0" max="12" value={crossfade} onChange={(e) => setCrossfade(Number(e.target.value))}/></div>
               <button className={`go-live ${broadcast ? "stop" : ""}`} onClick={toggleBroadcast}>{broadcast ? "■ Stop studio preview" : "● Prepare to go live"} <span>↗</span></button>
