@@ -181,39 +181,6 @@ export default function StudioPage() {
     }
   }
 
-  useEffect(() => {
-    if (!session) return;
-    let cancelled = false;
-    fetch("/api/studio/profile", { cache: "no-store" })
-      .then(async (response) => {
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Could not load station.");
-        if (!cancelled && data.profile) {
-          const profile = data.profile;
-          setStationId(typeof profile.id === "string" ? profile.id : "");
-          setStationName(profile.name || "My Vibez Radio");
-          setTagline(profile.tagline || "");
-          setCategory(profile.genre || "Mixed genres");
-          setVisibility((profile.visibility || "public").replace(/^./, (letter: string) => letter.toUpperCase()));
-          if (Array.isArray(profile.queue)) {
-            setTracks(profile.queue.map((track: Record<string, unknown>, index: number) => ({
-              id: Number(track.id) || Date.now() + index,
-              title: String(track.title || ""),
-              artist: String(track.artist || ""),
-              duration: String(track.duration || "—"),
-              audioUrl: typeof track.audioUrl === "string" ? track.audioUrl : undefined,
-            })));
-          }
-          if (profile.settings) {
-            setVolume(Number(profile.settings.volume ?? 72));
-            setCrossfade(Number(profile.settings.crossfade ?? 4));
-          }
-        }
-      })
-      .catch(() => { if (!cancelled) setNotice("Your studio is open, but saved settings could not be loaded. Try refreshing."); });
-    return () => { cancelled = true; };
-  }, [session]);
-
   function moveQueueTrack(fromId: number, toId: number) {
     if (fromId === toId) return;
     const selectedId = tracks[currentTrack]?.id;
