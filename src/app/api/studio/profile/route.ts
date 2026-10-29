@@ -68,6 +68,9 @@ export async function PUT(request: Request) {
             title: typeof track.title === "string" ? track.title.trim().slice(0, 180) : "",
             artist: typeof track.artist === "string" ? track.artist.trim().slice(0, 140) : "",
             duration: typeof track.duration === "string" ? track.duration.slice(0, 20) : "—",
+            audioUrl: typeof track.audioUrl === "string" && track.audioUrl.startsWith("https://") && track.audioUrl.length <= 2048
+              ? track.audioUrl
+              : "",
           };
         }).filter((track: {title:string}) => track.title.length > 0)
       : [];
