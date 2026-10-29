@@ -26,8 +26,8 @@ export async function GET(request: Request) {
     const users = await sql`
       SELECT id, name, email, "createdAt"
       FROM "user"
-      WHERE name ILIKE ${pattern} ESCAPE '\\'
-         OR email ILIKE ${pattern} ESCAPE '\\'
+      WHERE name ILIKE ${pattern}
+         OR email ILIKE ${pattern}
       ORDER BY "createdAt" DESC
       LIMIT 25
     `;
