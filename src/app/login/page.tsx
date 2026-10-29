@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
@@ -21,7 +22,7 @@ export default function LoginPage() {
 
   return (
     <main className="auth-shell">
-      <a className="brand auth-brand" href="/"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></a>
+      <Link className="brand auth-brand" href="/"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></Link>
       <div className="auth-layout">
         <section className="auth-story">
           <div className="eyebrow">YOUR SOUND. YOUR PEOPLE.</div>
@@ -43,10 +44,10 @@ export default function LoginPage() {
           {notice&&<div className="auth-notice" role="status">{notice}</div>}
           <div className="auth-divider"><span/> <small>YOUR ACCOUNT, YOUR VIBE</small> <span/></div>
           <p className="auth-terms">By continuing, you agree to use Vibez respectfully. Keep your password private. Your session is protected by secure cookies.</p>
-          <a className="auth-studio-link" href="/studio">Want to build your own radio? <b>Open Creator Studio →</b></a>
+          <Link className="auth-studio-link" href="/studio">Want to build your own radio? <b>Open Creator Studio →</b></Link>
         </section>
       </div>
-      <footer className="auth-footer"><span>© 2026 Vibez</span><a href="/">Back to home</a><a href="/studio">Creator Studio</a></footer>
+      <footer className="auth-footer"><span>© 2026 Vibez</span><Link href="/">Back to home</Link><Link href="/studio">Creator Studio</Link></footer>
     </main>
   );
 }
