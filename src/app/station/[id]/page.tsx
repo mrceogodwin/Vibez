@@ -65,7 +65,7 @@ export default function StationPage() {
       setPlaying(false);
       setNotice("Playback failed. This source may not be a direct audio file or may block browser playback.");
     }
-  }, [station]);
+  }, [station, volume]);
 
   const nextTrack = useCallback(() => {
     const tracks = station?.queue ?? [];
@@ -109,7 +109,7 @@ export default function StationPage() {
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 14, color: "#999", fontSize: 11 }}><label htmlFor="listener-volume">Volume</label><input id="listener-volume" aria-label="Listener volume" type="range" min="0" max="100" value={volume} onChange={(event) => { const value = Number(event.target.value); setVolume(value); if (audioRef.current) audioRef.current.volume = Math.max(0, Math.min(100, value)) / 100; }} style={{ minWidth: 0, flex: 1, accentColor: "#ff6b35" }} /><span>{volume}%</span></div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16, gap: 12 }}>
               <span style={{ color: "#999", fontSize: 11 }}>{station.queue?.length ?? 0} queue items</span>
-              <button className="small-ghost" onClick={() => { const url = window.location.href; void navigator.clipboard?.writeText(url).then(() => setShareNotice("Station link copied.")).catch(() => setShareNotice(url)); }}>Copy station link ↗</button>
+              <button className="small-ghost" onClick={async () => { const url = window.location.href; try { if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable"); await navigator.clipboard.writeText(url); setShareNotice("Station link copied."); } catch { setShareNotice(`Copy this station link: ${url}`); } }}>Copy station link ↗</button>
             </div>
             {notice && <p role="status" style={{ color: "#ffb18e", fontSize: 12, lineHeight: 1.6, marginTop: 14 }}>{notice}</p>}
           </div>
