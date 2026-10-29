@@ -42,6 +42,7 @@ export default async function AdminPage() {
 
   let stats = { users: 0, stations: 0, posts: 0, openReports: 0, communities: 0, liveSessions: 0 };
   let recentUsers: Array<{ id: string; name: string; email: string; createdAt: string }> = [];
+  let stations: Array<{ id: string; name: string; genre: string; visibility: string; updated_at: string; owner_email: string | null }> = [];
   let reports: Array<{ id: string; target_type: string; reason: string; status: string; created_at: string }> = [];
   let auditEvents: Array<{ id: string; actor_email: string; action: string; target_type: string; target_id: string; details: Record<string, unknown>; created_at: string }> = [];
   let dataError = "";
@@ -74,6 +75,13 @@ export default async function AdminPage() {
       ORDER BY "createdAt" DESC
       LIMIT 8
     `) as typeof recentUsers;
+    stations = (await sql`
+      SELECT p.id, p.name, p.genre, p.visibility, p.updated_at, u.email AS owner_email
+      FROM creator_station_profiles p
+      LEFT JOIN "user" u ON u.id = p.owner_id
+      ORDER BY p.updated_at DESC
+      LIMIT 8
+    `) as typeof stations;
     reports = (await sql`
       SELECT id, target_type, reason, status, created_at
       FROM content_reports
@@ -136,6 +144,11 @@ export default async function AdminPage() {
             {reports.length ? <div className="admin-report-list">{reports.map((report) => <article className="admin-report" key={report.id}><span className="admin-report-icon">⚑</span><div><b>{report.reason}</b><p>{report.target_type} · {formatDate(report.created_at)}</p></div><ReportActions id={report.id} status={report.status} /></article>)}</div> : <p className="admin-empty">No reports have been submitted.</p>}
           </section>
         </div>
+
+        <section className="admin-panel admin-roadmap" id="stations">
+          <div className="admin-panel-heading"><div><span className="admin-kicker">CREATOR OPERATIONS</span><h2>Recent stations</h2></div><span className="admin-count">{stations.length} SHOWN</span></div>
+          {stations.length ? <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Station</th><th>Creator</th><th>Visibility</th><th>Updated</th></tr></thead><tbody>{stations.map((station) => <tr key={station.id}><td><b>{station.name}</b><small>{station.genre || "Mixed genres"} · {station.id.slice(0, 8)}…</small></td><td>{station.owner_email || "Account unavailable"}</td><td><span className={`admin-status ${station.visibility}`}>{station.visibility}</span></td><td>{formatDate(station.updated_at)}</td></tr>)}</tbody></table></div> : <p className="admin-empty">No creator stations have been saved yet.</p>}
+        </section>
 
         <section className="admin-panel admin-roadmap" id="audit-log">
           <div className="admin-panel-heading"><div><span className="admin-kicker">SECURITY & ACCOUNTABILITY</span><h2>Admin activity log</h2></div><span className="admin-count">LATEST {auditEvents.length}</span></div>
