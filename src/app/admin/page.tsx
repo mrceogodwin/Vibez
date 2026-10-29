@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { ReportActions } from "./report-actions";
+import { UserSearch } from "./user-search";
 
 export const dynamic = "force-dynamic";
 
@@ -111,11 +112,13 @@ export default async function AdminPage() {
 
         {dataError && <div className="admin-alert" role="alert">{dataError}</div>}
 
-        <div className="admin-welcome"><div><span className="admin-kicker">SYSTEM CONTROL</span><h2>Everything in one place.</h2><p>Read-only overview is active. Destructive account and content actions are intentionally not enabled yet.</p></div><span className="admin-orb">v.</span></div>
+        <div className="admin-welcome"><div><span className="admin-kicker">SYSTEM CONTROL</span><h2>Everything in one place.</h2><p>Account search is available, and moderation changes are permission-checked and audit-logged.</p></div><span className="admin-orb">v.</span></div>
 
         <section className="admin-stat-grid" aria-label="Platform metrics">
           {cards.map((card) => <article className="admin-stat" key={card.label}><div><span>{card.label}</span><i>{card.icon}</i></div><strong>{card.value.toLocaleString("en")}</strong><small>{card.detail}</small></article>)}
         </section>
+
+        <UserSearch />
 
         <div className="admin-content-grid">
           <section className="admin-panel" id="users"><div className="admin-panel-heading"><div><span className="admin-kicker">ACCOUNT ACTIVITY</span><h2>Recent accounts</h2></div><span className="admin-count">{recentUsers.length} SHOWN</span></div>
