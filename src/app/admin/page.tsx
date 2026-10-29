@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { ReportActions } from "./report-actions";
 import { UserSearch } from "./user-search";
+import { AdminSignOut } from "./sign-out";
 
 export const dynamic = "force-dynamic";
 
@@ -116,7 +117,7 @@ export default async function AdminPage() {
         <a className="admin-nav" href="#users">◎ <span>User accounts</span></a>
         <a className="admin-nav" href="#stations">♫ <span>Stations</span></a>
         <a className="admin-nav" href="#moderation">⚑ <span>Moderation</span></a>
-        <div className="admin-sidebar-bottom"><span className="admin-secure-dot" /> Protected admin session <a href="/">← View public site</a></div>
+        <div className="admin-sidebar-bottom"><span className="admin-secure-dot" /> Protected admin session <a href="/">← View public site</a><AdminSignOut /></div>
       </aside>
 
       <section className="admin-main">
@@ -155,7 +156,7 @@ export default async function AdminPage() {
           {auditEvents.length ? <div className="admin-audit-list">{auditEvents.map((event) => <article className="admin-audit-row" key={event.id}><span className="admin-audit-dot" /><div><b>{event.action.replace(/\./g, " ")}</b><p>{event.actor_email} · {event.target_type} · {event.target_id.slice(0, 8)}…</p></div><time>{formatDate(event.created_at)}</time></article>)}</div> : <p className="admin-empty">Privileged actions will be recorded here as they occur.</p>}
         </section>
 
-        <section className="admin-panel admin-roadmap" id="admin-roadmap"><div className="admin-panel-heading"><div><span className="admin-kicker">ADMIN MODULES</span><h2>Control centre roadmap</h2></div><span className="admin-count">IN PROGRESS</span></div><div className="admin-module-grid"><article><span>01</span><b>Accounts & access</b><p>Account lookup is visible. Ban, restore and role changes need audited server actions.</p></article><article><span>02</span><b>Stations & broadcasts</b><p>Station counts are connected. Stream health depends on a real provider integration.</p></article><article><span>03</span><b>Moderation queue</b><p>Report records are visible. Resolve/dismiss controls need audited moderation endpoints.</p></article><article><span>04</span><b>Billing & platform settings</b><p>Payments, plan changes and global settings are not connected yet.</p></article></div></section>
+        <section className="admin-panel admin-roadmap" id="admin-roadmap"><div className="admin-panel-heading"><div><span className="admin-kicker">ADMIN MODULES</span><h2>Control centre roadmap</h2></div><span className="admin-count">IN PROGRESS</span></div><div className="admin-module-grid"><article><span>01</span><b>Accounts & access</b><p>Account lookup is available. Account suspension and role changes remain disabled until enforcement is implemented.</p></article><article><span>02</span><b>Stations & broadcasts</b><p>Station counts are connected. Stream health depends on a real provider integration.</p></article><article><span>03</span><b>Moderation queue</b><p>Report records are visible. Resolve/dismiss actions are protected and audit-logged.</p></article><article><span>04</span><b>Billing & platform settings</b><p>Payments, plan changes and global settings are not connected yet.</p></article></div></section>
         <footer className="admin-footer"><span>VIBEZ SUPER ADMIN · PRIVATE CONTROL ROOM</span><span>Signed in as {email}</span></footer>
       </section>
     </main>
