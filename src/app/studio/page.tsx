@@ -51,6 +51,48 @@ export default function StudioPage() {
   const totalTracks = useMemo(() => tracks.length, [tracks]);
 
   useEffect(() => {
+    if (!session?.user?.id) return;
+    let cancelled = false;
+    async function loadSavedStation() {
+      try {
+        const response = await fetch("/api/studio/profile", { cache: "no-store" });
+        if (!response.ok) {
+          if (response.status !== 404 && response.status !== 401) throw new Error("Could not load your saved station.");
+          return;
+        }
+        const data = await response.json();
+        const profile = data?.profile;
+        if (cancelled || !profile) return;
+        setStationId(typeof profile.id === "string" ? profile.id : "");
+        setStationName(typeof profile.name === "string" ? profile.name : "My Vibez Station");
+        setTagline(typeof profile.tagline === "string" ? profile.tagline : "");
+        setCategory(typeof profile.genre === "string" ? profile.genre : "Mixed genres");
+        const savedVisibility = typeof profile.visibility === "string" ? profile.visibility.toLowerCase() : "public";
+        setVisibility(savedVisibility === "private" ? "Private" : savedVisibility === "unlisted" ? "Unlisted" : "Public");
+        const savedQueue = Array.isArray(profile.queue) ? profile.queue : [];
+        setTracks(savedQueue.slice(0, 250).map((item: unknown, index: number) => {
+          const track = item && typeof item === "object" ? item as Record<string, unknown> : {};
+          const numericId = Number(track.id);
+          return {
+            id: Number.isSafeInteger(numericId) && numericId > 0 ? numericId : Date.now() + index,
+            title: typeof track.title === "string" ? track.title : "",
+            artist: typeof track.artist === "string" ? track.artist : "",
+            duration: typeof track.duration === "string" ? track.duration : "—",
+            audioUrl: typeof track.audioUrl === "string" ? track.audioUrl : "",
+          };
+        }).filter((track: Track) => track.title.trim().length > 0));
+        const settings = profile.settings && typeof profile.settings === "object" ? profile.settings as Record<string, unknown> : {};
+        if (typeof settings.volume === "number" && Number.isFinite(settings.volume)) setVolume(Math.max(0, Math.min(100, Math.round(settings.volume))));
+        if (typeof settings.crossfade === "number" && Number.isFinite(settings.crossfade)) setCrossfade(Math.max(0, Math.min(12, Math.round(settings.crossfade))));
+      } catch (error) {
+        if (!cancelled) setNotice(error instanceof Error ? error.message : "Could not load your saved station.");
+      }
+    }
+    void loadSavedStation();
+    return () => { cancelled = true; };
+  }, [session?.user?.id]);
+
+  useEffect(() => {
     if (audioRef.current) audioRef.current.volume = Math.max(0, Math.min(100, volume)) / 100;
   }, [volume]);
 
