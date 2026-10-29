@@ -227,3 +227,8 @@
 .admin-status.public{background:#14241b;color:#8bd7a9}
 .admin-status.private{background:#26211d;color:#d1b8a1}
 .admin-status.unlisted{background:#211d2c;color:#c6b4ff}
+
+
+.admin-signout{display:block;width:100%;margin-top:12px;padding:9px 10px;border:1px solid #3b302b;border-radius:6px;background:#181310;color:#f2b39b;text-align:left;font:600 10px 'DM Sans',sans-serif;cursor:pointer}
+.admin-signout:hover:not(:disabled){border-color:#ff956d;background:#201711}
+.admin-signout:disabled{opacity:.55;cursor:wait}
