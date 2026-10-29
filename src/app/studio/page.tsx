@@ -116,8 +116,15 @@ export default function StudioPage() {
     }
     setCurrentTrack(index);
     if (!track.audioUrl || !audioRef.current) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.removeAttribute("src");
+        audioRef.current.load();
+      }
       setIsPlaying(false);
-      setNotice("This queue item has no playable audio URL. Add a direct HTTPS audio file link.");
+      setPlaybackTime(0);
+      setPlaybackDuration(0);
+      setNotice("This queue item has no playable audio URL. Previous playback has stopped; add a direct HTTPS audio file link.");
       return;
     }
     try {
