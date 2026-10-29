@@ -1,0 +1,1 @@
+export function AdminHealth() { return <section className="admin-panel"><h2>System health</h2><p>Production health diagnostics are available at <a href="/api/health" target="_blank" rel="noreferrer">/api/health</a>.</p></section>; }
