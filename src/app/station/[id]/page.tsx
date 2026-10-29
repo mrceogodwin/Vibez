@@ -115,7 +115,7 @@ export default function StationPage() {
           </div>
           <section style={{ marginTop: 24 }}>
             <h2 style={{ fontSize: 17, marginBottom: 12 }}>Station queue</h2>
-            {(!station.queue || station.queue.length === 0) ? <p style={{ color: "#999", fontSize: 13 }}>This station&apos;s queue is empty. The creator can add licensed audio in Creator Studio.</p> : <div style={{ display: "grid", gap: 8 }}>{station.queue.map((track, index) => <div key={track.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: 12, border: "1px solid " + (index === currentTrack ? "#68402f" : "#292929"), borderRadius: 7, background: index === currentTrack ? "#201610" : "#101010" }}>
+            {(!station.queue || station.queue.length === 0) ? <p style={{ color: "#999", fontSize: 13 }}>This station&apos;s queue is empty. The creator&apos;s licensed audio can be added in Creator Studio.</p> : <div style={{ display: "grid", gap: 8 }}>{station.queue.map((track, index) => <div key={track.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: 12, border: "1px solid " + (index === currentTrack ? "#68402f" : "#292929"), borderRadius: 7, background: index === currentTrack ? "#201610" : "#101010" }}>
               <span style={{ color: "#ff875a", fontSize: 10, width: 18 }}>{String(index + 1).padStart(2, "0")}</span>
               <div style={{ flex: 1, minWidth: 0 }}><b style={{ display: "block", fontSize: 12, overflowWrap: "anywhere" }}>{track.title}</b><span style={{ color: "#999", fontSize: 10 }}>{track.artist || "Unknown artist"} · {track.duration || "—"}</span></div>
               <button className="play" aria-label={`Play ${track.title}`} onClick={() => void playTrack(index)} style={{ cursor: "pointer" }}>▶</button>
