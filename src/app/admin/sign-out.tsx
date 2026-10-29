@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
-export function AdminSignOut() {
+export function AdminSignOut({ redirectTo = "/login" }: { redirectTo?: string }) {
   const [busy, setBusy] = useState(false);
   const router = useRouter();
 
@@ -13,7 +13,7 @@ export function AdminSignOut() {
     setBusy(true);
     try {
       await authClient.signOut();
-      router.replace("/login");
+      router.replace(redirectTo);
       router.refresh();
     } catch {
       setBusy(false);
