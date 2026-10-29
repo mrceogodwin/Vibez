@@ -222,3 +222,8 @@
 .admin-audit-row p{font-size:9px;color:#928a81;overflow-wrap:anywhere;margin:5px 0 0}
 .admin-audit-row time{font-size:9px;color:#8f887f;white-space:nowrap}
 @media(max-width:520px){.admin-audit-row{align-items:flex-start;flex-wrap:wrap}.admin-audit-row time{padding-left:18px}}
+
+
+.admin-status.public{background:#14241b;color:#8bd7a9}
+.admin-status.private{background:#26211d;color:#d1b8a1}
+.admin-status.unlisted{background:#211d2c;color:#c6b4ff}
