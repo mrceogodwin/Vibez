@@ -135,7 +135,7 @@ export default function StudioPage() {
       <aside className="studio-sidebar">
         <Link className="brand" href="/"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></Link>
         <div className="sidebar-label">CREATOR SPACE</div>
-        <a className="side-link active" href="/studio"><span>◉</span> Studio overview</a>
+        <Link className="side-link active" href="/studio"><span>◉</span> Studio overview</Link>
         <a className="side-link" href="#station"><span>▧</span> Station setup</a>
         <a className="side-link" href="#playlist"><span>♫</span> Music & queue</a>
         <a className="side-link" href="#controls"><span>☷</span> DJ controls</a>
