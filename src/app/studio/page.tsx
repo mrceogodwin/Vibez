@@ -234,22 +234,33 @@ export default function StudioPage() {
 
   function addTrack() {
     const title = newTrack.trim();
-    if (!title) return;
+    if (!title) {
+      setNotice("Enter a track title before adding it.");
+      return;
+    }
+    if (title.length > 180) {
+      setNotice("Track titles must be 180 characters or fewer.");
+      return;
+    }
+    if (tracks.length >= 250) {
+      setNotice("Your station queue is full. Remove a track before adding another; the limit is 250.");
+      return;
+    }
     const candidate = newTrackUrl.trim();
     let audioUrl: string | undefined;
     if (candidate) {
       try {
         const parsed = new URL(candidate);
-        if (parsed.protocol !== "https:" || parsed.username || parsed.password) throw new Error("Use a secure HTTPS audio URL without embedded credentials.");
+        if (parsed.protocol !== "https:" || parsed.username || parsed.password || candidate.length > 2048) throw new Error("Use a secure HTTPS audio URL under 2,048 characters, without embedded credentials.");
         audioUrl = parsed.toString();
       } catch {
-        setNotice("Enter a valid HTTPS link to a playable audio file, or leave the URL empty.");
+        setNotice("Enter a valid HTTPS link to a playable audio file under 2,048 characters, or leave the URL empty.");
         return;
       }
     }
     let id = Date.now();
     while (tracks.some((track) => track.id === id)) id += 1;
-    setTracks((items) => [...items, { id, title, artist: "Added to your queue", duration: "—", audioUrl }]);
+    setTracks((items) => [...items, { id, title, artist: "Unknown artist", duration: "—", audioUrl }]);
     setNewTrack("");
     setNewTrackUrl("");
     setNotice(audioUrl ? "Track added. You can try playing its audio URL." : "Track added without an audio source. Add an HTTPS audio URL to play it.");
