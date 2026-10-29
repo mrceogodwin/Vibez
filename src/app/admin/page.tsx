@@ -36,7 +36,7 @@ export default async function AdminPage() {
           <span className="admin-kicker">RESTRICTED AREA · 403</span>
           <h1>Admin access only.</h1>
           <p>This account is not on the Vibez Super Admin allowlist. No admin data has been shown.</p>
-          <a className="admin-button" href="/">Back to Vibez</a>
+          <a className="admin-button" href="/">Back to Vibez</a><AdminSignOut redirectTo="/login?next=/admin" />
         </section>
       </main>
     );
