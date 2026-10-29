@@ -71,7 +71,7 @@ export default function Home() {
 
       <section className="section" id="listen">
         <div className="section-head"><div><div className="eyebrow">THE AIRWAVES</div><h2>Find your frequency.</h2><p className="section-subtitle">Small stations. Big personalities. Discover a new sound.</p></div><span className="section-link">{hasCreatorStations ? "PUBLIC CREATOR STATIONS" : "STATION PREVIEW"}</span></div>
-        <div className="station-grid">{visibleStations.map((station, index) => <Link className="station-card-link" href={station.id ? `/station/${station.id}` : "/login?mode=signup"} aria-label={station.id ? `Open ${station.name}` : `Preview ${station.name}; create an account to start a station`} key={station.id || station.name}><Linkrticle className={`station ${station.style}`}>
+        <div className="station-grid">{visibleStations.map((station, index) => <Link className="station-card-link" href={station.id ? `/station/${station.id}` : "/login?mode=signup"} aria-label={station.id ? `Open ${station.name}` : `Preview ${station.name}; create an account to start a station`} key={station.id || station.name}><article className={`station ${station.style}`}>
           <div className="station-top"><span className="live-dot" />{station.status}<span className="station-number">{String(index + 1).padStart(2,"0")}</span></div>
           <div className="art" aria-hidden="true"><span className="art-ring ring-one"/><span className="art-ring ring-two"/><span className="art-center">{station.code}</span><span className="equalizer"><i/><i/><i/><i/><i/></span></div>
           <div className="station-bottom"><div><h3>{station.name}</h3><p>{station.genre}</p></div><span className="play" aria-label="Open station">→</span></div>
