@@ -23,6 +23,8 @@ const stations: StationCard[] = [
 export default function Home() {
   const [stationList, setStationList] = useState<StationCard[]>(stations);
   const [visibleCount, setVisibleCount] = useState(6);
+  const [stationSearch, setStationSearch] = useState("");
+  const [genreFilter, setGenreFilter] = useState("All genres");
 
   useEffect(() => {
     let cancelled = false;
@@ -47,8 +49,15 @@ export default function Home() {
     return () => { cancelled = true; };
   }, []);
 
-  const visibleStations = stationList.slice(0, visibleCount);
   const hasCreatorStations = stationList.some((station) => Boolean(station.id));
+  const availableGenres = ["All genres", ...Array.from(new Set(stationList.map((station) => station.genre.split(" · ")[0]?.trim()).filter(Boolean)))];
+  const filteredStations = stationList.filter((station) => {
+    const query = stationSearch.trim().toLowerCase();
+    const matchesSearch = !query || [station.name, station.genre, station.status].some((value) => value.toLowerCase().includes(query));
+    const primaryGenre = station.genre.split(" · ")[0]?.trim() || "";
+    return matchesSearch && (genreFilter === "All genres" || primaryGenre === genreFilter);
+  });
+  const visibleStations = filteredStations.slice(0, visibleCount);
 
   return (
     <main className="shell">
@@ -71,12 +80,25 @@ export default function Home() {
 
       <section className="section" id="listen">
         <div className="section-head"><div><div className="eyebrow">THE AIRWAVES</div><h2>Find your frequency.</h2><p className="section-subtitle">Small stations. Big personalities. Discover a new sound.</p></div><span className="section-link">{hasCreatorStations ? "PUBLIC CREATOR STATIONS" : "STATION PREVIEW"}</span></div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, margin: "22px 0 18px" }}>
+          <label style={{ flex: "1 1 240px", minWidth: 0 }}>
+            <span className="eyebrow" style={{ display: "block", marginBottom: 7 }}>SEARCH STATIONS</span>
+            <input value={stationSearch} onChange={(event) => { setStationSearch(event.target.value); setVisibleCount(6); }} placeholder="Search names, genres or vibes…" aria-label="Search stations" style={{ width: "100%", minHeight: 44, boxSizing: "border-box", borderRadius: 8, border: "1px solid #34302d", background: "#141414", color: "#f5f0ec", padding: "0 13px", font: "inherit" }} />
+          </label>
+          <label style={{ flex: "0 1 210px", minWidth: "160px" }}>
+            <span className="eyebrow" style={{ display: "block", marginBottom: 7 }}>GENRE</span>
+            <select value={genreFilter} onChange={(event) => { setGenreFilter(event.target.value); setVisibleCount(6); }} aria-label="Filter stations by genre" style={{ width: "100%", minHeight: 44, borderRadius: 8, border: "1px solid #34302d", background: "#141414", color: "#f5f0ec", padding: "0 13px", font: "inherit" }}>
+              {availableGenres.map((genre) => <option key={genre} value={genre}>{genre}</option>)}
+            </select>
+          </label>
+        </div>
         <div className="station-grid">{visibleStations.map((station, index) => <Link className="station-card-link" href={station.id ? `/station/${station.id}` : "/login?mode=signup"} aria-label={station.id ? `Open ${station.name}` : `Preview ${station.name}; create an account to start a station`} key={station.id || station.name}><article className={`station ${station.style}`}>
           <div className="station-top"><span className="live-dot" />{station.status}<span className="station-number">{String(index + 1).padStart(2,"0")}</span></div>
           <div className="art" aria-hidden="true"><span className="art-ring ring-one"/><span className="art-ring ring-two"/><span className="art-center">{station.code}</span><span className="equalizer"><i/><i/><i/><i/><i/></span></div>
           <div className="station-bottom"><div><h3>{station.name}</h3><p>{station.genre}</p></div><span className="play" aria-label="Open station">→</span></div>
         </article></Link>)}</div>
-        <div className="load-more-wrap">{visibleCount < stationList.length ? <button className="load-more" onClick={() => setVisibleCount((count) => Math.min(count + 6, stationList.length))}>Load more stations <span>↓</span></button> : visibleCount > 6 ? <button className="load-more" onClick={() => setVisibleCount(6)}>Show fewer stations <span>↑</span></button> : null}</div>
+        {filteredStations.length === 0 && <p role="status" style={{ padding: "26px 0", color: "#aaa" }}>No stations match that search. Try another name or genre.</p>}
+        <div className="load-more-wrap">{visibleCount < filteredStations.length ? <button className="load-more" onClick={() => setVisibleCount((count) => Math.min(count + 6, filteredStations.length))}>Load more stations <span>↓</span></button> : visibleCount > 6 && filteredStations.length > 6 ? <button className="load-more" onClick={() => setVisibleCount(6)}>Show fewer stations <span>↑</span></button> : null}</div>
         <p className="note">{hasCreatorStations ? "Public creator stations are loaded from Vibez accounts. Live playback will be enabled when verified stream sources are connected." : "These are sample station designs, not live broadcasts. Create an account to build a real station; live playback requires a verified stream source."}</p>
       </section>
 
