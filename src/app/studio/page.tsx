@@ -39,6 +39,7 @@ export default function StudioPage() {
   const [playbackTime, setPlaybackTime] = useState(0);
   const [playbackDuration, setPlaybackDuration] = useState(0);
   const [currentTrack, setCurrentTrack] = useState(0);
+  const [draggedTrackId, setDraggedTrackId] = useState<number | null>(null);
   const [volume, setVolume] = useState(72);
   const [mic, setMic] = useState(false);
   const [crossfade, setCrossfade] = useState(4);
@@ -108,6 +109,20 @@ export default function StudioPage() {
       .catch(() => { if (!cancelled) setNotice("Your studio is open, but saved settings could not be loaded. Try refreshing."); });
     return () => { cancelled = true; };
   }, [session]);
+
+  function moveQueueTrack(fromId: number, toId: number) {
+    if (fromId === toId) return;
+    setTracks((items) => {
+      const from = items.findIndex((item) => item.id === fromId);
+      const to = items.findIndex((item) => item.id === toId);
+      if (from < 0 || to < 0) return items;
+      const next = [...items];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
+    setNotice("Queue order updated. Save queue to keep the new order on your account.");
+  }
 
   async function saveStation() {
     setSaving(true);
@@ -200,7 +215,7 @@ export default function StudioPage() {
 
             <section className="studio-panel" id="playlist"><div className="panel-heading"><div><span className="panel-kicker">02 / YOUR SOUND</span><h3>Music & queue</h3></div><span className="queue-count">{totalTracks.toString().padStart(2, "0")} TRACKS</span></div>
               <div className="queue-toolbar"><span>UP NEXT <small>· drag-and-drop ordering coming next</small></span><button className="small-ghost" onClick={() => setTracks([])}>Clear queue</button></div>
-              {tracks.length === 0 ? <div className="empty-queue">Your queue is empty. Add a track below to get started.</div> : <div className="track-list">{tracks.map((track, index) => <div className={`track-row ${index === currentTrack ? "selected" : ""}`} key={track.id}><button className="track-play" onClick={() => void playQueueTrack(index)} aria-label={`Play ${track.title}`}>▶</button><div className="track-title"><b>{track.title}</b><span>{track.artist}</span></div><span className="track-duration">{track.duration}</span><button className="remove-track" onClick={() => {setTracks((items) => items.filter((item) => item.id !== track.id));setCurrentTrack(0);}} aria-label={`Remove ${track.title}`}>×</button></div>)}</div>}
+              {tracks.length === 0 ? <div className="empty-queue">Your queue is empty. Add a track below to get started.</div> : <div className="track-list">{tracks.map((track, index) => <div className={`track-row ${index === currentTrack ? "selected" : ""} ${draggedTrackId === track.id ? "dragging" : ""}`} key={track.id} draggable onDragStart={(event) => { setDraggedTrackId(track.id); event.dataTransfer.effectAllowed = "move"; event.dataTransfer.setData("text/plain", String(track.id)); }} onDragOver={(event) => { event.preventDefault(); event.dataTransfer.dropEffect = "move"; }} onDrop={(event) => { event.preventDefault(); const sourceId = Number(event.dataTransfer.getData("text/plain")) || draggedTrackId; if (sourceId !== null) moveQueueTrack(sourceId, track.id); setDraggedTrackId(null); }} onDragEnd={() => setDraggedTrackId(null)}><button className="track-play" onClick={() => void playQueueTrack(index)} aria-label={`Play ${track.title}`}>▶</button><div className="track-title"><b>{track.title}</b><span>{track.artist}</span></div><span className="track-duration">{track.duration}</span><button className="remove-track" onClick={() => {setTracks((items) => items.filter((item) => item.id !== track.id));setCurrentTrack(0);}} aria-label={`Remove ${track.title}`}>×</button></div>)}</div>}
               <form className="add-track" onSubmit={(e) => {e.preventDefault();addTrack();}}><input className="studio-input" value={newTrack} onChange={(e) => setNewTrack(e.target.value)} placeholder="Track title" aria-label="New track title" required/><input className="studio-input" type="url" value={newTrackUrl} onChange={(e) => setNewTrackUrl(e.target.value)} placeholder="HTTPS audio file URL (optional)" aria-label="Direct audio file URL"/><button className="add-button" type="submit">+ Add</button></form>
               <div className="queue-save-row"><p className="fine-print">Queue entries are saved to your account. Add a direct HTTPS audio URL to try browser playback; use only audio you own or are licensed to stream.</p><button className="small-ghost" onClick={saveStation} disabled={saving}>{saving ? "Saving…" : "Save queue"}</button></div>
             </section>
