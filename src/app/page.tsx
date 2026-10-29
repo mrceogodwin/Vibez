@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type StationCard = { id?: string; name: string; genre: string; status: string; code: string; style: string };
 
@@ -52,9 +53,9 @@ export default function Home() {
   return (
     <main className="shell">
       <header className="nav">
-        <a className="brand" href="/" aria-label="Vibez home"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></a>
-        <nav aria-label="Main navigation"><a href="#listen">Listen</a><a href="#community">Communities</a><a href="/studio">Creator Studio</a></nav>
-        <div className="nav-actions"><a className="login" href="/login">Log in</a><a className="nav-join" href="/login?mode=signup">Join Vibez</a></div>
+        <Link className="brand" href="/" aria-label="Vibez home"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></Link>
+        <nav aria-label="Main navigation"><Link href="#listen">Listen</Link><Link href="#community">Communities</Link><Link href="/studio">Creator Studio</Link></nav>
+        <div className="nav-actions"><Link className="login" href="/login">Log in</Link><Link className="nav-join" href="/login?mode=signup">Join Vibez</Link></div>
       </header>
 
       <section className="hero">
@@ -62,7 +63,7 @@ export default function Home() {
           <div className="eyebrow"><span className="pulse" /> YOUR CITY. YOUR SOUND. YOUR PEOPLE.</div>
           <h1>Press play.<br /><span>Find your people.</span></h1>
           <p className="intro">A world of personal radio. Tune in to creators everywhere, find your people, or build a station of your own.</p>
-          <div className="hero-actions"><a className="primary" href="#listen">Explore stations <span>→</span></a><a className="secondary" href="/studio">Create your radio</a></div>
+          <div className="hero-actions"><Link className="primary" href="#listen">Explore stations <span>→</span></Link><Link className="secondary" href="/studio">Create your radio</Link></div>
           <div className="social-proof"><div className="avatars"><span>G</span><span>A</span><span>M</span><span>+</span></div><span>One world. A million frequencies.</span></div>
         </div>
         <div className="hero-art" aria-hidden="true"><div className="orb orb-one" /><div className="orb orb-two" /><div className="hero-sticker">YOUR SOUND.<br /><b>YOUR STATION.</b><span>✳</span></div><div className="sound-wave"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div></div>
@@ -70,29 +71,29 @@ export default function Home() {
 
       <section className="section" id="listen">
         <div className="section-head"><div><div className="eyebrow">THE AIRWAVES</div><h2>Find your frequency.</h2><p className="section-subtitle">Small stations. Big personalities. Discover a new sound.</p></div><span className="section-link">{hasCreatorStations ? "PUBLIC CREATOR STATIONS" : "STATION PREVIEW"}</span></div>
-        <div className="station-grid">{visibleStations.map((station, index) => <a className="station-card-link" href={station.id ? `/station/${station.id}` : "/login?mode=signup"} aria-label={station.id ? `Open ${station.name}` : `Preview ${station.name}; create an account to start a station`} key={station.id || station.name}><article className={`station ${station.style}`}>
+        <div className="station-grid">{visibleStations.map((station, index) => <Link className="station-card-link" href={station.id ? `/station/${station.id}` : "/login?mode=signup"} aria-label={station.id ? `Open ${station.name}` : `Preview ${station.name}; create an account to start a station`} key={station.id || station.name}><Linkrticle className={`station ${station.style}`}>
           <div className="station-top"><span className="live-dot" />{station.status}<span className="station-number">{String(index + 1).padStart(2,"0")}</span></div>
           <div className="art" aria-hidden="true"><span className="art-ring ring-one"/><span className="art-ring ring-two"/><span className="art-center">{station.code}</span><span className="equalizer"><i/><i/><i/><i/><i/></span></div>
           <div className="station-bottom"><div><h3>{station.name}</h3><p>{station.genre}</p></div><span className="play" aria-label="Open station">→</span></div>
-        </article></a>)}</div>
+        </article></Link>)}</div>
         <div className="load-more-wrap">{visibleCount < stationList.length ? <button className="load-more" onClick={() => setVisibleCount((count) => Math.min(count + 6, stationList.length))}>Load more stations <span>↓</span></button> : visibleCount > 6 ? <button className="load-more" onClick={() => setVisibleCount(6)}>Show fewer stations <span>↑</span></button> : null}</div>
         <p className="note">{hasCreatorStations ? "Public creator stations are loaded from Vibez accounts. Live playback will be enabled when verified stream sources are connected." : "These are sample station designs, not live broadcasts. Create an account to build a real station; live playback requires a verified stream source."}</p>
       </section>
 
-      <section className="creator-callout"><div className="creator-symbol">v.</div><div><div className="eyebrow">YOUR RADIO. YOUR RULES.</div><h2>Be the station everyone tunes into.</h2><p>Build your personal radio brand, prepare shows, shape your queue and grow a global audience from your own creator dashboard.</p></div><a className="primary" href="/studio">Open Creator Studio <span>→</span></a></section>
+      <section className="creator-callout"><div className="creator-symbol">v.</div><div><div className="eyebrow">YOUR RADIO. YOUR RULES.</div><h2>Be the station everyone tunes into.</h2><p>Build your personal radio brand, prepare shows, shape your queue and grow a global audience from your own creator dashboard.</p></div><Link className="primary" href="/studio">Open Creator Studio <span>→</span></Link></section>
 
       <section className="community" id="community">
-        <div><div className="eyebrow">MORE THAN THE MUSIC</div><h2>One big group chat.<br /><span>Thousands of little worlds.</span></h2><p>Find your people by sound, city, culture, and whatever is trending today. The room is better when you’re in it.</p><a href="/login?mode=signup" className="primary">Join the community <span>→</span></a></div>
+        <div><div className="eyebrow">MORE THAN THE MUSIC</div><h2>One big group chat.<br /><span>Thousands of little worlds.</span></h2><p>Find your people by sound, city, culture, and whatever is trending today. The room is better when you’re in it.</p><Link href="/login?mode=signup" className="primary">Join the community <span>→</span></Link></div>
         <div className="chat-card"><div className="chat-head"><div className="chat-icon">✳</div><div><b>The After Hours</b><small>Community · preview</small></div><span className="online">● COMMUNITY</span></div>
           <div className="chat-message"><span className="avatar orange">D</span><div><b>dammy.wav <small>preview</small></b><p>Who’s got the playlist for tonight? 👀</p></div></div>
           <div className="chat-message"><span className="avatar white">K</span><div><b>koko.jpg <small>preview</small></b><p>Say less. We outside 🎶</p></div></div>
           <div className="chat-message"><span className="avatar peach">T</span><div><b>tee.b <small>preview</small></b><p>Naija to the world, abeg 🇳🇬</p></div></div>
-          <div className="chat-compose"><span>Sign in to join the conversation</span><a className="send" href="/login" aria-label="Log in">+</a></div><p className="demo-note">Illustrative UI · accounts and messaging are being built</p>
+          <div className="chat-compose"><span>Sign in to join the conversation</span><Link className="send" href="/login" aria-label="Log in">+</Link></div><p className="demo-note">Illustrative UI · accounts and messaging are being built</p>
         </div>
       </section>
 
-      <section className="join" id="join"><div><div className="eyebrow">TUNE IN. LINK UP.</div><h2>Find your sound. Make it yours.</h2><p>Listen to creators or start building your own radio station on Vibez.</p><div className="hero-actions"><a className="primary" href="/login?mode=signup">Create an account <span>→</span></a><a className="secondary" href="/studio">Creator Studio</a></div></div><span className="join-mark">v.</span></section>
-      <footer id="about"><a className="brand" href="/"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></a><span>Good sounds. Real people. Better nights.</span><div className="footer-links"><a href="/login">Log in</a><a href="/studio">Creator Studio</a><span>© 2026 Vibez</span></div></footer>
+      <section className="join" id="join"><div><div className="eyebrow">TUNE IN. LINK UP.</div><h2>Find your sound. Make it yours.</h2><p>Listen to creators or start building your own radio station on Vibez.</p><div className="hero-actions"><Link className="primary" href="/login?mode=signup">Create an account <span>→</span></Link><Link className="secondary" href="/studio">Creator Studio</Link></div></div><span className="join-mark">v.</span></section>
+      <footer id="about"><Link className="brand" href="/"><span className="brandmark">v.</span> vibez<span className="brand-dot">●</span></Link><span>Good sounds. Real people. Better nights.</span><div className="footer-links"><Link href="/login">Log in</Link><Link href="/studio">Creator Studio</Link><span>© 2026 Vibez</span></div></footer>
     </main>
   );
 }
