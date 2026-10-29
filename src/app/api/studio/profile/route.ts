@@ -11,6 +11,17 @@ async function currentUser() {
   return session?.user ?? null;
 }
 
+function normalizeAudioUrl(value: unknown) {
+  if (typeof value !== "string" || value.length > 2048) return "";
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== "https:" || parsed.username || parsed.password) return "";
+    return parsed.toString();
+  } catch {
+    return "";
+  }
+}
+
 export async function GET() {
   try {
     const user = await currentUser();
@@ -68,9 +79,7 @@ export async function PUT(request: Request) {
             title: typeof track.title === "string" ? track.title.trim().slice(0, 180) : "",
             artist: typeof track.artist === "string" ? track.artist.trim().slice(0, 140) : "",
             duration: typeof track.duration === "string" ? track.duration.slice(0, 20) : "—",
-            audioUrl: typeof track.audioUrl === "string" && track.audioUrl.startsWith("https://") && track.audioUrl.length <= 2048
-              ? track.audioUrl
-              : "",
+            audioUrl: normalizeAudioUrl(track.audioUrl),
           };
         }).filter((track: {title:string}) => track.title.length > 0)
       : [];
