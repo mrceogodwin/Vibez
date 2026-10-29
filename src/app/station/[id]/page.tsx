@@ -25,6 +25,7 @@ export default function StationPage() {
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(80);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,6 +57,7 @@ export default function StationPage() {
     if (!audio) return;
     try {
       if (audio.src !== track.audioUrl) audio.src = track.audioUrl;
+      audio.volume = Math.max(0, Math.min(100, volume)) / 100;
       await audio.play();
       setPlaying(true);
       setNotice("");
@@ -104,6 +106,7 @@ export default function StationPage() {
               <input aria-label="Seek through track" type="range" min="0" max={duration || 0} step="0.1" value={Math.min(currentTime, duration || 0)} disabled={!duration} onChange={(event) => { const value = Number(event.target.value); if (audioRef.current && Number.isFinite(value)) { audioRef.current.currentTime = value; setCurrentTime(value); } }} style={{ minWidth: 0, flex: 1, accentColor: "#ff6b35" }} />
               <span>{clock(duration)}</span>
             </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 14, color: "#999", fontSize: 11 }}><label htmlFor="listener-volume">Volume</label><input id="listener-volume" aria-label="Listener volume" type="range" min="0" max="100" value={volume} onChange={(event) => { const value = Number(event.target.value); setVolume(value); if (audioRef.current) audioRef.current.volume = Math.max(0, Math.min(100, value)) / 100; }} style={{ minWidth: 0, flex: 1, accentColor: "#ff6b35" }} /><span>{volume}%</span></div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16, gap: 12 }}>
               <span style={{ color: "#999", fontSize: 11 }}>{station.queue?.length ?? 0} queue items</span>
               <button className="small-ghost" onClick={() => { const url = window.location.href; void navigator.clipboard?.writeText(url).then(() => setShareNotice("Station link copied.")).catch(() => setShareNotice(url)); }}>Copy station link ↗</button>
