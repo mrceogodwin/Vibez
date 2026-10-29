@@ -110,10 +110,14 @@ export default function StationPage() {
                 <b style={{ display: "block", marginTop: 6, overflowWrap: "anywhere" }}>{selectedTrack?.title || "No track selected"}</b>
                 <span style={{ color: "#999", fontSize: 12 }}>{selectedTrack?.artist || "The creator has not added tracks yet"}</span>
               </div>
-              <button className="play" style={{ width: 44, height: 44, flexShrink: 0, cursor: "pointer" }} aria-label={playing ? "Pause station audio" : "Play station audio"} onClick={async () => {
-                if (playing && audioRef.current) { audioRef.current.pause(); setPlaying(false); }
-                else await playTrack(currentTrack);
-              }}>{playing ? "Ⅱ" : "▶"}</button>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                <button type="button" className="small-ghost" style={{ minWidth: 34, height: 40, padding: "0 9px" }} aria-label="Previous track" title="Previous track" disabled={!station.queue?.length || currentTrack <= 0} onClick={() => void playTrack(Math.max(0, currentTrack - 1))}>|◀</button>
+                <button type="button" className="play" style={{ width: 44, height: 44, flexShrink: 0, cursor: "pointer" }} aria-label={playing ? "Pause station audio" : "Play station audio"} onClick={async () => {
+                  if (playing && audioRef.current) { audioRef.current.pause(); setPlaying(false); }
+                  else await playTrack(currentTrack);
+                }}>{playing ? "Ⅱ" : "▶"}</button>
+                <button type="button" className="small-ghost" style={{ minWidth: 34, height: 40, padding: "0 9px" }} aria-label="Next track" title="Next track" disabled={!station.queue?.length || currentTrack >= station.queue.length - 1} onClick={() => void playTrack(Math.min((station.queue?.length ?? 1) - 1, currentTrack + 1))}>▶|</button>
+              </div>
             </div>
             <audio ref={audioRef} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime || 0)} onLoadedMetadata={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onEnded={nextTrack} onPause={() => setPlaying(false)} onPlay={() => setPlaying(true)} onError={() => { setPlaying(false); setNotice("Audio source failed to load. The host may block playback or the URL may not point to a supported audio file."); }} />
             <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#999", fontSize: 10 }}>
