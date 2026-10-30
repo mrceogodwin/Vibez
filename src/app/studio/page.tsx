@@ -203,6 +203,33 @@ export default function StudioPage() {
     setNotice("Queue order updated. Save queue to keep the new order on your account.");
   }
 
+  async function deleteStation() {
+    if (!stationId || !window.confirm("Permanently delete this station and its saved queue? This cannot be undone.")) return;
+    setSaving(true);
+    setNotice("");
+    try {
+      const response = await fetch(`/api/stations/${encodeURIComponent(stationId)}`, { method: "DELETE" });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Could not delete your station.");
+      audioRef.current?.pause();
+      if (audioRef.current) {
+        audioRef.current.removeAttribute("src");
+        audioRef.current.load();
+      }
+      setStationId("");
+      setTracks([]);
+      setCurrentTrack(0);
+      setIsPlaying(false);
+      setPlaybackTime(0);
+      setPlaybackDuration(0);
+      setNotice("Your station and saved queue have been deleted. You can create a new station by saving its setup.");
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Could not delete your station.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   async function saveStation() {
     setSaving(true);
     setNotice("");
@@ -300,7 +327,7 @@ export default function StudioPage() {
               <label className="field-label" htmlFor="station-name">Station name</label><input id="station-name" className="studio-input" value={stationName} onChange={(e) => setStationName(e.target.value)} maxLength={48}/>
               <label className="field-label" htmlFor="station-tagline">Tagline</label><input id="station-tagline" className="studio-input" value={tagline} onChange={(e) => setTagline(e.target.value)} maxLength={90}/>
               <div className="field-pair"><div><label className="field-label" htmlFor="station-category">Main genre</label><select id="station-category" className="studio-input" value={category} onChange={(e) => setCategory(e.target.value)}><option>Afrobeats</option><option>Hip-hop</option><option>R&B / Soul</option><option>Gospel</option><option>Electronic</option><option>Talk & culture</option><option>Mixed genres</option></select></div><div><label className="field-label" htmlFor="station-visibility">Discovery</label><select id="station-visibility" className="studio-input" value={visibility} onChange={(e) => setVisibility(e.target.value)}><option>Public</option><option>Unlisted</option><option>Private</option></select></div></div>
-              <div className="station-preview"><div className="mini-art">v.</div><div><b>{stationName || "Your station"}</b><p>{tagline || "Your station tagline"}</p><span>{category.toUpperCase()} · {visibility.toUpperCase()}</span></div><button className="small-ghost" onClick={saveStation} disabled={saving}>{saving ? "Saving…" : "Save setup"}</button></div>
+              <div className="station-preview"><div className="mini-art">v.</div><div><b>{stationName || "Your station"}</b><p>{tagline || "Your station tagline"}</p><span>{category.toUpperCase()} · {visibility.toUpperCase()}</span></div><button className="small-ghost" onClick={saveStation} disabled={saving}>{saving ? "Saving…" : "Save setup"}</button>{stationId && <button className="small-ghost" onClick={deleteStation} disabled={saving}>Delete station</button>}</div>
               {stationId && visibility !== "Private" && <div className="station-share-row"><div><span>{visibility === "Unlisted" ? "UNLISTED STATION LINK" : "PUBLIC STATION LINK"}</span><code>{typeof window !== "undefined" ? `${window.location.origin}/station/${stationId}` : `/station/${stationId}`}</code></div><button className="small-ghost" onClick={async () => { const url = `${window.location.origin}/station/${stationId}`; try { await navigator.clipboard.writeText(url); setNotice(`${visibility} station link copied.`); } catch { setNotice(url); } }}>Copy link</button></div>}
               {stationId && visibility === "Unlisted" && <p className="fine-print">Your unlisted station is hidden from discovery, but anyone with its link can open it.</p>}
               {stationId && visibility === "Private" && <p className="fine-print">Your private station is hidden from discovery and cannot be opened from its station link.</p>}
