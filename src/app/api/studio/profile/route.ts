@@ -50,9 +50,19 @@ export async function PUT(request: Request) {
   }
   if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
 
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  const maxBodyBytes = 1024 * 1024;
+  if (Number.isFinite(contentLength) && contentLength > maxBodyBytes) {
+    return NextResponse.json({ error: "Station settings payload is too large. Keep it under 1 MB." }, { status: 413 });
+  }
+
   let body: unknown;
   try {
-    body = await request.json();
+    const rawBody = await request.text();
+    if (new TextEncoder().encode(rawBody).byteLength > maxBodyBytes) {
+      return NextResponse.json({ error: "Station settings payload is too large. Keep it under 1 MB." }, { status: 413 });
+    }
+    body = JSON.parse(rawBody);
   } catch {
     return NextResponse.json({ error: "Request body must be valid JSON." }, { status: 400 });
   }
