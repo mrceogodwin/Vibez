@@ -37,3 +37,34 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
     return NextResponse.json({ error: "Station details are temporarily unavailable." }, { status: 503 });
   }
 }
+
+
+export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
+  let user: { id: string } | null;
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    user = session?.user ?? null;
+  } catch {
+    return NextResponse.json({ error: "Could not verify your session. Please sign in again." }, { status: 503 });
+  }
+
+  if (!user) return NextResponse.json({ error: "Sign in required." }, { status: 401 });
+
+  const { id } = await context.params;
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) {
+    return NextResponse.json({ error: "Station not found." }, { status: 404 });
+  }
+
+  try {
+    const sql = getDb();
+    const rows = await sql`
+      DELETE FROM creator_station_profiles
+      WHERE id = ${id} AND owner_id = ${user.id}
+      RETURNING id
+    `;
+    if (!rows.length) return NextResponse.json({ error: "Station not found or you do not have permission to delete it." }, { status: 404 });
+    return NextResponse.json({ deleted: true, id: rows[0].id }, { headers: { "Cache-Control": "private, no-store, max-age=0" } });
+  } catch {
+    return NextResponse.json({ error: "Could not delete this station right now. Please try again." }, { status: 503 });
+  }
+}
