@@ -1,63 +1,67 @@
-import { ArrowRight, ArrowUpRight, CalendarDays, ChevronDown, MapPin, Play, Search, Ticket, Zap } from "lucide-react";
+"use client";
+
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X } from "lucide-react";
 
 const events = [
-  { name: "The Mainland Block Party", category: "MUSIC · NIGHTLIFE", city: "Lagos", date: "NOV 22", price: "₦8,000", image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85", featured: true },
-  { name: "Palmwine & Poetry", category: "CULTURE · LIVE", city: "Abuja", date: "NOV 29", price: "₦5,000", image: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1000&q=85" },
-  { name: "After Dark: The Experience", category: "NIGHTLIFE", city: "Port Harcourt", date: "DEC 06", price: "₦12,000", image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1000&q=85" },
-  { name: "The Culture Festival", category: "FESTIVAL · CULTURE", city: "Lagos", date: "DEC 14", price: "₦15,000", image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1000&q=85" },
+  { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick" },
+  { slug:"palmwine-poetry",name:"Palmwine & Poetry",category:"Arts & Culture",city:"Abuja",date:"29 Nov 2026",price:"₦5,000",image:"https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1000&q=85",tag:"Live experience" },
+  { slug:"after-dark-experience",name:"After Dark: The Experience",category:"Nightlife",city:"Port Harcourt",date:"06 Dec 2026",price:"₦12,000",image:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1000&q=85",tag:"Popular" },
+  { slug:"culture-festival",name:"The Culture Festival",category:"Festivals",city:"Lagos",date:"14 Dec 2026",price:"₦15,000",image:"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1000&q=85",tag:"Festival" },
 ];
 
-const categories = ["Concerts", "Nightlife", "Festivals", "Comedy", "Arts & Culture", "Conferences"];
+const categories = ["All events","Concerts","Nightlife","Festivals","Comedy","Arts & Culture","Conferences"];
+const organisers = [
+  {name:"LiveSpot Events",count:"120+ events",mark:"L",tone:"violet"},
+  {name:"Mavin Events",count:"85+ events",mark:"M",tone:"gold"},
+  {name:"Flytime Live",count:"60+ events",mark:"F",tone:"red"},
+  {name:"Chocolate City",count:"45+ events",mark:"C",tone:"dark"},
+];
 
 export default function Home() {
-  return (
-    <main>
-      <header className="site-header">
-        <a className="brand" href="#"><span className="brand-mark">V</span>Vibez<span className="brand-dot">.</span></a>
-        <nav className="desktop-nav"><a className="active" href="#discover">Discover</a><a href="#events">Events</a><a href="#experiences">Experiences</a><a href="#vybz-tv">Vibez TV</a></nav>
-        <div className="header-actions"><a className="organiser-link" href="#organisers">For organisers <ArrowUpRight size={14}/></a><a className="sign-in" href="#signin">Sign in</a><button className="menu-button" aria-label="Open menu">☰</button></div>
-      </header>
+  const [query,setQuery]=useState("");
+  const [city,setCity]=useState("All locations");
+  const [category,setCategory]=useState("All events");
+  const [menuOpen,setMenuOpen]=useState(false);
+  const [email,setEmail]=useState("");
+  const [subscribed,setSubscribed]=useState(false);
+  const filtered=useMemo(()=>events.filter(event=>(category==="All events"||event.category===category)&&(city==="All locations"||event.city===city)&&(!query||[event.name,event.category,event.city].join(" ").toLowerCase().includes(query.toLowerCase()))),[category,city,query]);
 
-      <section className="hero" id="discover">
-        <div className="hero-image" />
-        <div className="hero-shade" />
-        <div className="hero-content">
-          <div className="eyebrow"><span className="live-dot"/> THE CITY IS YOURS</div>
-          <h1>MAKE ROOM<br/>FOR <em>GOOD</em> TIMES.</h1>
-          <p className="hero-copy">The events you want to be at.<br/>The moments you don’t want to miss.</p>
-          <div className="hero-ctas"><a className="button button-light" href="#events">Explore events <ArrowUpRight size={17}/></a><a className="text-link" href="#organisers">I'm an organiser <ArrowRight size={16}/></a></div>
-        </div>
-        <div className="hero-bottom"><span>01 — 04&nbsp;&nbsp; CURATED EXPERIENCES</span><span>SCROLL TO EXPLORE&nbsp; ↓</span></div>
-      </section>
+  return <main className="light-site">
+    <header className="light-header">
+      <Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link>
+      <nav className={menuOpen?"light-nav nav-open":"light-nav"}><a className="nav-current" href="#discover" onClick={()=>setMenuOpen(false)}>Home</a><a href="#events" onClick={()=>setMenuOpen(false)}>Events</a><a href="#discover" onClick={()=>setMenuOpen(false)}>Discover</a><a href="#organisers" onClick={()=>setMenuOpen(false)}>Organisers</a><a href="#vibez-tv" onClick={()=>setMenuOpen(false)}>Vibez TV</a></nav>
+      <div className="light-header-actions"><a className="icon-search" href="#event-search" aria-label="Search events"><Search size={19}/></a><Link className="login-link" href="/signin">Log in</Link><Link className="create-event-btn" href="/organiser">＋ Create event</Link><button className="mobile-menu" onClick={()=>setMenuOpen(!menuOpen)} aria-label={menuOpen?"Close menu":"Open menu"}>{menuOpen?<X/>:<Menu/>}</button></div>
+    </header>
 
-      <section className="search-section">
-        <div className="search-intro"><span className="eyebrow muted">FIND YOUR NEXT Vibez</span><h2>What’s happening<br/><span>around you?</span></h2></div>
-        <div className="search-panel">
-          <label><span>SEARCH</span><div><Search size={17}/><input placeholder="Artists, events, venues..." /></div></label>
-          <label><span>LOCATION</span><div><MapPin size={17}/><select defaultValue=""><option value="" disabled>All locations</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Benin City</option></select><ChevronDown size={15}/></div></label>
-          <label><span>WHEN</span><div><CalendarDays size={17}/><select defaultValue=""><option value="" disabled>Any date</option><option>This weekend</option><option>This month</option></select><ChevronDown size={15}/></div></label>
-          <button className="search-button"><Search size={17}/> Find events</button>
-        </div>
-      </section>
+    <section className="light-hero" id="discover">
+      <div className="hero-left"><span className="light-eyebrow">EVENTS · TICKETS · EXPERIENCES</span><h1>Find your next<br/><em>Vibez.</em></h1><p>Discover concerts, parties, festivals, shows and unique experiences across Nigeria.</p>
+        <form className="hero-search" id="event-search" onSubmit={e=>{e.preventDefault();document.getElementById("events")?.scrollIntoView({behavior:"smooth"});}}>
+          <Search size={19}/><input aria-label="Search events, artists or locations" placeholder="Search events, artists, or locations..." value={query} onChange={e=>setQuery(e.target.value)}/><button type="submit">Search</button>
+        </form>
+        <div className="hero-stats"><div><strong>Discover</strong><span>Events across Nigeria</span></div><div><strong>Book securely</strong><span>Digital tickets</span></div><div><strong>Stay in it</strong><span>Experiences & media</span></div></div>
+      </div>
+      <Link className="hero-feature" href="/events/mainland-block-party"><div className="feature-image"/><div className="feature-overlay"/><span className="feature-pill">✦ FEATURED EXPERIENCE</span><div className="feature-copy"><span>VIBEZ SPOTLIGHT</span><h2>Make memories<br/>that move you.</h2><p>Explore standout experiences and find your next night out.</p><span className="feature-cta">Explore events <ArrowRight size={16}/></span></div><span className="feature-dots">● ○ ○</span></Link>
+    </section>
 
-      <section className="events-section section-wrap" id="events">
-        <div className="section-heading"><div><span className="eyebrow muted">DON’T HEAR IT LAST</span><h2>Trending <span>right now.</span></h2></div><a className="view-all" href="#all-events">Explore all events <ArrowUpRight size={16}/></a></div>
-        <div className="category-row">{categories.map((category, i)=><a className={i===0?"category active-category":"category"} href="#events" key={category}>{category}<ArrowUpRight size={12}/></a>)}</div>
-        <div className="event-grid">{events.map((event,i)=><article className={i===0?"event-card featured-card":"event-card"} key={event.name}>
-          <a className="event-image" href="/events/mainland-block-party" style={{backgroundImage:"linear-gradient(180deg,transparent 48%,rgba(0,0,0,.72)),url('"+event.image+"')"}}>
-            <span className="event-date">{event.date}</span>{event.featured&&<span className="featured-label"><Zap size={11}/> Vibez PICK</span>}<span className="event-open"><ArrowUpRight size={18}/></span>
-          </a>
-          <div className="event-meta">{event.category}<span>{event.city}</span></div><h3>{event.name}</h3><div className="event-foot"><strong>From {event.price}</strong><a href="/events/palmwine-poetry">Get tickets <ArrowRight size={14}/></a></div>
-        </article>)}</div>
-      </section>
+    <section className="category-strip" aria-label="Event categories">{[{name:"Music & concerts",symbol:"♫",tone:"lilac"},{name:"Parties & nightlife",symbol:"✦",tone:"pink"},{name:"Comedy & shows",symbol:"☻",tone:"peach"},{name:"Movies & screenings",symbol:"▣",tone:"blue"},{name:"Gaming & esports",symbol:"⌘",tone:"lilac"},{name:"Sports & wellness",symbol:"↗",tone:"green"},{name:"Arts & culture",symbol:"◉",tone:"peach"},{name:"Business",symbol:"▤",tone:"blue"}].map(item=><a className={"category-tile "+item.tone} href="#events" key={item.name} onClick={()=>setCategory(item.name.toLowerCase().includes("music")?"Concerts":item.name.toLowerCase().includes("parties")?"Nightlife":item.name.toLowerCase().includes("arts")?"Arts & Culture":"All events")}><b>{item.symbol}</b><span>{item.name}</span></a>)}</section>
 
-      <section className="experience-band" id="experiences"><div className="experience-copy"><span className="eyebrow">MORE THAN A TICKET</span><h2>BE THERE.<br/><em>FEEL THAT.</em><br/>KEEP IT FOREVER.</h2><p>From the first beat to the encore. Discover experiences worth showing up for — and relive the ones you missed.</p><a className="button button-outline" href="#vybz-tv">Explore experiences <ArrowUpRight size={16}/></a></div><div className="experience-visual"><div className="experience-photo"/><div className="photo-caption"><span>THE NIGHT IS STILL YOUNG</span><span>Vibez ORIGINALS / 001</span></div></div></section>
+    <section className="ad-slot ad-top" aria-label="Sponsored placement"><div className="ad-label">ADVERTISEMENT</div><div className="ad-top-copy"><span>VIBEZ BRAND PARTNER</span><strong>Your brand belongs in the middle of the moment.</strong><small>Reach people discovering their next experience.</small></div><div className="ad-top-action"><span>SPONSORED</span><a href="/advertise">Advertise with Vibez <ArrowUpRight size={15}/></a></div></section>
 
-      <section className="organiser-section section-wrap" id="organisers"><div><span className="eyebrow muted">BUILT FOR THE PEOPLE WHO MAKE IT HAPPEN</span><h2>Your event.<br/><span>Our platform.</span></h2><p>Publish your event, sell tickets, manage your guests and track every sale — all from one place.</p><a className="button button-light" href="#organiser-start">Start organising <ArrowUpRight size={16}/></a></div><div className="organiser-stats"><div><strong>01</strong><span>LIST YOUR EVENT</span></div><div><strong>02</strong><span>SELL TICKETS</span></div><div><strong>03</strong><span>OWN THE MOMENT</span></div></div></section>
+    <section className="light-section" id="events"><div className="light-section-heading"><div><span className="light-eyebrow">DON’T HEAR IT LAST</span><h2>Trending <em>events.</em></h2></div><a href="/events">View all events <ArrowRight size={16}/></a></div>
+      <div className="event-controls"><div className="category-filters">{categories.map(item=><button key={item} className={category===item?"filter-active":""} onClick={()=>setCategory(item)}>{item}</button>)}</div><label className="city-select"><MapPin size={15}/><select value={city} onChange={e=>setCity(e.target.value)}><option>All locations</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option></select><ChevronDown size={14}/></label></div>
+      {filtered.length?<div className="light-event-grid">{filtered.map(event=><article className="light-event-card" key={event.slug}><Link className="light-event-image" href={"/events/"+event.slug} style={{backgroundImage:"linear-gradient(180deg,transparent 48%,rgba(0,0,0,.5)),url('"+event.image+"')"}}><span className="event-tag">{event.tag}</span><span className="event-heart">♡</span></Link><div className="light-event-body"><div className="light-event-meta"><span>{event.category.toUpperCase()}</span><span>{event.city}</span></div><h3>{event.name}</h3><div className="light-event-detail"><span><CalendarDays size={14}/>{event.date}</span><span><MapPin size={14}/>{event.city}</span></div><div className="light-event-bottom"><strong>From {event.price}</strong><Link href={"/events/"+event.slug}>Get tickets <ArrowRight size={14}/></Link></div></div></article>)}</div>:<div className="empty-events">No matching events in this selection. Try another category or location.</div>}
+    </section>
 
-      <section className="tv-section section-wrap" id="vybz-tv"><div className="section-heading"><div><span className="eyebrow muted">THE SHOW GOES ON</span><h2>Press play on <span>Vibez TV.</span></h2></div><a className="view-all" href="#watch">Explore Vibez TV <ArrowUpRight size={16}/></a></div><div className="tv-feature"><div className="tv-image"><button aria-label="Play featured video"><Play fill="currentColor" size={22}/></button></div><div className="tv-copy"><span className="eyebrow">AFTERMOVIES · LIVE SESSIONS · STORIES</span><h3>The moments<br/>don’t end here.</h3><p>Watch the highlights, discover new sounds and get closer to the experiences that move culture.</p><a className="text-link" href="#watch">Discover the stories <ArrowRight size={16}/></a></div></div></section>
+    <section className="ad-banner" aria-label="Sponsored brand banner"><div className="ad-banner-text"><span className="sponsored-kicker">SPONSORED · BRAND PARTNER</span><h2>Make your brand<br/>part of the <em>Vibez.</em></h2><p>Connect with audiences who show up for culture, music and experiences.</p><a href="/advertise">Explore advertising <ArrowUpRight size={16}/></a></div><div className="ad-banner-art"><span>YOUR BRAND<br/>HERE</span><small>CAMPAIGN PLACEMENT</small></div></section>
 
-      <footer className="footer"><a className="brand" href="#"><span className="brand-mark">V</span>Vibez<span className="brand-dot">.</span></a><span>EVENTS · TICKETS · EXPERIENCES</span><div><a href="#events">Discover</a><a href="#organisers">Organisers</a><a href="#vybz-tv">Vibez TV</a><a href="#help">Help</a></div><small>© 2026 Vibez. FIND YOUR PEOPLE. FIND YOUR Vibez.</small></footer>
-    </main>
-  );
+    <section className="organiser-light" id="organisers"><div className="light-section-heading"><div><span className="light-eyebrow">THE PEOPLE BEHIND THE MOMENTS</span><h2>Featured <em>organisers.</em></h2></div><a href="/organisers">View all organisers <ArrowRight size={16}/></a></div><div className="organiser-grid">{organisers.map(org=><article className="organiser-card" key={org.name}><div className={"organiser-avatar "+org.tone}>{org.mark}</div><div className="organiser-info"><strong>{org.name} <CheckCircle2 size={14}/></strong><span>Verified organiser</span><small>{org.count}</small></div><button onClick={e=>{const b=e.currentTarget;b.textContent=b.textContent==="Following"?"Follow":"Following";}}>Follow</button></article>)}</div></section>
+
+    <section className="newsletter-band"><div><span className="light-eyebrow">GOOD THINGS, STRAIGHT TO YOUR INBOX</span><h2>Stay in the <em>Vibez.</em></h2><p>Get event drops, exclusive ticket offers and experiences worth showing up for.</p></div><form onSubmit={e=>{e.preventDefault();if(email.includes("@"))setSubscribed(true);}}><label htmlFor="newsletter-email">Your email address</label><div><input id="newsletter-email" type="email" required placeholder="you@example.com" value={email} onChange={e=>setEmail(e.target.value)}/><button>{subscribed?"You're on the list":"Subscribe"}</button></div><small>{subscribed?"Thanks for your interest. Newsletter signup will be enabled at launch.":"No spam. Just the good stuff."}</small></form></section>
+
+    <section className="vibez-tv-light" id="vibez-tv"><div className="tv-light-image"><span>VIBEZ TV</span></div><div className="tv-light-copy"><span className="light-eyebrow">THE SHOW GOES ON</span><h2>Relive the moments.<br/><em>Discover what’s next.</em></h2><p>Concert highlights, interviews, performances and stories from the experiences shaping culture.</p><a href="/tv">Explore Vibez TV <ArrowRight size={16}/></a></div></section>
+
+    <footer className="light-footer"><div className="footer-brand-col"><Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link><p>Nigeria’s home for discovering events, buying tickets and staying connected to the experiences you love.</p><div className="social-links"><a href="#instagram">ig</a><a href="#tiktok">tk</a><a href="#youtube">▶</a><a href="#x">𝕏</a></div></div><div className="footer-col"><strong>Explore</strong><a href="#events">Events</a><a href="#discover">Discover</a><a href="/organisers">Organisers</a><a href="/tv">Vibez TV</a></div><div className="footer-col"><strong>For organisers</strong><a href="/organiser">Create an event</a><a href="/pricing">Pricing</a><a href="/organiser-guide">Organiser guide</a><a href="/support">Support</a></div><div className="footer-col"><strong>Company</strong><a href="/about">About Vibez</a><a href="/contact">Contact</a><a href="/privacy">Privacy policy</a><a href="/terms">Terms of service</a></div><div className="footer-bottom"><span>© 2026 Vibez. All rights reserved.</span><span>Made for the moments that matter. <b>NG</b></span></div></footer>
+  </main>;
 }
