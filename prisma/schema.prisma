@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  ORGANIZER
+  STAFF
+  SUPER_ADMIN
+}
+
+enum EventStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  REJECTED
+  CANCELLED
+  COMPLETED
+  ARCHIVED
+}
+
+enum TicketStatus {
+  VALID
+  USED
+  CANCELLED
+  REFUNDED
+}
+
+model User {
+  id              String   @id @default(cuid())
+  name            String?
+  email           String   @unique
+  image           String?
+  role            UserRole @default(CUSTOMER)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  organizedEvents Event[]  @relation("EventOrganizer")
+  orders          Order[]
+}
+
+model Event {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  title       String
+  summary     String?     @db.VarChar(280)
+  description String      @db.Text
+  category    String
+  city        String
+  venue       String
+  address     String?
+  startsAt    DateTime
+  endsAt      DateTime?
+  coverImage  String?
+  status      EventStatus @default(DRAFT)
+  isFeatured  Boolean     @default(false)
+  organizerId String
+  organizer   User        @relation("EventOrganizer", fields: [organizerId], references: [id])
+  ticketTypes TicketType[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  @@index([status, startsAt])
+  @@index([city, category])
+}
+
+model TicketType {
+  id          String   @id @default(cuid())
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  priceKobo   Int
+  quantity    Int
+  sold        Int      @default(0)
+  salesStart  DateTime?
+  salesEnd    DateTime?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  tickets     Ticket[]
+  @@index([eventId, isActive])
+}
+
+model Order {
+  id               String   @id @default(cuid())
+  reference        String   @unique
+  userId           String?
+  user             User?    @relation(fields: [userId], references: [id])
+  customerName     String
+  customerEmail    String
+  amountKobo       Int
+  currency         String   @default("NGN")
+  paymentProvider  String   @default("paystack")
+  paymentReference String?  @unique
+  paymentStatus    String   @default("PENDING")
+  createdAt        DateTime @default(now())
+  tickets          Ticket[]
+  @@index([customerEmail, createdAt])
+}
+
+model Ticket {
+  id           String       @id @default(cuid())
+  publicCode   String       @unique
+  qrToken      String       @unique
+  orderId      String
+  order        Order        @relation(fields: [orderId], references: [id])
+  ticketTypeId String
+  ticketType   TicketType   @relation(fields: [ticketTypeId], references: [id])
+  status       TicketStatus @default(VALID)
+  checkedInAt  DateTime?
+  createdAt    DateTime     @default(now())
+  @@index([ticketTypeId, status])
+}
