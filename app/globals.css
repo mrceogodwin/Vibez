@@ -172,3 +172,30 @@
 .load-more-events{display:inline-flex;align-items:center;gap:10px;border:1px solid #e4e1eb;background:linear-gradient(145deg,#fff,#f6f4f9);color:#17171c;border-radius:24px;padding:12px 19px;font-size:11px;font-weight:700;box-shadow:0 3px 0 #e8e5ed,0 7px 16px #17121f0a;cursor:pointer}
 .load-more-events:hover{transform:translateY(-1px);box-shadow:0 4px 0 #e8e5ed,0 9px 18px #17121f12}
 @media(max-width:760px){.event-search-tools{width:100%;display:flex;align-items:center;gap:9px;margin-top:11px}.event-inline-search{height:42px;flex:1;width:auto}.event-inline-search input{font-size:10px}.event-search-tools .city-select{margin-left:0;flex-shrink:0;height:42px}.load-more-wrap{padding:19px 0 2px}.load-more-events{padding:11px 17px}}
+
+
+/* Mobile layout safety + raised tactile controls */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.light-site{width:100%;max-width:100%;min-width:0;overflow-x:clip}
+.light-site>section,.light-site>header,.light-site>.premium-ticker{max-width:100%;min-width:0}
+.light-site img,.light-site svg{max-width:100%}
+.portrait-ad-section{width:100%;min-width:0;padding-inline:clamp(18px,5.2vw,72px);overflow:hidden}
+.portrait-ad-heading{min-width:0}
+.portrait-ad-heading>div{min-width:0;max-width:100%}
+.portrait-ad-heading>a{background:linear-gradient(145deg,#fff,#f0edf4);color:#24212a;border:1px solid #e6e1eb;box-shadow:0 3px 0 #dcd6e3,0 7px 15px #241a3214,inset 0 1px 0 #fff;transition:transform .16s ease,box-shadow .16s ease}
+.portrait-ad-heading>a:hover{transform:translateY(-2px);box-shadow:0 5px 0 #d8d1e0,0 10px 18px #241a321a,inset 0 1px 0 #fff}
+.portrait-ad-heading>a:active{transform:translateY(2px);box-shadow:0 1px 0 #d8d1e0,0 3px 7px #241a3214}
+.ticket-type-card,.load-more-events,.light-event-bottom a,.feature-cta,.ad-top-action a,.ad-banner-text>a,.promotions-cta,.promotions-footer-cta>a{transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}
+.ticket-type-card:active,.load-more-events:active,.light-event-bottom a:active,.feature-cta:active,.ad-top-action a:active,.ad-banner-text>a:active,.promotions-cta:active,.promotions-footer-cta>a:active{transform:translateY(2px);filter:brightness(.98)}
+@media(max-width:760px){
+ .portrait-ad-section{padding:30px 5% 34px}
+ .portrait-ad-heading{align-items:flex-start;flex-direction:column;gap:14px}
+ .portrait-ad-heading h2{max-width:100%;overflow-wrap:anywhere}
+ .portrait-ad-heading p{max-width:100%}
+ .portrait-ad-heading>a{min-height:43px;padding:12px 17px;font-size:10px}
+ .portrait-ad-grid{width:100%;min-width:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .portrait-ad-card{min-width:0;width:100%;max-width:100%}
+}
+@media(max-width:390px){
+ .portrait-ad-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
