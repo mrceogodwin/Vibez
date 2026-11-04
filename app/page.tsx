@@ -13,8 +13,8 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#"><span className="brand-mark">V</span>VYBZ<span className="brand-dot">.</span></a>
-        <nav className="desktop-nav"><a className="active" href="#discover">Discover</a><a href="#events">Events</a><a href="#experiences">Experiences</a><a href="#vybz-tv">VYBZ TV</a></nav>
+        <a className="brand" href="#"><span className="brand-mark">V</span>Vibez<span className="brand-dot">.</span></a>
+        <nav className="desktop-nav"><a className="active" href="#discover">Discover</a><a href="#events">Events</a><a href="#experiences">Experiences</a><a href="#vybz-tv">Vibez TV</a></nav>
         <div className="header-actions"><a className="organiser-link" href="#organisers">For organisers <ArrowUpRight size={14}/></a><a className="sign-in" href="#signin">Sign in</a><button className="menu-button" aria-label="Open menu">☰</button></div>
       </header>
 
@@ -31,7 +31,7 @@ export default function Home() {
       </section>
 
       <section className="search-section">
-        <div className="search-intro"><span className="eyebrow muted">FIND YOUR NEXT VYBZ</span><h2>What’s happening<br/><span>around you?</span></h2></div>
+        <div className="search-intro"><span className="eyebrow muted">FIND YOUR NEXT Vibez</span><h2>What’s happening<br/><span>around you?</span></h2></div>
         <div className="search-panel">
           <label><span>SEARCH</span><div><Search size={17}/><input placeholder="Artists, events, venues..." /></div></label>
           <label><span>LOCATION</span><div><MapPin size={17}/><select defaultValue=""><option value="" disabled>All locations</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Benin City</option></select><ChevronDown size={15}/></div></label>
@@ -45,19 +45,19 @@ export default function Home() {
         <div className="category-row">{categories.map((category, i)=><a className={i===0?"category active-category":"category"} href="#events" key={category}>{category}<ArrowUpRight size={12}/></a>)}</div>
         <div className="event-grid">{events.map((event,i)=><article className={i===0?"event-card featured-card":"event-card"} key={event.name}>
           <a className="event-image" href="/events/mainland-block-party" style={{backgroundImage:"linear-gradient(180deg,transparent 48%,rgba(0,0,0,.72)),url('"+event.image+"')"}}>
-            <span className="event-date">{event.date}</span>{event.featured&&<span className="featured-label"><Zap size={11}/> VYBZ PICK</span>}<span className="event-open"><ArrowUpRight size={18}/></span>
+            <span className="event-date">{event.date}</span>{event.featured&&<span className="featured-label"><Zap size={11}/> Vibez PICK</span>}<span className="event-open"><ArrowUpRight size={18}/></span>
           </a>
           <div className="event-meta">{event.category}<span>{event.city}</span></div><h3>{event.name}</h3><div className="event-foot"><strong>From {event.price}</strong><a href="/events/palmwine-poetry">Get tickets <ArrowRight size={14}/></a></div>
         </article>)}</div>
       </section>
 
-      <section className="experience-band" id="experiences"><div className="experience-copy"><span className="eyebrow">MORE THAN A TICKET</span><h2>BE THERE.<br/><em>FEEL THAT.</em><br/>KEEP IT FOREVER.</h2><p>From the first beat to the encore. Discover experiences worth showing up for — and relive the ones you missed.</p><a className="button button-outline" href="#vybz-tv">Explore experiences <ArrowUpRight size={16}/></a></div><div className="experience-visual"><div className="experience-photo"/><div className="photo-caption"><span>THE NIGHT IS STILL YOUNG</span><span>VYBZ ORIGINALS / 001</span></div></div></section>
+      <section className="experience-band" id="experiences"><div className="experience-copy"><span className="eyebrow">MORE THAN A TICKET</span><h2>BE THERE.<br/><em>FEEL THAT.</em><br/>KEEP IT FOREVER.</h2><p>From the first beat to the encore. Discover experiences worth showing up for — and relive the ones you missed.</p><a className="button button-outline" href="#vybz-tv">Explore experiences <ArrowUpRight size={16}/></a></div><div className="experience-visual"><div className="experience-photo"/><div className="photo-caption"><span>THE NIGHT IS STILL YOUNG</span><span>Vibez ORIGINALS / 001</span></div></div></section>
 
       <section className="organiser-section section-wrap" id="organisers"><div><span className="eyebrow muted">BUILT FOR THE PEOPLE WHO MAKE IT HAPPEN</span><h2>Your event.<br/><span>Our platform.</span></h2><p>Publish your event, sell tickets, manage your guests and track every sale — all from one place.</p><a className="button button-light" href="#organiser-start">Start organising <ArrowUpRight size={16}/></a></div><div className="organiser-stats"><div><strong>01</strong><span>LIST YOUR EVENT</span></div><div><strong>02</strong><span>SELL TICKETS</span></div><div><strong>03</strong><span>OWN THE MOMENT</span></div></div></section>
 
-      <section className="tv-section section-wrap" id="vybz-tv"><div className="section-heading"><div><span className="eyebrow muted">THE SHOW GOES ON</span><h2>Press play on <span>VYBZ TV.</span></h2></div><a className="view-all" href="#watch">Explore VYBZ TV <ArrowUpRight size={16}/></a></div><div className="tv-feature"><div className="tv-image"><button aria-label="Play featured video"><Play fill="currentColor" size={22}/></button></div><div className="tv-copy"><span className="eyebrow">AFTERMOVIES · LIVE SESSIONS · STORIES</span><h3>The moments<br/>don’t end here.</h3><p>Watch the highlights, discover new sounds and get closer to the experiences that move culture.</p><a className="text-link" href="#watch">Discover the stories <ArrowRight size={16}/></a></div></div></section>
+      <section className="tv-section section-wrap" id="vybz-tv"><div className="section-heading"><div><span className="eyebrow muted">THE SHOW GOES ON</span><h2>Press play on <span>Vibez TV.</span></h2></div><a className="view-all" href="#watch">Explore Vibez TV <ArrowUpRight size={16}/></a></div><div className="tv-feature"><div className="tv-image"><button aria-label="Play featured video"><Play fill="currentColor" size={22}/></button></div><div className="tv-copy"><span className="eyebrow">AFTERMOVIES · LIVE SESSIONS · STORIES</span><h3>The moments<br/>don’t end here.</h3><p>Watch the highlights, discover new sounds and get closer to the experiences that move culture.</p><a className="text-link" href="#watch">Discover the stories <ArrowRight size={16}/></a></div></div></section>
 
-      <footer className="footer"><a className="brand" href="#"><span className="brand-mark">V</span>VYBZ<span className="brand-dot">.</span></a><span>EVENTS · TICKETS · EXPERIENCES</span><div><a href="#events">Discover</a><a href="#organisers">Organisers</a><a href="#vybz-tv">VYBZ TV</a><a href="#help">Help</a></div><small>© 2026 VYBZ. FIND YOUR PEOPLE. FIND YOUR VYBZ.</small></footer>
+      <footer className="footer"><a className="brand" href="#"><span className="brand-mark">V</span>Vibez<span className="brand-dot">.</span></a><span>EVENTS · TICKETS · EXPERIENCES</span><div><a href="#events">Discover</a><a href="#organisers">Organisers</a><a href="#vybz-tv">Vibez TV</a><a href="#help">Help</a></div><small>© 2026 Vibez. FIND YOUR PEOPLE. FIND YOUR Vibez.</small></footer>
     </main>
   );
 }
