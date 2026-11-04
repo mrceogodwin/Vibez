@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VYBZ — Events, Tickets & Experiences",
+  title: "Vibez — Events, Tickets & Experiences",
   description: "Discover events, get your tickets and be there. Find concerts, festivals, nightlife and experiences across Nigeria.",
 };
 
