@@ -25,7 +25,9 @@ export default function Home() {
   const [category,setCategory]=useState("All events");
   const [menuOpen,setMenuOpen]=useState(false);
   const [email,setEmail]=useState("");
-  const [subscribed,setSubscribed]=useState(false);\n  const eventRail=useRef<HTMLDivElement>(null);\n  const moveEvents=(direction:number)=>eventRail.current?.scrollBy({left:direction*eventRail.current.clientWidth*.78,behavior:"smooth"});
+  const [subscribed,setSubscribed]=useState(false);
+  const eventRail=useRef<HTMLDivElement>(null);
+  const moveEvents=(direction:number)=>eventRail.current?.scrollBy({left:direction*eventRail.current.clientWidth*.78,behavior:"smooth"});
   const filtered=useMemo(()=>events.filter(event=>(category==="All events"||event.category===category)&&(city==="All locations"||event.city===city)&&(!query||[event.name,event.category,event.city].join(" ").toLowerCase().includes(query.toLowerCase()))),[category,city,query]);
 
   return <main className="light-site">
