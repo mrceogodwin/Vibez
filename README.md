@@ -1,8 +1,8 @@
-# VYBZ
+# Vibez
 
 **Events · Tickets · Experiences**
 
-VYBZ is a Nigeria-first event discovery and ticketing platform, with organiser tools and an authorised past-event media marketplace.
+Vibez is a Nigeria-first event discovery and ticketing platform, with organiser tools and an authorised past-event media marketplace.
 
 ## Stack
 - Next.js App Router + TypeScript
@@ -19,7 +19,7 @@ VYBZ is a Nigeria-first event discovery and ticketing platform, with organiser t
 5. Run `npm run dev`.
 
 ## Product principles
-- Customer checkout happens on VYBZ by default.
+- Customer checkout happens on Vibez by default.
 - Tickets are issued only after server-side payment verification.
 - Past events remain archived; admission sales stop when the event has ended.
 - Media is monetised only when the uploader has the necessary rights.
