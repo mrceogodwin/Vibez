@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness } from "lucide-react";
 
 const events = [
   { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick" },
@@ -24,6 +24,8 @@ export default function Home() {
   const [city,setCity]=useState("All locations");
   const [category,setCategory]=useState("All events");
   const [menuOpen,setMenuOpen]=useState(false);
+  const [heroSlide,setHeroSlide]=useState(0);
+  const [highlightPlaying,setHighlightPlaying]=useState(false);
   const [email,setEmail]=useState("");
   const [subscribed,setSubscribed]=useState(false);
   const eventRail=useRef<HTMLDivElement>(null);
@@ -50,7 +52,15 @@ export default function Home() {
         </form>
         <div className="hero-stats"><div><strong>Discover</strong><span>Events across Nigeria</span></div><div><strong>Book securely</strong><span>Digital tickets</span></div><div><strong>Stay in it</strong><span>Experiences & media</span></div></div>
       </div>
-      <Link className="hero-feature" href="/events/mainland-block-party"><div className="feature-image"/><div className="feature-overlay"/><span className="feature-pill">✦ FEATURED EXPERIENCE</span><div className="feature-copy"><span>VIBEZ SPOTLIGHT</span><h2>Make memories<br/>that move you.</h2><p>Explore standout experiences and find your next night out.</p><span className="feature-cta">Explore events <ArrowRight size={16}/></span></div><span className="feature-dots">● ○ ○</span></Link>
+      <section className="hero-carousel" aria-label="Featured experiences carousel">
+        <div className={"hero-feature hero-slide hero-slide-"+heroSlide}>
+          {heroSlide===0&&<><div className="feature-image"/><div className="feature-overlay"/><span className="feature-pill">✦ FEATURED EXPERIENCE</span><div className="feature-copy"><span>VIBEZ SPOTLIGHT</span><h2>Make memories<br/>that move you.</h2><p>Explore standout experiences and find your next night out.</p><Link className="feature-cta" href="/events">Explore events <ArrowRight size={16}/></Link></div></>}
+          {heroSlide===1&&<><div className="feature-image highlight-image"/><div className="feature-overlay"/><span className="feature-pill"><Play size={12} fill="currentColor"/> VYBZ HIGHLIGHTS</span><div className="feature-copy"><span>WATCH THE MOMENTS</span><h2>The energy.<br/>The crowd. The story.</h2><p>Watch event previews, live highlights and unforgettable moments.</p><Link className="feature-cta" href="/tv">Watch highlights <Play size={14} fill="currentColor"/></Link></div><button className="highlight-play" onClick={()=>setHighlightPlaying(true)} aria-label="Preview event highlights"><Play size={23} fill="currentColor"/></button></>}
+          {heroSlide===2&&<><div className="feature-image promotion-image"/><div className="feature-overlay"/><span className="feature-pill">✦ PROMOTION SPOTLIGHT</span><div className="feature-copy"><span>FOR EVENT ORGANISERS</span><h2>Put your event<br/>in the spotlight.</h2><p>Approved and paid event promotions can be featured here.</p><Link className="feature-cta" href="/promotions">More promotions <ArrowRight size={16}/></Link></div></>}
+          <div className="hero-carousel-controls"><button onClick={()=>{setHeroSlide(s=>(s+2)%3);setHighlightPlaying(false)}} aria-label="Previous featured slide"><ChevronLeft size={19}/></button><div className="hero-carousel-dots">{[0,1,2].map(i=><button key={i} className={heroSlide===i?"active":""} onClick={()=>{setHeroSlide(i);setHighlightPlaying(false)}} aria-label={"Go to slide "+(i+1)}/>)}</div><button onClick={()=>{setHeroSlide(s=>(s+1)%3);setHighlightPlaying(false)}} aria-label="Next featured slide"><ChevronRight size={19}/></button></div>
+        </div>
+        {highlightPlaying&&<div className="highlight-preview-modal" role="dialog" aria-modal="true" aria-label="Event highlights preview"><div className="highlight-preview-panel"><button className="highlight-preview-close" onClick={()=>setHighlightPlaying(false)} aria-label="Close preview">×</button><div className="highlight-preview-screen"><Play size={34} fill="currentColor"/><strong>VYBZ event highlights</strong><span>Video playback will appear here when the media library is connected.</span></div></div></div>}
+      </section>
     </section>
 
     <section className="home-categories"><div className="home-categories-heading"><div><span className="light-eyebrow">FIND YOUR KIND OF MOMENT</span><h2>Explore by <em>category.</em></h2></div><span>Pick a vibe. Find your people.</span></div><section className="category-strip" aria-label="Event categories">{[{name:"Music & concerts",Icon:Music2,tone:"lilac"},{name:"Parties & nightlife",Icon:PartyPopper,tone:"pink"},{name:"Comedy & shows",Icon:Drama,tone:"peach"},{name:"Movies & screenings",Icon:Clapperboard,tone:"blue"},{name:"Gaming & esports",Icon:Gamepad2,tone:"lilac"},{name:"Sports & wellness",Icon:Dumbbell,tone:"green"},{name:"Arts & culture",Icon:Palette,tone:"peach"},{name:"Business",Icon:BriefcaseBusiness,tone:"blue"}].map(item=><a className={"category-tile "+item.tone} href="#events" key={item.name} onClick={()=>setCategory(item.name.toLowerCase().includes("music")?"Concerts":item.name.toLowerCase().includes("parties")?"Nightlife":item.name.toLowerCase().includes("arts")?"Arts & Culture":"All events")}><b><item.Icon size={20} strokeWidth={1.9}/></b><span>{item.name}</span></a>)}</section></section>
