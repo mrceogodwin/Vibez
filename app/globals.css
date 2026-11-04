@@ -161,3 +161,14 @@
 .promotions-footer-cta h2{font:700 22px 'Space Grotesk';margin:7px 0}.promotions-footer-cta p{font-size:10px;color:#777681;max-width:500px;line-height:1.6;margin:0}
 .promotions-footer-cta>a{background:#19171f;color:#fff;white-space:nowrap;box-shadow:0 3px 0 #d7d1dc}
 @media(max-width:680px){.promotions-header{height:58px;padding:0 5%}.promotions-hero{margin:18px 5% 0;padding:27px 21px;grid-template-columns:1fr;gap:22px;border-radius:19px}.promotions-hero h1{font-size:47px}.promotions-hero-art{min-height:170px;transform:none}.promotions-how{padding:22px 5%;grid-template-columns:1fr;gap:10px}.promotions-how>div{padding:14px}.promotions-list{padding:18px 5% 32px}.promotions-list h2{font-size:26px}.promotions-footer-cta{margin:0 5% 35px;padding:20px;align-items:flex-start;flex-direction:column}.promotions-footer-cta h2{font-size:20px}}
+
+/* Event discovery search and progressive event loading */
+.event-search-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;flex:1}
+.event-inline-search{display:flex;align-items:center;gap:9px;min-width:0;width:min(340px,100%);height:42px;padding:0 14px;border:1px solid #e5e5eb;border-radius:24px;background:#fff;color:#777986;box-shadow:0 3px 10px #17121f08}
+.event-inline-search svg{flex-shrink:0}
+.event-inline-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#17171c;font-size:11px}
+.event-inline-search input::placeholder{color:#92929c}
+.load-more-wrap{display:flex;justify-content:center;padding:25px 0 5px}
+.load-more-events{display:inline-flex;align-items:center;gap:10px;border:1px solid #e4e1eb;background:linear-gradient(145deg,#fff,#f6f4f9);color:#17171c;border-radius:24px;padding:12px 19px;font-size:11px;font-weight:700;box-shadow:0 3px 0 #e8e5ed,0 7px 16px #17121f0a;cursor:pointer}
+.load-more-events:hover{transform:translateY(-1px);box-shadow:0 4px 0 #e8e5ed,0 9px 18px #17121f12}
+@media(max-width:760px){.event-search-tools{width:100%;display:flex;align-items:center;gap:9px;margin-top:11px}.event-inline-search{height:42px;flex:1;width:auto}.event-inline-search input{font-size:10px}.event-search-tools .city-select{margin-left:0;flex-shrink:0;height:42px}.load-more-wrap{padding:19px 0 2px}.load-more-events{padding:11px 17px}}
