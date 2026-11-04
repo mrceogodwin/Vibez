@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { use, useState } from "react";
 import { ArrowLeft, ArrowRight, CalendarDays, Check, ChevronDown, Minus, MapPin, Plus, ShieldCheck, Ticket, User, Mail, Info } from "lucide-react";
 
 type EventData={title:string;category:string;city:string;venue:string;date:string;time:string;price:number;image:string;description:string};
@@ -12,8 +12,9 @@ const events:Record<string,EventData>={
  "culture-festival":{title:"The Culture Festival",category:"FESTIVAL · CULTURE",city:"Lagos",venue:"Venue to be announced",date:"Monday, 14 December 2026",time:"12:00 PM",price:15000,image:"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1800&q=90",description:"A gathering celebrating music, creativity and culture. Event details will be confirmed by the organiser."}
 };
 const money=(n:number)=>new Intl.NumberFormat("en-NG",{style:"currency",currency:"NGN",maximumFractionDigits:0}).format(n);
-export default function EventPage({params}:{params:{slug:string}}){
- const event=events[params.slug];const [qty,setQty]=useState(1);const [ticketType,setTicketType]=useState("General admission");const [showDetails,setShowDetails]=useState(false);
+export default function EventPage({params}:{params:Promise<{slug:string}>}){
+ const {slug}=use(params);
+ const event=events[slug];const [qty,setQty]=useState(1);const [ticketType,setTicketType]=useState("General admission");const [showDetails,setShowDetails]=useState(false);
  const subtotal=event?event.price*qty:0;const serviceFee=Math.round(subtotal*.05);const total=subtotal+serviceFee;
  const types=[{name:"General admission",price:event?.price??0,desc:"Standard event entry"},{name:"VIP experience",price:(event?.price??0)*2,desc:"Priority access · Premium viewing"}];
  if(!event)return <main className="not-found"><span className="eyebrow">VIBEZ / EVENT NOT FOUND</span><h1>This event isn’t here.</h1><Link className="button button-light" href="/">Back to discover <ArrowRight size={16}/></Link></main>;
