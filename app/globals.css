@@ -199,3 +199,30 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 @media(max-width:390px){
  .portrait-ad-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+
+/* Final mobile viewport and advertising-section alignment correction */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:clip}
+body{position:relative}
+.light-site,.simple-page,.promotions-page{position:relative;left:auto;right:auto;width:100%;max-width:100%;margin-left:0;margin-right:0;overflow-x:clip}
+.light-site{isolation:isolate}
+.light-site>section,.light-site>header,.light-site>.premium-ticker,.simple-page>section,.simple-page>header{width:100%;max-width:100%;margin-left:0;margin-right:0}
+.portrait-ad-section{width:100%;max-width:100%;margin-inline:0;padding-inline:clamp(20px,5.2vw,72px);overflow:clip}
+.portrait-ad-heading{width:100%;max-width:100%;display:flex;flex-wrap:wrap}
+.portrait-ad-heading>div{flex:1 1 260px;min-width:0}
+.portrait-ad-heading h2,.portrait-ad-heading p{max-width:100%;overflow-wrap:break-word}
+.portrait-ad-grid{width:100%;max-width:100%;min-width:0;grid-template-columns:repeat(3,minmax(0,1fr))}
+.portrait-ad-card{width:100%;max-width:100%;min-width:0}
+.host-spotlight{width:100%;max-width:100%;margin-inline:0;overflow:hidden}
+@media(max-width:760px){
+ .portrait-ad-section{padding:30px 5% 34px}
+ .portrait-ad-heading{align-items:flex-start;flex-direction:column;gap:14px}
+ .portrait-ad-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .portrait-ad-card{min-height:230px;aspect-ratio:3/4}
+ .host-spotlight{padding:32px 5% 35px}
+}
+@media(min-width:761px) and (max-width:1100px){
+ .portrait-ad-grid{gap:10px}
+ .portrait-ad-card{min-height:260px}
+}
