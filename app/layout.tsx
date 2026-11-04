@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Vibez — Events, Tickets & Experiences",
-  description: "Discover events, get your tickets and be there. Find concerts, festivals, nightlife and experiences across Nigeria.",
+  description: "Discover events, buy tickets and experience more. Find concerts, festivals, nightlife and culture across Nigeria.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
