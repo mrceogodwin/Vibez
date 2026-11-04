@@ -40,6 +40,7 @@ model User {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   organizedEvents Event[]  @relation("EventOrganizer")
+  organizerProfile OrganizerProfile?
   orders          Order[]
 }
 
@@ -113,4 +114,66 @@ model Ticket {
   checkedInAt  DateTime?
   createdAt    DateTime     @default(now())
   @@index([ticketTypeId, status])
+}
+
+
+enum AdPlacement {
+  HOMEPAGE_BANNER
+  EVENT_FEED
+  MID_PAGE_BANNER
+  EVENT_DETAIL
+  VIBEZ_TV
+}
+
+enum AdStatus {
+  DRAFT
+  PENDING_REVIEW
+  SCHEDULED
+  ACTIVE
+  PAUSED
+  COMPLETED
+  REJECTED
+}
+
+model OrganizerProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessName      String
+  slug              String   @unique
+  description       String?  @db.Text
+  logoUrl           String?
+  website           String?
+  phone             String?
+  verificationStatus String  @default("PENDING")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model AdCampaign {
+  id              String      @id @default(cuid())
+  name            String
+  advertiserName  String
+  advertiserEmail String
+  placement       AdPlacement
+  status          AdStatus    @default(DRAFT)
+  headline        String?
+  body            String?     @db.Text
+  imageUrl        String?
+  destinationUrl  String?
+  startsAt        DateTime?
+  endsAt          DateTime?
+  budgetKobo      Int?
+  impressions     Int         @default(0)
+  clicks          Int         @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  @@index([placement, status, startsAt, endsAt])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
 }
