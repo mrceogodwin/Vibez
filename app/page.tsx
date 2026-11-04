@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness } from "lucide-react";
 
 const events = [
   { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick" },
@@ -45,7 +45,7 @@ export default function Home() {
       <Link className="hero-feature" href="/events/mainland-block-party"><div className="feature-image"/><div className="feature-overlay"/><span className="feature-pill">✦ FEATURED EXPERIENCE</span><div className="feature-copy"><span>VIBEZ SPOTLIGHT</span><h2>Make memories<br/>that move you.</h2><p>Explore standout experiences and find your next night out.</p><span className="feature-cta">Explore events <ArrowRight size={16}/></span></div><span className="feature-dots">● ○ ○</span></Link>
     </section>
 
-    <section className="category-strip" aria-label="Event categories">{[{name:"Music & concerts",symbol:"♫",tone:"lilac"},{name:"Parties & nightlife",symbol:"✦",tone:"pink"},{name:"Comedy & shows",symbol:"☻",tone:"peach"},{name:"Movies & screenings",symbol:"▣",tone:"blue"},{name:"Gaming & esports",symbol:"⌘",tone:"lilac"},{name:"Sports & wellness",symbol:"↗",tone:"green"},{name:"Arts & culture",symbol:"◉",tone:"peach"},{name:"Business",symbol:"▤",tone:"blue"}].map(item=><a className={"category-tile "+item.tone} href="#events" key={item.name} onClick={()=>setCategory(item.name.toLowerCase().includes("music")?"Concerts":item.name.toLowerCase().includes("parties")?"Nightlife":item.name.toLowerCase().includes("arts")?"Arts & Culture":"All events")}><b>{item.symbol}</b><span>{item.name}</span></a>)}</section>
+    <section className="category-strip" aria-label="Event categories">{[{name:"Music & concerts",Icon:Music2,tone:"lilac"},{name:"Parties & nightlife",Icon:PartyPopper,tone:"pink"},{name:"Comedy & shows",Icon:Drama,tone:"peach"},{name:"Movies & screenings",Icon:Clapperboard,tone:"blue"},{name:"Gaming & esports",Icon:Gamepad2,tone:"lilac"},{name:"Sports & wellness",Icon:Dumbbell,tone:"green"},{name:"Arts & culture",Icon:Palette,tone:"peach"},{name:"Business",Icon:BriefcaseBusiness,tone:"blue"}].map(item=><a className={"category-tile "+item.tone} href="#events" key={item.name} onClick={()=>setCategory(item.name.toLowerCase().includes("music")?"Concerts":item.name.toLowerCase().includes("parties")?"Nightlife":item.name.toLowerCase().includes("arts")?"Arts & Culture":"All events")}><b><item.Icon size={20} strokeWidth={1.9}/></b><span>{item.name}</span></a>)}</section>
 
     <section className="ad-slot ad-top" aria-label="Sponsored placement"><div className="ad-label">ADVERTISEMENT</div><div className="ad-top-copy"><span>VIBEZ BRAND PARTNER</span><strong>Your brand belongs in the middle of the moment.</strong><small>Reach people discovering their next experience.</small></div><div className="ad-top-action"><span>SPONSORED</span><a href="/advertise">Advertise with Vibez <ArrowUpRight size={15}/></a></div></section>
 
