@@ -44,10 +44,10 @@ export default function Home() {
         <div className="section-heading"><div><span className="eyebrow muted">DON’T HEAR IT LAST</span><h2>Trending <span>right now.</span></h2></div><a className="view-all" href="#all-events">Explore all events <ArrowUpRight size={16}/></a></div>
         <div className="category-row">{categories.map((category, i)=><a className={i===0?"category active-category":"category"} href="#events" key={category}>{category}<ArrowUpRight size={12}/></a>)}</div>
         <div className="event-grid">{events.map((event,i)=><article className={i===0?"event-card featured-card":"event-card"} key={event.name}>
-          <a className="event-image" href="#event-details" style={{backgroundImage:"linear-gradient(180deg,transparent 48%,rgba(0,0,0,.72)),url('"+event.image+"')"}}>
+          <a className="event-image" href="/events/mainland-block-party" style={{backgroundImage:"linear-gradient(180deg,transparent 48%,rgba(0,0,0,.72)),url('"+event.image+"')"}}>
             <span className="event-date">{event.date}</span>{event.featured&&<span className="featured-label"><Zap size={11}/> VYBZ PICK</span>}<span className="event-open"><ArrowUpRight size={18}/></span>
           </a>
-          <div className="event-meta">{event.category}<span>{event.city}</span></div><h3>{event.name}</h3><div className="event-foot"><strong>From {event.price}</strong><a href="#event-details">Get tickets <ArrowRight size={14}/></a></div>
+          <div className="event-meta">{event.category}<span>{event.city}</span></div><h3>{event.name}</h3><div className="event-foot"><strong>From {event.price}</strong><a href="/events/palmwine-poetry">Get tickets <ArrowRight size={14}/></a></div>
         </article>)}</div>
       </section>
 
