@@ -111,3 +111,27 @@
 @media(max-width:760px){.premium-ticker{height:42px;padding:0 4%;gap:9px}.ticker-label{font-size:7px;letter-spacing:.9px;padding-right:9px}.ticker-content{gap:15px}.ticker-content span{font-size:8px}.premium-ticker>a{font-size:7px}.home-categories{padding:23px 5% 29px}.home-categories-heading h2,.portrait-ad-heading h2{font-size:24px}.home-categories-heading>span{display:none}.home-categories .category-strip{display:flex;overflow-x:auto;gap:10px;padding:3px 2px 12px;scroll-snap-type:x mandatory;scrollbar-width:none}.home-categories .category-strip::-webkit-scrollbar{display:none}.home-categories .category-tile{min-width:112px;height:94px;scroll-snap-align:start}.ticket-types-home{padding:30px 5% 40px}.ticket-type-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.ticket-type-card{min-height:145px;padding:14px}.ticket-type-card>strong{font-size:14px}.ticket-type-card>b{font-size:22px}.portrait-ad-section{padding:31px 5% 36px}.portrait-ad-heading{align-items:flex-start;flex-direction:column;gap:13px}.portrait-ad-heading p{max-width:340px}.portrait-ad-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.portrait-ad-card{min-height:215px;aspect-ratio:3/4;padding:9px;border-radius:12px}.portrait-ad-label{font-size:6px;padding:5px 6px}.portrait-ad-card small{font-size:5px;letter-spacing:.7px}.portrait-ad-card strong{font-size:clamp(13px,3.5vw,19px);letter-spacing:-.4px}.portrait-ad-card>div{gap:7px}.portrait-ad-card>div>span{font-size:6px}.portrait-ad-footnote{font-size:7px;line-height:1.5}.ticket-types-home .light-section-heading{align-items:flex-end}.ticket-types-home .light-section-heading h2{font-size:26px}}
 @media(max-width:380px){.portrait-ad-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.portrait-ad-card{min-height:240px}.portrait-ad-card strong{font-size:19px}}
 @media(prefers-reduced-motion:reduce){.ticker-content{animation:none}.home-categories .category-tile,.portrait-ad-card,.ticket-type-card{transition:none}}
+
+
+/* Hero carousel: featured experience, highlight preview and organiser promotion slot */
+.hero-carousel{position:relative;min-width:0}
+.hero-feature{position:relative;display:block;overflow:hidden;isolation:isolate}
+.hero-slide .feature-image{transition:transform .65s ease}
+.hero-slide-1 .feature-image{background-image:url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1400&q=90');background-position:center 42%}
+.hero-slide-2 .feature-image{background-image:url('https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1400&q=90');background-position:center}
+.hero-carousel-controls{position:absolute;right:22px;bottom:22px;z-index:4;display:flex;align-items:center;gap:9px}
+.hero-carousel-controls>button{height:35px;width:35px;border-radius:50%;display:grid;place-items:center;border:1px solid #ffffff80;background:#ffffff24;color:#fff;backdrop-filter:blur(10px);box-shadow:0 3px 0 #0005,0 8px 18px #0003;cursor:pointer;transition:transform .18s,background .18s}
+.hero-carousel-controls>button:hover{transform:translateY(-2px);background:#ffffff48}
+.hero-carousel-dots{display:flex;align-items:center;gap:7px;padding:0 3px}
+.hero-carousel-dots button{height:8px;width:8px;padding:0;border:1px solid #ffffffc9;border-radius:50%;background:#ffffff35;cursor:pointer}
+.hero-carousel-dots button.active{width:22px;border-radius:9px;background:#fff}
+.feature-pill{display:flex;align-items:center;gap:7px;width:max-content}
+.feature-cta{position:relative;z-index:2}
+.highlight-play{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);height:66px;width:66px;border:1px solid #ffffffb5;border-radius:50%;display:grid;place-items:center;background:#ffffff30;color:#fff;backdrop-filter:blur(12px);box-shadow:0 5px 0 #0004,0 14px 30px #0005;cursor:pointer}
+.highlight-preview-modal{position:fixed;inset:0;z-index:100;background:#09080dcc;backdrop-filter:blur(12px);display:grid;place-items:center;padding:22px}
+.highlight-preview-panel{position:relative;width:min(760px,100%);background:#17151e;border:1px solid #ffffff25;border-radius:20px;padding:12px;box-shadow:0 24px 80px #0009}
+.highlight-preview-close{position:absolute;right:19px;top:18px;z-index:2;width:34px;height:34px;border:1px solid #ffffff55;border-radius:50%;background:#17151e;color:#fff;font-size:22px;cursor:pointer}
+.highlight-preview-screen{aspect-ratio:16/9;border-radius:13px;background:linear-gradient(135deg,#171020dd,#17102066),url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1400&q=85') center/cover;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff;text-align:center}
+.highlight-preview-screen strong{font:700 22px 'Space Grotesk'}
+.highlight-preview-screen span{font-size:11px;color:#e5dfea}
+@media(max-width:760px){.hero-carousel-controls{right:13px;bottom:13px;gap:6px}.hero-carousel-controls>button{height:31px;width:31px}.hero-carousel-dots{gap:5px}.highlight-play{height:54px;width:54px}.highlight-preview-modal{padding:12px}.highlight-preview-panel{padding:8px}}
