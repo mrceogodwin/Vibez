@@ -9,6 +9,11 @@ const events = [
   { slug:"palmwine-poetry",name:"Palmwine & Poetry",category:"Arts & Culture",city:"Abuja",date:"29 Nov 2026",price:"₦5,000",image:"https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1000&q=85",tag:"Live experience" },
   { slug:"after-dark-experience",name:"After Dark: The Experience",category:"Nightlife",city:"Port Harcourt",date:"06 Dec 2026",price:"₦12,000",image:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1000&q=85",tag:"Popular" },
   { slug:"culture-festival",name:"The Culture Festival",category:"Festivals",city:"Lagos",date:"14 Dec 2026",price:"₦15,000",image:"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1000&q=85",tag:"Festival" },
+  { slug:"lagos-jazz-weekend",name:"Lagos Jazz Weekend",category:"Concerts",city:"Lagos",date:"19 Dec 2026",price:"₦10,000",image:"https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1000&q=85",tag:"Live music" },
+  { slug:"abuja-comedy-night",name:"Abuja Comedy Night",category:"Comedy",city:"Abuja",date:"20 Dec 2026",price:"₦7,500",image:"https://images.unsplash.com/photo-1585699324551-f6c309easee5?w=1000&q=85",tag:"Comedy pick" },
+  { slug:"new-years-countdown",name:"The Countdown Party",category:"Nightlife",city:"Lagos",date:"31 Dec 2026",price:"₦20,000",image:"https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1000&q=85",tag:"New year" },
+  { slug:"creative-market",name:"The Creative Market",category:"Arts & Culture",city:"Port Harcourt",date:"10 Jan 2027",price:"₦3,000",image:"https://images.unsplash.com/photo-1531058020387-3be344556be6?w=1000&q=85",tag:"Culture" },
+  { slug:"startup-social",name:"The Startup Social",category:"Conferences",city:"Abuja",date:"17 Jan 2027",price:"₦5,000",image:"https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&q=85",tag:"Networking" },
 ];
 
 const categories = ["All events","Concerts","Nightlife","Festivals","Comedy","Arts & Culture","Conferences"];
@@ -23,6 +28,7 @@ export default function Home() {
   const [query,setQuery]=useState("");
   const [city,setCity]=useState("All locations");
   const [category,setCategory]=useState("All events");
+  const [visibleEvents,setVisibleEvents]=useState(4);
   const [menuOpen,setMenuOpen]=useState(false);
   const [heroSlide,setHeroSlide]=useState(0);
   const [highlightPlaying,setHighlightPlaying]=useState(false);
@@ -31,6 +37,7 @@ export default function Home() {
   const eventRail=useRef<HTMLDivElement>(null);
   const moveEvents=(direction:number)=>eventRail.current?.scrollBy({left:direction*eventRail.current.clientWidth*.78,behavior:"smooth"});
   const filtered=useMemo(()=>events.filter(event=>(category==="All events"||event.category===category)&&(city==="All locations"||event.city===city)&&(!query||[event.name,event.category,event.city].join(" ").toLowerCase().includes(query.toLowerCase()))),[category,city,query]);
+  const visibleFiltered=filtered.slice(0,visibleEvents);
 
   return <main className="light-site">
     <header className="light-header">
@@ -68,7 +75,7 @@ export default function Home() {
     <section className="ad-slot ad-top" aria-label="Sponsored placement"><div className="ad-label">ADVERTISEMENT</div><div className="ad-top-copy"><span>VIBEZ BRAND PARTNER</span><strong>Your brand belongs in the middle of the moment.</strong><small>Reach people discovering their next experience.</small></div><div className="ad-top-action"><span>SPONSORED</span><a href="/advertise">Advertise with Vibez <ArrowUpRight size={15}/></a></div></section>
 
     <section className="light-section" id="events"><div className="light-section-heading"><div><span className="light-eyebrow">DON’T HEAR IT LAST</span><h2>Trending <em>events.</em></h2></div><div className="rail-heading-actions"><a href="/events">View all events <ArrowRight size={16}/></a><button aria-label="Scroll events left" onClick={()=>moveEvents(-1)}>‹</button><button aria-label="Scroll events right" onClick={()=>moveEvents(1)}>›</button></div></div>
-      <div className="event-controls"><div className="category-filters">{categories.map(item=><button key={item} className={category===item?"filter-active":""} onClick={()=>setCategory(item)}>{item}</button>)}</div><label className="city-select"><MapPin size={15}/><select value={city} onChange={e=>setCity(e.target.value)}><option>All locations</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option></select><ChevronDown size={14}/></label></div>
+      <div className="event-controls"><div className="category-filters">{categories.map(item=><button key={item} className={category===item?"filter-active":""} onClick={()=>setCategory(item)}>{item}</button>)}</div><div className="event-search-tools"><label className="event-inline-search"><Search size={16}/><input aria-label="Search events" placeholder="Search events..." value={query} onChange={e=>{setQuery(e.target.value);setVisibleEvents(4);}}/></label><label className="city-select"><MapPin size={15}/><select value={city} onChange={e=>setCity(e.target.value)}><option>All locations</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option></select><ChevronDown size={14}/></label></div>
       {filtered.length?<div className="event-rail-viewport" ref={eventRail}><div className="light-event-grid">{filtered.map(event=><article className="light-event-card" key={event.slug}><Link className="light-event-image" href={"/events/"+event.slug} style={{backgroundImage:"linear-gradient(180deg,transparent 48%,rgba(0,0,0,.5)),url('"+event.image+"')"}}><span className="event-tag">{event.tag}</span><span className="event-heart">♡</span></Link><div className="light-event-body"><div className="light-event-meta"><span>{event.category.toUpperCase()}</span><span>{event.city}</span></div><h3>{event.name}</h3><div className="light-event-detail"><span><CalendarDays size={14}/>{event.date}</span><span><MapPin size={14}/>{event.city}</span></div><div className="light-event-bottom"><strong>From {event.price}</strong><Link href={"/events/"+event.slug}>Get tickets <ArrowRight size={14}/></Link></div></div></article>)}</div></div>:<div className="empty-events">No matching events in this selection. Try another category or location.</div>}
     </section>
 
