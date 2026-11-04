@@ -8,8 +8,9 @@ datasource db {
 }
 
 enum UserRole {
-  CUSTOMER
+  ATTENDEE
   ORGANIZER
+  ADVERTISER
   STAFF
   SUPER_ADMIN
 }
@@ -36,12 +37,14 @@ model User {
   name            String?
   email           String   @unique
   image           String?
-  role            UserRole @default(CUSTOMER)
+  role            UserRole @default(ATTENDEE)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   organizedEvents Event[]  @relation("EventOrganizer")
   organizerProfile OrganizerProfile?
   orders          Order[]
+  accounts        Account[]
+  sessions        Session[]
 }
 
 model Event {
@@ -176,4 +179,39 @@ model NewsletterSubscriber {
   email     String   @unique
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
+}
+
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
 }
