@@ -1969,3 +1969,45 @@ html[data-vibez-theme="light"] .appearance-options button.selected{color:#fff}
 @keyframes drawerFade{from{opacity:0}to{opacity:1}}@keyframes drawerIn{from{transform:translateX(-24px);opacity:.7}to{transform:translateX(0);opacity:1}}
 @media(max-width:700px){.light-nav{display:none!important}.mobile-menu{display:grid;place-items:center;color:#f4f1f7}.login-link{display:none}.light-header-actions{gap:10px}.vibez-drawer{width:min(390px,88vw);padding:22px 19px 18px}.drawer-appearance{margin-top:auto}.drawer-foot{padding-top:4px}}
 @media(prefers-reduced-motion:reduce){.drawer-backdrop,.vibez-drawer{animation:none}}
+
+
+/* Dark appearance coverage for purchase flow and standalone organiser pages */
+html[data-vibez-theme="dark"] .purchase-page{background:radial-gradient(ellipse at 80% 0%,#4a22551c,transparent 38%),#0c0b12;color:#f5f2f8}
+html[data-vibez-theme="dark"] .purchase-header{background:#111019;border-color:#37313f;box-shadow:0 3px 14px #0005}
+html[data-vibez-theme="dark"] .purchase-brand{color:#e3e5e9;text-shadow:0 1px 0 #fff7,0 -1px 0 #777b84}
+html[data-vibez-theme="dark"] .purchase-back{color:#c4bdcc}
+html[data-vibez-theme="dark"] .purchase-layout{background:transparent}
+html[data-vibez-theme="dark"] .purchase-section-title h2,html[data-vibez-theme="dark"] .summary-top h2{color:#f5f2f8}
+html[data-vibez-theme="dark"] .purchase-section-title>span{background:linear-gradient(145deg,#34283f,#211b2c);color:#d5a6f4;box-shadow:0 2px 0 #0a0910,0 5px 10px #0005}
+html[data-vibez-theme="dark"] .ticket-choice{background:linear-gradient(145deg,#24222e,#171620);border-color:#45404e;color:#f5f2f8;box-shadow:0 2px 0 #0a0910,0 7px 16px #0005,inset 0 1px #ffffff10}
+html[data-vibez-theme="dark"] .ticket-choice:hover{border-color:#9b68bb}
+html[data-vibez-theme="dark"] .ticket-choice small,html[data-vibez-theme="dark"] .ticket-choice-copy small{color:#aaa4b2}
+html[data-vibez-theme="dark"] .ticket-choice-check{border-color:#77618a}
+html[data-vibez-theme="dark"] .quantity-panel{background:linear-gradient(145deg,#24222e,#171620);border-color:#403949;color:#f5f2f8}
+html[data-vibez-theme="dark"] .quantity-panel small{color:#aaa4b2}
+html[data-vibez-theme="dark"] .quantity-control button{background:#302b3a;border-color:#51445e;color:#fff}
+html[data-vibez-theme="dark"] .details-toggle{color:#d5b3ed}
+html[data-vibez-theme="dark"] .ticket-information{background:#191722;border-color:#403849;color:#d8d1df}
+html[data-vibez-theme="dark"] .order-summary{background:linear-gradient(145deg,#25232f,#171620);border-color:#47404f;color:#f5f2f8;box-shadow:0 3px 0 #08080d,0 13px 27px #0006,inset 0 1px #ffffff10}
+html[data-vibez-theme="dark"] .summary-event{border-color:#3e3946}
+html[data-vibez-theme="dark"] .summary-event strong,html[data-vibez-theme="dark"] .summary-line,html[data-vibez-theme="dark"] .summary-total{color:#f5f2f8}
+html[data-vibez-theme="dark"] .summary-event small,html[data-vibez-theme="dark"] .summary-line small,html[data-vibez-theme="dark"] .checkout-explainer{color:#aaa4b2}
+html[data-vibez-theme="dark"] .summary-total{border-color:#45404d}
+html[data-vibez-theme="dark"] .continue-checkout{background:linear-gradient(110deg,#5d2d83,#963c91 55%,#c34370);color:#fff;box-shadow:0 3px 0 #34143d}
+html[data-vibez-theme="dark"] .secure-points{border-color:#403a48;color:#d8d1df}
+html[data-vibez-theme="dark"] .purchase-footer{color:#a9a3b0;border-color:#38323f}
+html[data-vibez-theme="dark"] .simple-page{background:#0c0b12!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .simple-header{background:#111019;border-color:#38323f}
+html[data-vibez-theme="dark"] .simple-back{color:#c4bdcc}
+html[data-vibez-theme="dark"] .simple-hero{background:radial-gradient(ellipse at 85% 10%,#57266b38,transparent 42%),linear-gradient(115deg,#15121d,#21152a);color:#f5f2f8}
+html[data-vibez-theme="dark"] .simple-hero h1,html[data-vibez-theme="dark"] .simple-content h2,html[data-vibez-theme="dark"] .simple-content h3{color:#f5f2f8}
+html[data-vibez-theme="dark"] .simple-hero>p,html[data-vibez-theme="dark"] .simple-content>p{color:#b4adbd}
+html[data-vibez-theme="dark"] .simple-primary{background:linear-gradient(110deg,#5d2d83,#963c91 55%,#c34370);box-shadow:0 3px 0 #34143d}
+html[data-vibez-theme="dark"] .organiser-trust{background:#12111a;color:#d5cedd;border-color:#38323f}
+html[data-vibez-theme="dark"] .simple-content{background:#0c0b12;color:#f5f2f8}
+html[data-vibez-theme="dark"] .placement-card{background:linear-gradient(145deg,#24222e,#171620);border-color:#403a48;color:#f5f2f8;box-shadow:0 7px 18px #0004}
+html[data-vibez-theme="dark"] .placement-card h3{color:#f5f2f8}
+html[data-vibez-theme="dark"] .placement-card p{color:#aaa4b2}
+html[data-vibez-theme="dark"] .ad-measure{background:linear-gradient(120deg,#281936,#19151f);color:#f5f2f8;border:1px solid #49364f}
+html[data-vibez-theme="dark"] .organiser-steps{background:#111019;color:#f5f2f8;border-color:#393341}
+html[data-vibez-theme="dark"] .simple-footer{background:#09090f;color:#aaa4b2;border-color:#302b38}
