@@ -1373,3 +1373,43 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
     font-size:clamp(4px,1.25vw,5px)!important;letter-spacing:.45px!important;
   }
 }
+
+
+/* Final brand-lockup alignment: wordmark and tagline share one left edge */
+.light-header .light-brand,
+.light-header .light-brand:link,
+.light-header .light-brand:visited{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  width:max-content!important;
+  min-width:0!important;
+  text-align:left!important;
+}
+.light-header .light-brand>span:not(.brand-crown){
+  display:block!important;
+  width:max-content!important;
+  text-align:left!important;
+  align-self:flex-start!important;
+}
+.light-header .light-brand small{
+  display:block!important;
+  width:max-content!important;
+  align-self:flex-start!important;
+  text-align:left!important;
+  margin-left:0!important;
+  padding-left:0!important;
+}
+@media(max-width:760px){
+  .light-header .light-brand{
+    align-items:flex-start!important;
+    text-align:left!important;
+    width:max-content!important;
+  }
+  .light-header .light-brand>span:not(.brand-crown),
+  .light-header .light-brand small{
+    align-self:flex-start!important;
+    text-align:left!important;
+  }
+}
