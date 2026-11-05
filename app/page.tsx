@@ -39,6 +39,7 @@ export default function Home() {
   const [email,setEmail]=useState("");
   const [subscribed,setSubscribed]=useState(false);
   const eventRail=useRef<HTMLDivElement>(null);
+  const spotlightTouchStart=useRef<number|null>(null);
   const moveEvents=(direction:number)=>eventRail.current?.scrollBy({left:direction*eventRail.current.clientWidth*.78,behavior:"smooth"});
   const filtered=useMemo(()=>events.filter(event=>(category==="All events"||event.category===category)&&(city==="All locations"||event.city===city)&&(!query||[event.name,event.category,event.city].join(" ").toLowerCase().includes(query.toLowerCase()))),[category,city,query]);
   const visibleFiltered=filtered.slice(0,visibleEvents);
@@ -62,7 +63,7 @@ export default function Home() {
       </div>
       <section className="hero-carousel flagship-event-spotlight" aria-label="Featured event spotlight">
         <div className="event-spotlight-slider">
-          <div className="event-spotlight-slide" style={{backgroundImage:"linear-gradient(180deg,rgba(12,7,22,.12) 0%,rgba(12,7,22,.12) 35%,rgba(12,7,22,.92) 100%),url("+events[spotlightIndex%events.length].image+")"}}>
+          <div className="event-spotlight-slide" onTouchStart={e=>{spotlightTouchStart.current=e.touches[0]?.clientX??null}} onTouchEnd={e=>{if(spotlightTouchStart.current===null)return;const delta=e.changedTouches[0].clientX-spotlightTouchStart.current;spotlightTouchStart.current=null;if(Math.abs(delta)>45)setSpotlightIndex(i=>(i+(delta<0?1:events.length-1))%events.length)}} style={{backgroundImage:"linear-gradient(180deg,rgba(12,7,22,.12) 0%,rgba(12,7,22,.12) 35%,rgba(12,7,22,.92) 100%),url("+events[spotlightIndex%events.length].image+")"}}>
             <span className="spotlight-feature-tag"><Crown size={13}/> FEATURED EXPERIENCE</span>
             <div className="spotlight-feature-copy">
               <span>VIBEZ SPOTLIGHT · {String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
