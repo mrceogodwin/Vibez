@@ -1538,3 +1538,29 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
     font-size:7px!important;letter-spacing:1.25px!important;
   }
 }
+
+
+/* Refine footer wordmark: lighter embossed finish, less heavy extrusion */
+.light-footer .footer-brand-col .light-brand>span:not(.brand-crown){
+  font-weight:700!important;
+  letter-spacing:-2.1px!important;
+  background:linear-gradient(180deg,#fff 0%,#f7f3fc 48%,#d8c9e9 100%)!important;
+  -webkit-text-fill-color:transparent!important;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.9)) drop-shadow(0 1.5px 0 #bda9d2) drop-shadow(0 3px 5px rgba(0,0,0,.38))!important;
+}
+.light-footer .footer-brand-col .light-brand .brand-crown{
+  filter:drop-shadow(0 1px 1px rgba(180,105,255,.38))!important;
+}
+.light-footer .footer-brand-col .light-brand .brand-crown svg{
+  stroke-width:2!important;
+}
+.light-footer .footer-brand-col .light-brand::after{
+  opacity:.65!important;
+  filter:blur(9px)!important;
+}
+@media(max-width:650px){
+  .light-footer .footer-brand-col .light-brand>span:not(.brand-crown){
+    font-weight:700!important;
+    letter-spacing:-1.9px!important;
+  }
+}
