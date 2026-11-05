@@ -519,3 +519,39 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
 .host-spotlight{background:#fff;padding-top:38px}
 .host-avatar-rail{gap:20px}
 }
+
+
+/* Flagship full-bleed event spotlight carousel */
+.portrait-ad-section{padding-top:48px}
+.portrait-ad-heading{margin-bottom:22px}
+.flagship-event-spotlight{width:100%;border:1px solid #e9e1f1;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 16px 38px #24133616;margin:0 0 28px}
+.flagship-event-spotlight .event-spotlight-slide{position:relative;display:flex;align-items:flex-end;min-height:370px;padding:32px;color:#fff;background-size:cover;background-position:center;text-decoration:none;isolation:isolate}
+.flagship-event-spotlight .event-spotlight-slide:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,7,22,.78),transparent 65%);z-index:-1}
+.spotlight-feature-tag{position:absolute;top:24px;left:26px;display:inline-flex;align-items:center;gap:8px;border:1px solid #ffffff70;background:#8c20d4d9;color:#fff;border-radius:30px;padding:9px 14px;font-size:9px;font-weight:900;letter-spacing:1.5px}
+.spotlight-feature-copy{max-width:70%;text-shadow:0 2px 12px #0008}
+.spotlight-feature-copy>span{font-size:9px;font-weight:900;letter-spacing:1.7px;color:#f1d8ff}
+.spotlight-feature-copy h3{font:800 clamp(30px,5vw,56px)/.98 'Space Grotesk';letter-spacing:-2px;margin:12px 0 14px;color:#fff}
+.spotlight-feature-copy p{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:12px;color:#fff;margin:0 0 20px}
+.spotlight-feature-copy p i{height:14px;border-left:1px solid #ffffff80}
+.spotlight-feature-copy>b{display:inline-flex;align-items:center;gap:10px;background:#a923e8;color:#fff;border-radius:30px;padding:13px 19px;font-size:11px;box-shadow:0 6px 18px #10071855}
+.spotlight-feature-controls{position:absolute;right:24px;bottom:25px;display:flex;align-items:center;gap:12px}
+.spotlight-feature-controls button{width:38px;height:38px;border-radius:50%;border:1px solid #ffffffa8;background:#ffffff20;color:#fff;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px)}
+.spotlight-feature-controls span{font-size:10px;font-weight:800;color:#fff;white-space:nowrap}
+.spotlight-rental-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 20px;border-top:1px solid #eee9f2}
+.spotlight-rental-row>span{font-size:10px;color:#898391}
+.spotlight-rental-row>a{display:inline-flex;align-items:center;gap:8px;color:#201a29;font-size:11px;font-weight:800}
+@media(max-width:650px){
+ .portrait-ad-section{padding:34px 4% 38px!important}
+ .flagship-event-spotlight{border-radius:19px;margin-bottom:22px}
+ .flagship-event-spotlight .event-spotlight-slide{min-height:355px;padding:22px}
+ .spotlight-feature-tag{top:17px;left:17px;font-size:8px;padding:8px 11px}
+ .spotlight-feature-copy{max-width:100%;padding-bottom:38px}
+ .spotlight-feature-copy h3{font-size:35px;max-width:95%;letter-spacing:-1.3px}
+ .spotlight-feature-copy p{font-size:10px;gap:6px}
+ .spotlight-feature-controls{right:15px;bottom:16px;gap:7px}
+ .spotlight-feature-controls button{width:32px;height:32px}
+ .spotlight-feature-controls span{font-size:9px}
+ .spotlight-rental-row{padding:13px 14px}
+ .spotlight-rental-row>span{font-size:9px}
+ .spotlight-rental-row>a{font-size:10px}
+}
