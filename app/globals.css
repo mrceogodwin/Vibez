@@ -927,3 +927,41 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
     letter-spacing:1.35px!important;
   }
 }
+
+
+/* Quiet, compact flagship placement captions */
+.flagship-ad-inventory .flagship-ad-item{
+  flex:0 0 142px!important;
+  min-width:142px!important;
+  gap:5px!important;
+}
+.flagship-ad-inventory .flagship-ad-item .portrait-ad-card{
+  height:96px!important;
+  min-height:96px!important;
+  border-radius:11px!important;
+}
+.flagship-ad-inventory .flagship-ad-caption{
+  gap:2px!important;
+  opacity:.82;
+}
+.flagship-ad-inventory .flagship-ad-caption b{
+  font-size:10px!important;
+  line-height:1.25!important;
+  font-weight:600!important;
+  letter-spacing:.02em!important;
+  color:#e9e1f2!important;
+}
+.flagship-ad-inventory .flagship-ad-caption small{
+  font-size:9px!important;
+  line-height:1.35!important;
+  font-weight:400!important;
+  color:#b8a9c7!important;
+}
+@media(max-width:760px){
+  .flagship-ad-inventory{padding:20px 4% 24px!important}
+  .flagship-ad-inventory .flagship-ad-slider{gap:11px!important}
+  .flagship-ad-inventory .flagship-ad-item{flex-basis:128px!important;min-width:128px!important}
+  .flagship-ad-inventory .flagship-ad-item .portrait-ad-card{height:86px!important;min-height:86px!important}
+  .flagship-ad-inventory .flagship-ad-caption b{font-size:9px!important}
+  .flagship-ad-inventory .flagship-ad-caption small{font-size:8px!important}
+}
