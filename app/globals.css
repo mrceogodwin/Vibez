@@ -1210,3 +1210,42 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
 @media(prefers-reduced-motion:reduce){
   .flagship-event-spotlight *{transition:none!important}
 }
+
+
+/* Compact event-partner placement between ticket rankings and discovery */
+.ad-banner.ad-banner-compact{
+  margin:0 5.2% 26px!important;
+  min-height:150px!important;
+  padding:18px 2.8%!important;
+  grid-template-columns:minmax(0,1.25fr) minmax(170px,.75fr)!important;
+  gap:22px!important;
+  border-radius:19px!important;
+}
+.ad-banner-compact .ad-banner-text h2{
+  font-size:clamp(20px,2.4vw,29px)!important;
+  line-height:1.06!important;
+  margin:7px 0!important;
+}
+.ad-banner-compact .ad-banner-text p{font-size:10px!important;margin-bottom:8px!important}
+.ad-banner-compact .ad-banner-text>a{font-size:10px!important;margin-top:5px!important}
+.ad-banner-compact .ad-banner-art{min-height:108px!important;height:108px!important;border-radius:14px!important}
+.ad-banner-compact .ad-banner-art span{font-size:clamp(16px,2vw,25px)!important;letter-spacing:1px!important}
+.ad-banner-compact .ad-banner-art small{font-size:6px!important;letter-spacing:1.5px!important;margin-top:8px!important}
+@media(max-width:650px){
+  .ad-banner.ad-banner-compact{
+    margin:0 4% 22px!important;
+    min-height:116px!important;
+    padding:13px 12px!important;
+    grid-template-columns:minmax(0,1.2fr) minmax(95px,.8fr)!important;
+    gap:10px!important;
+    border-radius:15px!important;
+  }
+  .ad-banner-compact .ad-banner-text .sponsored-kicker{font-size:6px!important;letter-spacing:1px!important}
+  .ad-banner-compact .ad-banner-text h2{font-size:clamp(15px,4.2vw,19px)!important;letter-spacing:-.5px!important;margin:5px 0!important}
+  .ad-banner-compact .ad-banner-text p{font-size:8px!important;line-height:1.35!important;margin:0 0 6px!important}
+  .ad-banner-compact .ad-banner-text>a{font-size:8px!important;gap:4px!important;margin-top:3px!important}
+  .ad-banner-compact .ad-banner-text>a svg{width:12px!important;height:12px!important}
+  .ad-banner-compact .ad-banner-art{height:82px!important;min-height:82px!important;border-radius:10px!important}
+  .ad-banner-compact .ad-banner-art span{font-size:12px!important;line-height:1.1!important;letter-spacing:.5px!important}
+  .ad-banner-compact .ad-banner-art small{font-size:5px!important;letter-spacing:.8px!important;margin-top:6px!important}
+}
