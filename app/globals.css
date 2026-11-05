@@ -1564,3 +1564,30 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
     letter-spacing:-1.9px!important;
   }
 }
+
+
+/* Refine footer wordmark: lighter 3D, less chunky */
+.light-footer .footer-brand-col .light-brand>span:not(.brand-crown){
+  font-weight:700!important;
+  letter-spacing:-2.1px!important;
+  background:linear-gradient(180deg,#fff 0%,#f7f3fc 42%,#d8c9eb 78%,#f8f4ff 100%)!important;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.85)) drop-shadow(0 2px 1px rgba(116,83,153,.7)) drop-shadow(0 3px 5px rgba(0,0,0,.38))!important;
+}
+.light-footer .footer-brand-col .light-brand .brand-crown{
+  color:#f4eaff!important;
+  filter:drop-shadow(0 1px 1px rgba(175,132,220,.55))!important;
+}
+.light-footer .footer-brand-col .light-brand .brand-crown svg{
+  stroke-width:2.1!important;
+}
+.light-footer .footer-brand-col .light-brand small{
+  font-weight:700!important;
+  letter-spacing:1.35px!important;
+  text-shadow:0 1px 3px rgba(185,130,255,.2)!important;
+}
+@media(max-width:650px){
+  .light-footer .footer-brand-col .light-brand>span:not(.brand-crown){
+    font-size:37px!important;
+    font-weight:700!important;
+  }
+}
