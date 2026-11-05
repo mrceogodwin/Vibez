@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, UserRound, Flame, TrendingUp, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, UserRound, Flame, TrendingUp, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness, Sun, Moon, Monitor } from "lucide-react";
 
 const events = [
   { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",time:"6:00 PM",host:"LiveSpot Events",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick",sold:12480 },
@@ -30,6 +30,9 @@ export default function Home() {
   const [category,setCategory]=useState("All events");
   const [visibleEvents,setVisibleEvents]=useState(4);
   const [menuOpen,setMenuOpen]=useState(false);
+  const [appearance,setAppearance]=useState<"light"|"dark"|"system">("dark");
+  useEffect(()=>{const saved=window.localStorage.getItem("vibez-appearance");if(saved==="light"||saved==="dark"||saved==="system")setAppearance(saved);},[]);
+  useEffect(()=>{const root=document.documentElement;const apply=()=>{const dark=appearance==="dark"||(appearance==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);root.dataset.vibezTheme=dark?"dark":"light";};apply();window.localStorage.setItem("vibez-appearance",appearance);if(appearance!=="system")return;const media=window.matchMedia("(prefers-color-scheme: dark)");media.addEventListener("change",apply);return()=>media.removeEventListener("change",apply);},[appearance]);
   const [heroSlide,setHeroSlide]=useState(0);
   const [salesTab,setSalesTab]=useState("Best Selling");
   const [spotlightIndex,setSpotlightIndex]=useState(0);
@@ -47,9 +50,20 @@ export default function Home() {
   return <main className="light-site">
     <header className="light-header">
       <Link className="account-avatar" href="/signin" aria-label="Sign in to your VYBZ account"><UserRound size={20}/></Link><Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>Events • Tickets • Experiences</small></Link>
-      <nav className={menuOpen?"light-nav nav-open":"light-nav"}><a className="nav-current" href="#discover" onClick={()=>setMenuOpen(false)}>Home</a><a href="#events" onClick={()=>setMenuOpen(false)}>Events</a><a href="#discover" onClick={()=>setMenuOpen(false)}>Discover</a><a href="#organisers" onClick={()=>setMenuOpen(false)}>Organisers</a><a href="#vibez-tv" onClick={()=>setMenuOpen(false)}>Vibez TV</a></nav>
+      <nav className="light-nav"><a className="nav-current" href="#discover">Home</a><a href="#events">Events</a><a href="#discover">Discover</a><a href="#organisers">Organisers</a><a href="#vibez-tv">Vibez TV</a></nav>
       <div className="light-header-actions"><a className="icon-search" href="#event-search" aria-label="Search events"><Search size={19}/></a><Link className="login-link" href="/signin">Log in</Link><Link className="create-event-btn" href="/organiser">＋ Create event</Link><button className="mobile-menu" onClick={()=>setMenuOpen(!menuOpen)} aria-label={menuOpen?"Close menu":"Open menu"}>{menuOpen?<X/>:<Menu/>}</button></div>
     </header>
+    {menuOpen&&<><button className="drawer-backdrop" aria-label="Close menu" onClick={()=>setMenuOpen(false)}/><aside className="vibez-drawer" aria-label="Main menu">
+      <div className="drawer-top"><Link className="light-brand" href="/" onClick={()=>setMenuOpen(false)}><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link><button className="drawer-close" onClick={()=>setMenuOpen(false)} aria-label="Close menu"><X size={20}/></button></div>
+      <Link className="drawer-account" href="/signin" onClick={()=>setMenuOpen(false)}><span className="drawer-avatar"><UserRound size={19}/></span><span><strong>Your account</strong><small>Sign in to your VIBEZ experience</small></span><ArrowUpRight size={17}/></Link>
+      <nav className="drawer-links"><a href="#discover" onClick={()=>setMenuOpen(false)}><span>01</span>Home<ArrowRight size={16}/></a><a href="#events" onClick={()=>setMenuOpen(false)}><span>02</span>Discover events<ArrowRight size={16}/></a><a href="#organisers" onClick={()=>setMenuOpen(false)}><span>03</span>Hosts & organisers<ArrowRight size={16}/></a><a href="#vibez-tv" onClick={()=>setMenuOpen(false)}><span>04</span>Vibez TV<ArrowRight size={16}/></a><a href="/organiser" onClick={()=>setMenuOpen(false)}><span>05</span>Create an event<ArrowRight size={16}/></a></nav>
+      <div className="drawer-appearance"><div><span>PERSONALISE YOUR EXPERIENCE</span><strong>Appearance</strong></div><div className="appearance-options">
+        <button className={appearance==="light"?"selected":""} onClick={()=>setAppearance("light")}><Sun size={17}/><span>Light</span></button>
+        <button className={appearance==="dark"?"selected":""} onClick={()=>setAppearance("dark")}><Moon size={17}/><span>Dark</span></button>
+        <button className={appearance==="system"?"selected":""} onClick={()=>setAppearance("system")}><Monitor size={17}/><span>System</span></button>
+      </div></div>
+      <div className="drawer-foot"><span>VIBEZ / MADE FOR THE MOMENTS THAT MATTER</span><Link href="/support" onClick={()=>setMenuOpen(false)}>Help & support <ArrowUpRight size={13}/></Link></div>
+    </aside></>}
 
     <section className="live-now-strip" aria-label="Live now events"><span className="live-now-label"><i/> LIVE</span><div className="live-now-track"><div className="live-now-track-inner"><span>Discover events happening right now</span><b>•</b><span>Get your tickets while the moment is live</span><b>•</b><span>Discover events happening right now</span><b>•</b><span>Get your tickets while the moment is live</span></div></div><Link href="/events?status=live">Explore live events <ArrowRight size={15}/></Link></section>
 
