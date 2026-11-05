@@ -1339,3 +1339,37 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   .login-link{padding:10px 11px!important}
   .mobile-menu{width:31px!important}
 }
+
+
+/* Prevent compact sponsored banner from overflowing mobile viewport */
+.ad-banner.ad-banner-compact{
+  box-sizing:border-box!important;
+  width:calc(100% - 10.4%)!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+.ad-banner.ad-banner-compact>*{min-width:0!important;max-width:100%!important}
+.ad-banner-compact .ad-banner-text{min-width:0!important;overflow-wrap:anywhere!important}
+.ad-banner-compact .ad-banner-art{
+  box-sizing:border-box!important;width:100%!important;min-width:0!important;
+  max-width:100%!important;transform:none!important;overflow:hidden!important;
+}
+@media(max-width:650px){
+  .ad-banner.ad-banner-compact{
+    width:calc(100% - 8%)!important;
+    margin-left:4%!important;margin-right:4%!important;
+    padding:13px 12px!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,.82fr)!important;
+    column-gap:10px!important;
+  }
+  .ad-banner-compact .ad-banner-art{width:100%!important;min-width:0!important}
+  .ad-banner-compact .ad-banner-art span{
+    max-width:100%!important;font-size:clamp(10px,3.1vw,12px)!important;
+    overflow-wrap:anywhere!important;letter-spacing:.3px!important;
+  }
+  .ad-banner-compact .ad-banner-art small{
+    max-width:100%!important;padding:0 3px!important;
+    font-size:clamp(4px,1.25vw,5px)!important;letter-spacing:.45px!important;
+  }
+}
