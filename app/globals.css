@@ -676,3 +676,62 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
  .light-footer{padding:34px 5% 20px!important}
  .powered-by{font-size:9px;letter-spacing:.8px}
 }
+
+
+/* Compact, unboxed category shortcuts — restore the light original treatment */
+.category-strip{
+  padding:8px 5.2% 18px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:22px!important;
+  background:transparent!important;
+  overflow-x:auto!important;
+  scrollbar-width:none;
+}
+.category-strip::-webkit-scrollbar{display:none}
+.category-strip .category-tile{
+  flex:0 0 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:5px 0!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:7px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#716b7b!important;
+  white-space:nowrap;
+}
+.category-strip .category-tile b{
+  width:auto!important;
+  height:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#8754dc!important;
+}
+.category-strip .category-tile b svg{width:16px!important;height:16px!important}
+.category-strip .category-tile span{
+  font-size:10px!important;
+  line-height:1.2!important;
+  font-weight:650!important;
+  color:inherit!important;
+}
+.category-strip .category-tile:hover{transform:none!important;color:#8754dc!important}
+@media(max-width:760px){
+  .category-strip{padding:5px 5% 15px!important;gap:20px!important}
+  .category-strip .category-tile{padding:4px 0!important;gap:6px!important}
+  .category-strip .category-tile b svg{width:15px!important;height:15px!important}
+  .category-strip .category-tile span{font-size:9px!important}
+}
