@@ -44,7 +44,7 @@ export default function Home() {
 
   return <main className="light-site">
     <header className="light-header">
-      <Link className="account-avatar" href="/signin" aria-label="Sign in to your VYBZ account"><UserRound size={20}/></Link><Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link>
+      <Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VYBZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link><Link className="account-avatar" href="/signin" aria-label="Sign in to your VYBZ account"><UserRound size={20}/></Link>
       <nav className={menuOpen?"light-nav nav-open":"light-nav"}><a className="nav-current" href="#discover" onClick={()=>setMenuOpen(false)}>Home</a><a href="#events" onClick={()=>setMenuOpen(false)}>Events</a><a href="#discover" onClick={()=>setMenuOpen(false)}>Discover</a><a href="#organisers" onClick={()=>setMenuOpen(false)}>Organisers</a><a href="#vibez-tv" onClick={()=>setMenuOpen(false)}>Vibez TV</a></nav>
       <div className="light-header-actions"><a className="icon-search" href="#event-search" aria-label="Search events"><Search size={19}/></a><Link className="login-link" href="/signin">Log in</Link><Link className="create-event-btn" href="/organiser">＋ Create event</Link><button className="mobile-menu" onClick={()=>setMenuOpen(!menuOpen)} aria-label={menuOpen?"Close menu":"Open menu"}>{menuOpen?<X/>:<Menu/>}</button></div>
     </header>
