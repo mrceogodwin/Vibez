@@ -5,15 +5,15 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, UserRound, Flame, TrendingUp, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness } from "lucide-react";
 
 const events = [
-  { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick",sold:12480 },
-  { slug:"palmwine-poetry",name:"Palmwine & Poetry",category:"Arts & Culture",city:"Abuja",date:"29 Nov 2026",price:"₦5,000",image:"https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1000&q=85",tag:"Live experience",sold:8320 },
-  { slug:"after-dark-experience",name:"After Dark: The Experience",category:"Nightlife",city:"Port Harcourt",date:"06 Dec 2026",price:"₦12,000",image:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1000&q=85",tag:"Popular",sold:6915 },
-  { slug:"culture-festival",name:"The Culture Festival",category:"Festivals",city:"Lagos",date:"14 Dec 2026",price:"₦15,000",image:"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1000&q=85",tag:"Festival",sold:5840 },
-  { slug:"lagos-jazz-weekend",name:"Lagos Jazz Weekend",category:"Concerts",city:"Lagos",date:"19 Dec 2026",price:"₦10,000",image:"https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1000&q=85",tag:"Live music",sold:4210 },
-  { slug:"abuja-comedy-night",name:"Abuja Comedy Night",category:"Comedy",city:"Abuja",date:"20 Dec 2026",price:"₦7,500",image:"https://images.unsplash.com/photo-1585699324551-f6c309easee5?w=1000&q=85",tag:"Comedy pick",sold:3680 },
-  { slug:"new-years-countdown",name:"The Countdown Party",category:"Nightlife",city:"Lagos",date:"31 Dec 2026",price:"₦20,000",image:"https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1000&q=85",tag:"New year",sold:3120 },
-  { slug:"creative-market",name:"The Creative Market",category:"Arts & Culture",city:"Port Harcourt",date:"10 Jan 2027",price:"₦3,000",image:"https://images.unsplash.com/photo-1531058020387-3be344556be6?w=1000&q=85",tag:"Culture",sold:2240 },
-  { slug:"startup-social",name:"The Startup Social",category:"Conferences",city:"Abuja",date:"17 Jan 2027",price:"₦5,000",image:"https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&q=85",tag:"Networking",sold:1780 },
+  { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",time:"6:00 PM",host:"LiveSpot Events",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick",sold:12480 },
+  { slug:"palmwine-poetry",name:"Palmwine & Poetry",category:"Arts & Culture",city:"Abuja",date:"29 Nov 2026",time:"5:30 PM",host:"The Culture Plug",price:"₦5,000",image:"https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1000&q=85",tag:"Live experience",sold:8320 },
+  { slug:"after-dark-experience",name:"After Dark: The Experience",category:"Nightlife",city:"Port Harcourt",date:"06 Dec 2026",time:"9:00 PM",host:"After Dark Collective",price:"₦12,000",image:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1000&q=85",tag:"Popular",sold:6915 },
+  { slug:"culture-festival",name:"The Culture Festival",category:"Festivals",city:"Lagos",date:"14 Dec 2026",time:"12:00 PM",host:"The Culture Plug",price:"₦15,000",image:"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1000&q=85",tag:"Festival",sold:5840 },
+  { slug:"lagos-jazz-weekend",name:"Lagos Jazz Weekend",category:"Concerts",city:"Lagos",date:"19 Dec 2026",time:"7:00 PM",host:"LiveSpot Events",price:"₦10,000",image:"https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1000&q=85",tag:"Live music",sold:4210 },
+  { slug:"abuja-comedy-night",name:"Abuja Comedy Night",category:"Comedy",city:"Abuja",date:"20 Dec 2026",time:"6:30 PM",host:"AY Live",price:"₦7,500",image:"https://images.unsplash.com/photo-1585699324551-f6c309easee5?w=1000&q=85",tag:"Comedy pick",sold:3680 },
+  { slug:"new-years-countdown",name:"The Countdown Party",category:"Nightlife",city:"Lagos",date:"31 Dec 2026",time:"8:00 PM",host:"Flytime Live",price:"₦20,000",image:"https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1000&q=85",tag:"New year",sold:3120 },
+  { slug:"creative-market",name:"The Creative Market",category:"Arts & Culture",city:"Port Harcourt",date:"10 Jan 2027",time:"10:00 AM",host:"The Culture Plug",price:"₦3,000",image:"https://images.unsplash.com/photo-1531058020387-3be344556be6?w=1000&q=85",tag:"Culture",sold:2240 },
+  { slug:"startup-social",name:"The Startup Social",category:"Conferences",city:"Abuja",date:"17 Jan 2027",time:"9:00 AM",host:"VIBEZ Community",price:"₦5,000",image:"https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&q=85",tag:"Networking",sold:1780 },
 ];
 
 const categories = ["All events","Concerts","Nightlife","Festivals","Comedy","Arts & Culture","Conferences"];
@@ -34,7 +34,7 @@ export default function Home() {
   const [salesTab,setSalesTab]=useState("Best Selling");
   const [spotlightIndex,setSpotlightIndex]=useState(0);
   const [followedHosts,setFollowedHosts]=useState<string[]>([]);
-  useEffect(()=>{const timer=window.setInterval(()=>setSpotlightIndex(i=>(i+1)%100),5500);return()=>window.clearInterval(timer);},[]);
+  useEffect(()=>{const timer=window.setInterval(()=>setSpotlightIndex(i=>(i+1)%events.length),4000);return()=>window.clearInterval(timer);},[]);
   const [highlightPlaying,setHighlightPlaying]=useState(false);
   const [email,setEmail]=useState("");
   const [subscribed,setSubscribed]=useState(false);
@@ -96,12 +96,27 @@ export default function Home() {
     <section className="portrait-ad-section">
       <div className="portrait-ad-heading"><div><span className="light-eyebrow">HIGH-IMPACT EVENT VISIBILITY</span><h2>Own the <em>spotlight.</em></h2><p>Premium event features that put your experience in front of people ready to go out.</p></div></div>
       <div className="event-spotlight-slider flagship-event-spotlight" aria-label="Featured event spotlight carousel">
-        <Link className="event-spotlight-slide" href={"/events/"+events[spotlightIndex%events.length].slug} style={{backgroundImage:"linear-gradient(90deg,rgba(12,7,22,.88) 0%,rgba(12,7,22,.58) 48%,rgba(12,7,22,.12) 100%),url("+events[spotlightIndex%events.length].image+")"}}>
-          <span className="spotlight-feature-tag"><Crown size={13}/> EVENT SPOTLIGHT</span>
-          <div className="spotlight-feature-copy"><span>FEATURED EXPERIENCE · {String(spotlightIndex+1).padStart(2,"0")} / 100</span><h3>{events[spotlightIndex%events.length].name}</h3><p><CalendarDays size={15}/> {events[spotlightIndex%events.length].date} <i/> <MapPin size={15}/> {events[spotlightIndex%events.length].city}</p><b>Get tickets <ArrowUpRight size={17}/></b></div>
-          <div className="spotlight-feature-controls"><button type="button" aria-label="Previous event spotlight" onClick={e=>{e.preventDefault();e.stopPropagation();setSpotlightIndex(i=>(i+99)%100)}}><ChevronLeft size={18}/></button><span>{String(spotlightIndex+1).padStart(2,"0")} / 100</span><button type="button" aria-label="Next event spotlight" onClick={e=>{e.preventDefault();e.stopPropagation();setSpotlightIndex(i=>(i+1)%100)}}><ChevronRight size={18}/></button></div>
+        <Link className="event-spotlight-slide" href={"/events/"+events[spotlightIndex%events.length].slug} style={{backgroundImage:"linear-gradient(180deg,rgba(12,7,22,.12) 0%,rgba(12,7,22,.12) 35%,rgba(12,7,22,.88) 100%),url("+events[spotlightIndex%events.length].image+")"}}>
+          <span className="spotlight-feature-tag"><Crown size={13}/> VIBEZ SPOTLIGHT</span>
+          <div className="spotlight-feature-copy">
+            <span>FEATURED EXPERIENCE · {String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
+            <h3>{events[spotlightIndex%events.length].name}</h3>
+            <div className="spotlight-event-facts">
+              <span><CalendarDays size={14}/> {events[spotlightIndex%events.length].date}</span>
+              <span><span className="spotlight-fact-dot"/> {events[spotlightIndex%events.length].time}</span>
+              <span><MapPin size={14}/> {events[spotlightIndex%events.length].city}</span>
+            </div>
+            <span className="spotlight-host-line">Hosted by <strong>{events[spotlightIndex%events.length].host}</strong></span>
+            <span className="spotlight-price-line">Tickets from <strong>{events[spotlightIndex%events.length].price}</strong></span>
+            <span className="spotlight-outline-cta">Explore event <ArrowUpRight size={16}/></span>
+          </div>
+          <div className="spotlight-feature-controls">
+            <button type="button" aria-label="Previous event spotlight" onClick={e=>{e.preventDefault();e.stopPropagation();setSpotlightIndex(i=>(i+events.length-1)%events.length)}}><ChevronLeft size={18}/></button>
+            <span>{String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
+            <button type="button" aria-label="Next event spotlight" onClick={e=>{e.preventDefault();e.stopPropagation();setSpotlightIndex(i=>(i+1)%events.length)}}><ChevronRight size={18}/></button>
+          </div>
         </Link>
-        <div className="spotlight-rental-row"><span>100 premium event spotlight positions</span><Link href="/promotions?placement=event-spotlight">Rent a spotlight <ArrowUpRight size={16}/></Link></div>
+        <div className="spotlight-rental-row"><span>Featured events, selected for your next experience</span><Link href="/promotions?placement=event-spotlight">Promote an event <ArrowUpRight size={16}/></Link></div>
       </div>
     </section>
 
