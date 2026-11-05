@@ -628,3 +628,12 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
  .flagship-event-spotlight .event-spotlight-slide{height:355px!important;min-height:355px!important;padding:20px!important}
  .organiser-light{padding:24px 4%!important}
 }
+
+
+/* VYBZ spotlight spacing root fix: keep the heading and carousel in one compact flow */
+.portrait-ad-section{display:block!important;position:relative!important;min-height:0!important;height:auto!important;padding-top:22px!important;padding-bottom:30px!important;}
+.portrait-ad-heading{display:block!important;position:static!important;min-height:0!important;height:auto!important;margin:0 0 14px!important;padding:0!important;}
+.portrait-ad-heading>div{display:block!important;position:static!important;min-height:0!important;height:auto!important;}
+.flagship-event-spotlight{position:relative!important;margin:0 0 22px!important;}
+.flagship-event-spotlight .event-spotlight-slide{min-height:355px!important;height:355px!important;}
+@media(max-width:650px){.portrait-ad-section{padding:22px 4% 30px!important}.portrait-ad-heading{margin-bottom:12px!important}.flagship-event-spotlight .event-spotlight-slide{height:355px!important;min-height:355px!important}}
