@@ -1781,3 +1781,65 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   .flagship-event-spotlight .spotlight-outline-cta{min-height:44px!important;padding:12px 17px!important;font-size:12px!important}
   .flagship-event-spotlight .spotlight-feature-tag{width:38px!important;height:38px!important}
 }
+
+
+/* Correct the VIBEZ wordmark rendering on iOS: real silver text, no clipped block */
+.light-footer .footer-brand-col .light-brand>span:not(.brand-crown){
+  display:block!important;
+  background:none!important;
+  background-image:none!important;
+  -webkit-background-clip:border-box!important;
+  background-clip:border-box!important;
+  -webkit-text-fill-color:#e8e6ed!important;
+  color:#e8e6ed!important;
+  font-family:'Space Grotesk',sans-serif!important;
+  font-size:39px!important;
+  font-weight:600!important;
+  line-height:.95!important;
+  letter-spacing:-2px!important;
+  filter:none!important;
+  text-shadow:0 1px 0 #fff,0 2px 1px #aaa5b2,0 3px 5px rgba(0,0,0,.5)!important;
+}
+
+/* Premium purple navigation header ONLY — ticker below remains unchanged */
+.light-site>.light-header{
+  background:linear-gradient(112deg,#100817 0%,#21102f 48%,#40105e 100%)!important;
+  border-bottom:1px solid rgba(203,166,244,.24)!important;
+  box-shadow:0 7px 22px rgba(21,8,34,.22),inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+.light-site>.light-header .light-brand>span:not(.brand-crown){
+  color:#e8e6ed!important;
+  background:none!important;
+  -webkit-text-fill-color:#e8e6ed!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.8),0 2px 2px rgba(0,0,0,.55)!important;
+  font-weight:650!important;
+  filter:none!important;
+}
+.light-site>.light-header .light-brand .brand-crown{
+  color:#e9e5ef!important;
+  filter:drop-shadow(0 1px 2px rgba(255,255,255,.35))!important;
+}
+.light-site>.light-header .light-brand small{
+  color:#d7c9e5!important;
+  text-shadow:none!important;
+}
+.light-site>.light-header .account-avatar,
+.light-site>.light-header .icon-search{
+  color:#f3edf9!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.035))!important;
+  border:1px solid rgba(226,204,248,.34)!important;
+  box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.light-site>.light-header .login-link{
+  color:#f5effb!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.045))!important;
+  border:1px solid rgba(226,204,248,.38)!important;
+  box-shadow:0 3px 12px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.light-site>.light-header .mobile-menu{color:#f5effb!important}
+.light-site>.light-header .mobile-menu:hover{background:rgba(255,255,255,.1)!important}
+@media(max-width:760px){
+  .light-site>.light-header{
+    background:linear-gradient(112deg,#100817 0%,#21102f 48%,#40105e 100%)!important;
+  }
+}
