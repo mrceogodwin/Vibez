@@ -492,3 +492,30 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
  .spotlight-controls{padding:11px 13px}
  .spotlight-controls>span{font-size:8px}
 }
+
+
+/* VYBZ flagship homepage refinements */
+.partner-logo-placeholder{border:0;background:transparent;box-shadow:none}
+.event-spotlight-slide{color:inherit;min-height:330px;text-decoration:none}
+.spotlight-empty-art{background-size:cover!important;background-position:center!important;color:#fff;min-height:330px}
+.spotlight-empty-art>span,.spotlight-empty-art>small{color:#fff;text-shadow:0 2px 12px #0008}
+.spotlight-empty-art>strong{max-width:620px;color:#fff;text-shadow:0 3px 18px #0008}
+.spotlight-slide-copy{background:linear-gradient(145deg,#fff,#faf7ff)}
+.spotlight-ticket-cta{display:inline-flex;align-items:center;gap:9px;background:#17131d;color:#fff;padding:13px 18px;border-radius:30px;margin-top:12px;font-size:10px;font-weight:800}
+.host-avatar-rail{scroll-behavior:smooth}
+.host-avatar-item{flex:0 0 112px}
+.host-avatar-link{display:flex;flex-direction:column;align-items:center;gap:6px}
+.host-avatar{border:2px solid #fff;outline:1px solid #e8e5ed;box-shadow:0 4px 0 #f0edf4,0 9px 18px #2b1d400d}
+.host-follow-btn{border:1px solid #e5dcef;background:#fff;color:#292331;border-radius:20px;padding:7px 15px;font-size:9px;font-weight:800;box-shadow:0 3px 0 #eee8f4;cursor:pointer}
+.host-follow-btn.is-following{background:#21172d;color:#fff;border-color:#21172d}
+@media(max-width:650px){
+.event-spotlight-section{padding:38px 5.2% 42px}
+.event-spotlight-heading{align-items:flex-start;flex-direction:column}
+.event-spotlight-heading>a{padding:11px 15px}
+.event-spotlight-slide{grid-template-columns:1fr}
+.spotlight-empty-art{min-height:230px;padding:24px}
+.spotlight-empty-art>strong{font-size:34px}
+.spotlight-slide-copy{padding:24px}
+.host-spotlight{background:#fff;padding-top:38px}
+.host-avatar-rail{gap:20px}
+}
