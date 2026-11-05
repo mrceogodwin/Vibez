@@ -610,3 +610,21 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
  .host-avatar-item{flex-basis:70px!important}
  .newsletter-band{margin:0!important}
 }
+
+
+/* VYBZ mobile spacing and section order correction */
+.portrait-ad-section{padding-top:24px!important}
+.portrait-ad-heading{margin:0 0 14px!important}
+.portrait-ad-heading>div{margin:0!important;padding:0!important}
+.portrait-ad-heading h2{margin:6px 0 0!important}
+.portrait-ad-heading p{margin:7px 0 0!important}
+.flagship-event-spotlight{display:block!important;height:auto!important;min-height:0!important;margin-top:0!important}
+.flagship-event-spotlight .event-spotlight-slide{display:flex!important;min-height:355px!important;height:355px!important;align-items:flex-end!important;background-size:cover!important;background-position:center 42%!important}
+.organiser-light{padding-top:28px!important;padding-bottom:28px!important}
+@media(max-width:650px){
+ .portrait-ad-section{padding:24px 4% 32px!important}
+ .portrait-ad-heading{margin-bottom:12px!important;gap:0!important}
+ .portrait-ad-heading p{margin-top:6px!important;line-height:1.45!important}
+ .flagship-event-spotlight .event-spotlight-slide{height:355px!important;min-height:355px!important;padding:20px!important}
+ .organiser-light{padding:24px 4%!important}
+}
