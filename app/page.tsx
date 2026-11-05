@@ -103,10 +103,6 @@ export default function Home() {
         </Link>
         <div className="spotlight-rental-row"><span>100 premium event spotlight positions</span><Link href="/promotions?placement=event-spotlight">Rent a spotlight <ArrowUpRight size={16}/></Link></div>
       </div>
-      <div className="portrait-ad-grid">
-        <a className="portrait-ad-card portrait-ad-tall" href="/advertise"><span className="portrait-ad-label">FLAGSHIP · 01</span><div><small>HOMEPAGE HERO TAKEOVER</small><strong>Your brand.<br/>Front and centre.</strong><span>Reserve this placement <ArrowUpRight size={14}/></span></div></a>
-        <a className="portrait-ad-card portrait-ad-purple" href="/advertise"><span className="portrait-ad-label">PREMIUM · 02</span><div><small>EVENT DISCOVERY</small><strong>Be part of<br/>the next big thing.</strong><span>Rent this space <ArrowUpRight size={14}/></span></div></a>
-        <a className="portrait-ad-card portrait-ad-dark" href="/advertise"><span className="portrait-ad-label">FEATURED · 03</span><div><small>VYBZ TV & CULTURE</small><strong>Stay in<br/>the conversation.</strong><span>Rent this space <ArrowUpRight size={14}/></span></div></a>
       </div>
     </section>
 
@@ -122,6 +118,14 @@ export default function Home() {
     <section className="vibez-tv-light" id="vibez-tv"><div className="tv-light-image"><span>VIBEZ TV</span></div><div className="tv-light-copy"><span className="light-eyebrow">THE SHOW GOES ON</span><h2>Relive the moments.<br/><em>Discover what’s next.</em></h2><p>Concert highlights, interviews, performances and stories from the experiences shaping culture.</p><a href="/tv">Explore Vibez TV <ArrowRight size={16}/></a></div></section>
 
     <section className="newsletter-band"><div><span className="light-eyebrow">GOOD THINGS, STRAIGHT TO YOUR INBOX</span><h2>Stay in the <em>Vibez.</em></h2><p>Get event drops, exclusive ticket offers and experiences worth showing up for.</p></div><form onSubmit={e=>{e.preventDefault();if(email.includes("@"))setSubscribed(true);}}><label htmlFor="newsletter-email">Your email address</label><div><input id="newsletter-email" type="email" required placeholder="you@example.com" value={email} onChange={e=>setEmail(e.target.value)}/><button>{subscribed?"You're on the list":"Subscribe"}</button></div><small>{subscribed?"Thanks for your interest. Newsletter signup will be enabled at launch.":"No spam. Just the good stuff."}</small></form></section>
+
+    <section className="flagship-ad-inventory" aria-label="Flagship advertising placements">
+      <div className="portrait-ad-grid">
+        <a className="portrait-ad-card portrait-ad-tall" href="/advertise"><span className="portrait-ad-label">FLAGSHIP · 01</span><div><small>HOMEPAGE HERO TAKEOVER</small><strong>Your brand.<br/>Front and centre.</strong><span>Reserve this placement <ArrowUpRight size={14}/></span></div></a>
+        <a className="portrait-ad-card portrait-ad-purple" href="/advertise"><span className="portrait-ad-label">PREMIUM · 02</span><div><small>EVENT DISCOVERY</small><strong>Be part of<br/>the next big thing.</strong><span>Rent this space <ArrowUpRight size={14}/></span></div></a>
+        <a className="portrait-ad-card portrait-ad-dark" href="/advertise"><span className="portrait-ad-label">FEATURED · 03</span><div><small>VYBZ TV & CULTURE</small><strong>Stay in<br/>the conversation.</strong><span>Rent this space <ArrowUpRight size={14}/></span></div></a>
+
+    </section>
 
     <footer className="light-footer"><div className="footer-brand-col"><Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link><p>Nigeria’s home for discovering events, buying tickets and staying connected to the experiences you love.</p><div className="social-links"><a href="#instagram">ig</a><a href="#tiktok">tk</a><a href="#youtube">▶</a><a href="#x">𝕏</a></div></div><div className="footer-col"><strong>Explore</strong><a href="#events">Events</a><a href="#discover">Discover</a><a href="/organisers">Organisers</a><a href="/tv">Vibez TV</a></div><div className="footer-col"><strong>For organisers</strong><a href="/organiser">Create an event</a><a href="/pricing">Pricing</a><a href="/organiser-guide">Organiser guide</a><a href="/support">Support</a></div><div className="footer-col"><strong>Company</strong><a href="/about">About Vibez</a><a href="/contact">Contact</a><a href="/privacy">Privacy policy</a><a href="/terms">Terms of service</a></div><div className="footer-bottom"><span>© 2026 Vibez. All rights reserved.</span><span>Made for the moments that matter. <b>NG</b></span><strong className="powered-by">Powered by Cookit Technologies Ltd.</strong></div></footer>
   </main>;
