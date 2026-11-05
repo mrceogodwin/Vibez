@@ -1339,3 +1339,17 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   .login-link{padding:10px 11px!important}
   .mobile-menu{width:31px!important}
 }
+
+
+/* Event filters: keep the selected category light, not a solid black pill */
+.category-filters button.filter-active{
+  background:linear-gradient(180deg,#fff 0%,#f8f5fc 100%)!important;
+  border-color:#cdb8eb!important;
+  color:#7744bd!important;
+  box-shadow:0 2px 0 #e8def4,0 5px 12px rgba(64,38,91,.07),inset 0 1px 0 #fff!important;
+}
+.category-filters button:not(.filter-active){
+  background:#fff!important;
+  border-color:#e5e1e9!important;
+  color:#666875!important;
+}
