@@ -1413,3 +1413,44 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
     text-align:left!important;
   }
 }
+
+
+/* Light-skin, tactile 3D event action */
+.flagship-event-spotlight .spotlight-outline-cta{
+  position:relative!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:11px!important;padding:14px 22px!important;margin-top:17px!important;
+  border:1px solid #e6dff0!important;border-radius:18px!important;
+  background:linear-gradient(180deg,#ffffff 0%,#f8f4ff 55%,#eee7fa 100%)!important;
+  color:#30243f!important;font-size:13px!important;font-weight:800!important;
+  letter-spacing:0!important;
+  box-shadow:0 5px 0 #d8cce8,0 8px 18px rgba(15,8,28,.22),inset 0 1px 0 #fff!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.8)!important;
+  transition:transform .12s ease,box-shadow .12s ease,filter .12s ease!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.flagship-event-spotlight .spotlight-outline-cta::before{
+  content:""!important;position:absolute!important;inset:1px 1px auto!important;
+  height:46%!important;border-radius:16px 16px 10px 10px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,0))!important;
+  pointer-events:none!important;
+}
+.flagship-event-spotlight .spotlight-outline-cta svg{position:relative!important;z-index:1!important}
+.flagship-event-spotlight .spotlight-outline-cta:hover{
+  transform:translateY(-2px)!important;filter:brightness(1.025)!important;
+  box-shadow:0 7px 0 #d8cce8,0 12px 22px rgba(15,8,28,.24),inset 0 1px 0 #fff!important;
+}
+.flagship-event-spotlight .spotlight-outline-cta:active{
+  transform:translateY(4px) scale(.985)!important;
+  box-shadow:0 1px 0 #d8cce8,0 3px 8px rgba(15,8,28,.18),inset 0 2px 5px rgba(91,62,125,.12)!important;
+  filter:brightness(.99)!important;
+}
+.flagship-event-spotlight .spotlight-outline-cta:focus-visible{
+  outline:3px solid rgba(151,99,219,.55)!important;outline-offset:3px!important;
+}
+@media(max-width:650px){
+  .flagship-event-spotlight .spotlight-outline-cta{
+    padding:13px 19px!important;font-size:12px!important;margin-top:14px!important;
+    border-radius:16px!important;
+  }
+}
