@@ -60,14 +60,29 @@ export default function Home() {
         </form>
         <div className="hero-stats"><div><strong>Discover</strong><span>Events across Nigeria</span></div><div><strong>Book securely</strong><span>Digital tickets</span></div><div><strong>Stay in it</strong><span>Experiences & media</span></div></div>
       </div>
-      <section className="hero-carousel" aria-label="Featured experiences carousel">
-        <div className={"hero-feature hero-slide hero-slide-"+heroSlide}>
-          {heroSlide===0&&<><div className="feature-image"/><div className="feature-overlay"/><span className="feature-pill">✦ FEATURED EXPERIENCE</span><div className="feature-copy"><span>VIBEZ SPOTLIGHT</span><h2>Make memories<br/>that move you.</h2><p>Explore standout experiences and find your next night out.</p><Link className="feature-cta" href="/events">Explore events <ArrowRight size={16}/></Link></div></>}
-          {heroSlide===1&&<><div className="feature-image highlight-image"/><div className="feature-overlay"/><span className="feature-pill"><Play size={12} fill="currentColor"/> VYBZ HIGHLIGHTS</span><div className="feature-copy"><span>WATCH THE MOMENTS</span><h2>The energy.<br/>The crowd. The story.</h2><p>Watch event previews, live highlights and unforgettable moments.</p><Link className="feature-cta" href="/tv">Watch highlights <Play size={14} fill="currentColor"/></Link></div><button className="highlight-play" onClick={()=>setHighlightPlaying(true)} aria-label="Preview event highlights"><Play size={23} fill="currentColor"/></button></>}
-          {heroSlide===2&&<><div className="feature-image promotion-image"/><div className="feature-overlay"/><span className="feature-pill">✦ PROMOTION SPOTLIGHT</span><div className="feature-copy"><span>FOR EVENT ORGANISERS</span><h2>Put your event<br/>in the spotlight.</h2><p>Approved and paid event promotions can be featured here.</p><Link className="feature-cta" href="/promotions">More promotions <ArrowRight size={16}/></Link></div></>}
-          <div className="hero-carousel-controls"><button onClick={()=>{setHeroSlide(s=>(s+2)%3);setHighlightPlaying(false)}} aria-label="Previous featured slide"><ChevronLeft size={19}/></button><div className="hero-carousel-dots">{[0,1,2].map(i=><button key={i} className={heroSlide===i?"active":""} onClick={()=>{setHeroSlide(i);setHighlightPlaying(false)}} aria-label={"Go to slide "+(i+1)}/>)}</div><button onClick={()=>{setHeroSlide(s=>(s+1)%3);setHighlightPlaying(false)}} aria-label="Next featured slide"><ChevronRight size={19}/></button></div>
+      <section className="hero-carousel flagship-event-spotlight" aria-label="Featured event spotlight">
+        <div className="event-spotlight-slider">
+          <div className="event-spotlight-slide" style={{backgroundImage:"linear-gradient(180deg,rgba(12,7,22,.12) 0%,rgba(12,7,22,.12) 35%,rgba(12,7,22,.92) 100%),url("+events[spotlightIndex%events.length].image+")"}}>
+            <span className="spotlight-feature-tag"><Crown size={13}/> FEATURED EXPERIENCE</span>
+            <div className="spotlight-feature-copy">
+              <span>VIBEZ SPOTLIGHT · {String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
+              <h3>{events[spotlightIndex%events.length].name}</h3>
+              <div className="spotlight-event-facts">
+                <span><CalendarDays size={14}/> {events[spotlightIndex%events.length].date}</span>
+                <span><span className="spotlight-fact-dot"/> {events[spotlightIndex%events.length].time}</span>
+                <span><MapPin size={14}/> {events[spotlightIndex%events.length].city}</span>
+              </div>
+              <span className="spotlight-host-line">Hosted by <strong>{events[spotlightIndex%events.length].host}</strong></span>
+              <span className="spotlight-price-line">Tickets from <strong>{events[spotlightIndex%events.length].price}</strong></span>
+              <Link className="spotlight-outline-cta" href={"/events/"+events[spotlightIndex%events.length].slug}>Explore event <ArrowUpRight size={16}/></Link>
+            </div>
+            <div className="spotlight-feature-controls">
+              <button type="button" aria-label="Previous event spotlight" onClick={()=>setSpotlightIndex(i=>(i+events.length-1)%events.length)}><ChevronLeft size={18}/></button>
+              <span>{String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
+              <button type="button" aria-label="Next event spotlight" onClick={()=>setSpotlightIndex(i=>(i+1)%events.length)}><ChevronRight size={18}/></button>
+            </div>
+          </div>
         </div>
-        {highlightPlaying&&<div className="highlight-preview-modal" role="dialog" aria-modal="true" aria-label="Event highlights preview"><div className="highlight-preview-panel"><button className="highlight-preview-close" onClick={()=>setHighlightPlaying(false)} aria-label="Close preview">×</button><div className="highlight-preview-screen"><Play size={34} fill="currentColor"/><strong>VYBZ event highlights</strong><span>Video playback will appear here when the media library is connected.</span></div></div></div>}
       </section>
     </section>
 
@@ -92,38 +107,6 @@ export default function Home() {
     <section className="organiser-light" id="organisers"><div className="light-section-heading"><div><span className="light-eyebrow">THE PEOPLE BEHIND THE MOMENTS</span><h2>Featured <em>organisers.</em></h2></div><a href="/organisers">View all organisers <ArrowRight size={16}/></a></div><div className="organiser-grid">{organisers.map(org=><article className="organiser-card" key={org.name}><div className={"organiser-avatar "+org.tone}>{org.mark}</div><div className="organiser-info"><strong>{org.name} <CheckCircle2 size={14}/></strong><span>Verified organiser</span><small>{org.count}</small></div><button onClick={e=>{const b=e.currentTarget;b.textContent=b.textContent==="Following"?"Follow":"Following";}}>Follow</button></article>)}</div></section>
 
     <section className="ad-banner ad-banner-compact"><div className="ad-banner-text"><span className="sponsored-kicker">SPONSORED · EVENT PARTNER</span><h2>Put your event<br/>in the <em>spotlight.</em></h2><p>Reach people ready to discover their next experience.</p><a href="/advertise">Promote an event <ArrowUpRight size={16}/></a></div><div className="ad-banner-art"><span>YOUR EVENT<br/>HERE</span><small>FEATURED EVENT CAMPAIGN</small></div></section>
-
-    <section className="portrait-ad-section">
-      <div className="portrait-ad-heading"><div><span className="light-eyebrow">HIGH-IMPACT EVENT VISIBILITY</span><h2>Own the <em>spotlight.</em></h2><p>Premium event features that put your experience in front of people ready to go out.</p></div></div>
-      <div className="event-spotlight-slider flagship-event-spotlight" aria-label="Featured event spotlight carousel">
-        <Link className="event-spotlight-slide" href={"/events/"+events[spotlightIndex%events.length].slug} style={{backgroundImage:"linear-gradient(180deg,rgba(12,7,22,.12) 0%,rgba(12,7,22,.12) 35%,rgba(12,7,22,.88) 100%),url("+events[spotlightIndex%events.length].image+")"}}>
-          <span className="spotlight-feature-tag"><Crown size={13}/> VIBEZ SPOTLIGHT</span>
-          <div className="spotlight-feature-copy">
-            <span>FEATURED EXPERIENCE · {String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
-            <h3>{events[spotlightIndex%events.length].name}</h3>
-            <div className="spotlight-event-facts">
-              <span><CalendarDays size={14}/> {events[spotlightIndex%events.length].date}</span>
-              <span><span className="spotlight-fact-dot"/> {events[spotlightIndex%events.length].time}</span>
-              <span><MapPin size={14}/> {events[spotlightIndex%events.length].city}</span>
-            </div>
-            <span className="spotlight-host-line">Hosted by <strong>{events[spotlightIndex%events.length].host}</strong></span>
-            <span className="spotlight-price-line">Tickets from <strong>{events[spotlightIndex%events.length].price}</strong></span>
-            <span className="spotlight-outline-cta">Explore event <ArrowUpRight size={16}/></span>
-          </div>
-          <div className="spotlight-feature-controls">
-            <button type="button" aria-label="Previous event spotlight" onClick={e=>{e.preventDefault();e.stopPropagation();setSpotlightIndex(i=>(i+events.length-1)%events.length)}}><ChevronLeft size={18}/></button>
-            <span>{String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
-            <button type="button" aria-label="Next event spotlight" onClick={e=>{e.preventDefault();e.stopPropagation();setSpotlightIndex(i=>(i+1)%events.length)}}><ChevronRight size={18}/></button>
-          </div>
-        </Link>
-        <div className="spotlight-rental-row"><span>Featured events, selected for your next experience</span><Link href="/promotions?placement=event-spotlight">Promote an event <ArrowUpRight size={16}/></Link></div>
-      </div>
-    </section>
-
-
-
-
-
 
     <section className="ad-slot ad-mid-slot"><div className="ad-top-copy"><span>VIBEZ SELECT · SPONSORED</span><strong>Give your next campaign a place in culture.</strong><small>Premium placements across discovery, events and experiences.</small></div><div className="ad-top-action"><span>BRAND SPOTLIGHT</span><a href="/advertise">Explore placements <ArrowUpRight size={15}/></a></div></section>
 
