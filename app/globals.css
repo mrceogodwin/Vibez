@@ -1353,3 +1353,25 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   border-color:#e5e1e9!important;
   color:#666875!important;
 }
+
+
+/* Homepage event filters: keep the active choice premium but unfilled */
+.category-filters button.filter-active{
+  background:linear-gradient(180deg,#fff 0%,#faf8fd 100%)!important;
+  color:#8050c8!important;
+  border:1px solid #d9c9ed!important;
+  box-shadow:0 2px 0 #e8def2,0 5px 12px rgba(72,43,105,.07),inset 0 1px 0 #fff!important;
+}
+.category-filters button.filter-active:hover{
+  background:#fff!important;
+  color:#7041b8!important;
+}
+/* Remove the floating save/favourite heart overlay from event cards */
+.light-event-card .event-heart,
+.light-event-card .event-save,
+.light-event-card .save-event,
+.light-event-image .event-heart,
+.light-event-image .event-save,
+.light-event-image .save-event{
+  display:none!important;
+}
