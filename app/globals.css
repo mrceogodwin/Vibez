@@ -829,3 +829,101 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   .flagship-ad-inventory .flagship-ad-item{flex-basis:142px;min-width:142px}
   .flagship-ad-inventory .flagship-ad-item .portrait-ad-card{height:100px!important}
 }
+
+
+/* Footer layout refinement: balanced columns and a centered animated Cookit signature */
+.light-footer{
+  display:grid!important;
+  grid-template-columns:minmax(240px,1.6fr) repeat(3,minmax(125px,1fr))!important;
+  align-items:start!important;
+  column-gap:clamp(22px,4vw,58px)!important;
+  row-gap:34px!important;
+  padding:54px max(5.2%,calc((100vw - 1280px)/2)) 26px!important;
+}
+.light-footer .footer-brand-col{grid-column:auto!important;min-width:0}
+.light-footer .footer-brand-col .light-brand{display:inline-flex!important;margin:0 0 17px!important}
+.light-footer .footer-brand-col p{max-width:340px!important;margin:0 0 20px!important;font-size:13px!important;line-height:1.8!important;overflow-wrap:break-word}
+.light-footer .social-links{display:flex!important;flex-wrap:wrap;gap:10px!important}
+.light-footer .footer-col{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:15px!important;min-width:0}
+.light-footer .footer-col strong{margin:0 0 3px!important;font-size:13px!important}
+.light-footer .footer-col a{font-size:12px!important;line-height:1.45!important;overflow-wrap:anywhere}
+.light-footer .footer-bottom{
+  grid-column:1/-1!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  align-items:center!important;
+  gap:12px 24px!important;
+  padding-top:20px!important;
+  margin-top:4px!important;
+  line-height:1.6!important;
+  font-size:11px!important;
+}
+.light-footer .footer-bottom span{min-width:0!important}
+.light-footer .footer-bottom span:last-of-type{text-align:right!important}
+.light-footer .powered-by{
+  grid-column:1/-1!important;
+  display:block!important;
+  width:100%!important;
+  margin:10px 0 0!important;
+  padding:20px 0 2px!important;
+  border-top:1px solid #ffffff20!important;
+  text-align:center!important;
+  font-size:clamp(12px,1.3vw,15px)!important;
+  line-height:1.5!important;
+  letter-spacing:1.7px!important;
+  font-weight:850!important;
+  background:linear-gradient(100deg,#b98aff 0%,#fff 22%,#d6a5ff 43%,#fff 62%,#a66af0 82%,#d9b5ff 100%)!important;
+  background-size:240% auto!important;
+  background-clip:text!important;
+  -webkit-background-clip:text!important;
+  color:transparent!important;
+  -webkit-text-fill-color:transparent!important;
+  animation:cookit-footer-shimmer 5.5s ease-in-out infinite!important;
+}
+@keyframes cookit-footer-shimmer{
+  0%,100%{background-position:0% center}
+  50%{background-position:100% center}
+}
+@media(max-width:760px){
+  .light-footer{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    column-gap:22px!important;
+    row-gap:28px!important;
+    padding:38px 5% 22px!important;
+  }
+  .light-footer .footer-brand-col{
+    grid-column:1/-1!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    text-align:center!important;
+  }
+  .light-footer .footer-brand-col .light-brand{align-self:center!important;margin-bottom:15px!important}
+  .light-footer .footer-brand-col p{
+    max-width:420px!important;
+    width:100%!important;
+    margin:0 auto 18px!important;
+    text-align:center!important;
+    font-size:12px!important;
+    line-height:1.7!important;
+  }
+  .light-footer .social-links{justify-content:center!important;width:100%}
+  .light-footer .footer-col{gap:13px!important}
+  .light-footer .footer-col strong{font-size:12px!important}
+  .light-footer .footer-col a{font-size:11px!important}
+  .light-footer .footer-bottom{
+    grid-template-columns:1fr!important;
+    justify-items:center!important;
+    text-align:center!important;
+    gap:8px!important;
+    padding-top:17px!important;
+  }
+  .light-footer .footer-bottom span,
+  .light-footer .footer-bottom span:last-of-type{text-align:center!important}
+  .light-footer .powered-by{
+    margin-top:13px!important;
+    padding-top:18px!important;
+    font-size:12px!important;
+    letter-spacing:1.35px!important;
+  }
+}
