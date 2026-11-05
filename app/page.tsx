@@ -120,10 +120,10 @@ export default function Home() {
     <section className="newsletter-band"><div><span className="light-eyebrow">GOOD THINGS, STRAIGHT TO YOUR INBOX</span><h2>Stay in the <em>Vibez.</em></h2><p>Get event drops, exclusive ticket offers and experiences worth showing up for.</p></div><form onSubmit={e=>{e.preventDefault();if(email.includes("@"))setSubscribed(true);}}><label htmlFor="newsletter-email">Your email address</label><div><input id="newsletter-email" type="email" required placeholder="you@example.com" value={email} onChange={e=>setEmail(e.target.value)}/><button>{subscribed?"You're on the list":"Subscribe"}</button></div><small>{subscribed?"Thanks for your interest. Newsletter signup will be enabled at launch.":"No spam. Just the good stuff."}</small></form></section>
 
     <section className="flagship-ad-inventory" aria-label="Flagship advertising placements">
-      <div className="portrait-ad-grid">
-        <a className="portrait-ad-card portrait-ad-tall" href="/advertise"><span className="portrait-ad-label">FLAGSHIP · 01</span><div><small>HOMEPAGE HERO TAKEOVER</small><strong>Your brand.<br/>Front and centre.</strong><span>Reserve this placement <ArrowUpRight size={14}/></span></div></a>
-        <a className="portrait-ad-card portrait-ad-purple" href="/advertise"><span className="portrait-ad-label">PREMIUM · 02</span><div><small>EVENT DISCOVERY</small><strong>Be part of<br/>the next big thing.</strong><span>Rent this space <ArrowUpRight size={14}/></span></div></a>
-        <a className="portrait-ad-card portrait-ad-dark" href="/advertise"><span className="portrait-ad-label">FEATURED · 03</span><div><small>VYBZ TV & CULTURE</small><strong>Stay in<br/>the conversation.</strong><span>Rent this space <ArrowUpRight size={14}/></span></div></a>
+      <div className="portrait-ad-grid flagship-ad-slider" aria-label="Swipe to browse advertising placements">
+        <a className="flagship-ad-item" href="/advertise"><span className="portrait-ad-card portrait-ad-tall" aria-hidden="true"></span><span className="flagship-ad-caption"><b>Flagship · 01</b><small>Homepage hero takeover</small></span></a>
+        <a className="flagship-ad-item" href="/advertise"><span className="portrait-ad-card portrait-ad-purple" aria-hidden="true"></span><span className="flagship-ad-caption"><b>Premium · 02</b><small>Event discovery</small></span></a>
+        <a className="flagship-ad-item" href="/advertise"><span className="portrait-ad-card portrait-ad-dark" aria-hidden="true"></span><span className="flagship-ad-caption"><b>Featured · 03</b><small>VYBZ TV & culture</small></span></a>
       </div>
     </section>
 
