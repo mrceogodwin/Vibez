@@ -2011,3 +2011,13 @@ html[data-vibez-theme="dark"] .placement-card p{color:#aaa4b2}
 html[data-vibez-theme="dark"] .ad-measure{background:linear-gradient(120deg,#281936,#19151f);color:#f5f2f8;border:1px solid #49364f}
 html[data-vibez-theme="dark"] .organiser-steps{background:#111019;color:#f5f2f8;border-color:#393341}
 html[data-vibez-theme="dark"] .simple-footer{background:#09090f;color:#aaa4b2;border-color:#302b38}
+
+/* Mobile drawer interaction and touch refinements */
+.vibez-drawer{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:max(20px,env(safe-area-inset-bottom))}
+.vibez-drawer a,.vibez-drawer button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.vibez-drawer :is(a,button):focus-visible{outline:2px solid #d4a0f2;outline-offset:3px}
+.drawer-links a{min-height:48px}
+.appearance-options button{min-height:66px}
+@media(max-width:700px){.light-header{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}.light-brand small{letter-spacing:.7px}.light-header-actions .icon-search{width:38px;height:38px}.mobile-menu{width:40px;height:40px}.vibez-drawer{padding-top:max(20px,env(safe-area-inset-top));padding-left:20px;padding-right:20px;gap:20px}.drawer-account{min-height:66px}.drawer-links a{padding-block:15px}.drawer-appearance{margin-bottom:4px}}
+@media(max-width:380px){.vibez-drawer{width:90vw;padding-left:16px;padding-right:16px}.drawer-foot{align-items:flex-start;flex-direction:column}.light-header .light-brand small{display:none}.light-header .account-avatar{width:36px;height:36px}}
+@media(prefers-reduced-motion:reduce){.drawer-backdrop,.vibez-drawer{animation:none!important;transition:none!important}}
