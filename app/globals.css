@@ -2021,3 +2021,41 @@ html[data-vibez-theme="dark"] .simple-footer{background:#09090f;color:#aaa4b2;bo
 @media(max-width:700px){.light-header{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}.light-brand small{letter-spacing:.7px}.light-header-actions .icon-search{width:38px;height:38px}.mobile-menu{width:40px;height:40px}.vibez-drawer{padding-top:max(20px,env(safe-area-inset-top));padding-left:20px;padding-right:20px;gap:20px}.drawer-account{min-height:66px}.drawer-links a{padding-block:15px}.drawer-appearance{margin-bottom:4px}}
 @media(max-width:380px){.vibez-drawer{width:90vw;padding-left:16px;padding-right:16px}.drawer-foot{align-items:flex-start;flex-direction:column}.light-header .light-brand small{display:none}.light-header .account-avatar{width:36px;height:36px}}
 @media(prefers-reduced-motion:reduce){.drawer-backdrop,.vibez-drawer{animation:none!important;transition:none!important}}
+
+
+/* FINAL DARK-SKIN CASCADE FIX — overrides legacy light-theme !important surfaces */
+html[data-vibez-theme="dark"] .host-spotlight{background:linear-gradient(115deg,#111018 0%,#17141f 58%,#211426 100%)!important;border-color:#302a39!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .light-hero{background:radial-gradient(ellipse at 86% 10%,#5a287238,transparent 40%),linear-gradient(145deg,#101018 0%,#17141f 62%,#211426 100%)!important;color:#f5f2f8!important;border-color:#302a39!important}
+html[data-vibez-theme="dark"] .top-sales-section{background:linear-gradient(180deg,#0d0c13 0%,#14121b 100%)!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .sales-heading h2{color:#f6f2f8!important}
+html[data-vibez-theme="dark"] .sales-heading h2 em{background:linear-gradient(110deg,#c69aff,#a34ed0 48%,#e45c87);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+html[data-vibez-theme="dark"] .sales-tabs button{background:linear-gradient(145deg,#24222e,#171620)!important;border-color:#403a49!important;color:#c9c2d1!important;box-shadow:0 3px 0 #09090e!important}
+html[data-vibez-theme="dark"] .sales-tabs button.active{background:linear-gradient(110deg,#552979,#87378f 55%,#bd426e)!important;border-color:#a65ac0!important;color:#fff!important}
+html[data-vibez-theme="dark"] .sales-event-card{background:linear-gradient(155deg,#24232f,#171720 72%)!important;border-color:#393442!important;box-shadow:0 8px 20px #0006!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .sales-event-info{background:transparent!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .sales-event-info>strong{color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .sales-event-info>span{color:#b8b1c0!important}
+html[data-vibez-theme="dark"] .sales-event-info>small{background:linear-gradient(110deg,#352044,#54234f)!important;color:#e6c8fa!important}
+html[data-vibez-theme="dark"] .light-section{background:linear-gradient(180deg,#0c0b12,#111019)!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .light-event-card{background:linear-gradient(155deg,#25232f,#171720 75%)!important;border-color:#3b3544!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .light-event-body{background:transparent!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .light-event-card h3,html[data-vibez-theme="dark"] .light-event-bottom strong{color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .light-event-meta,html[data-vibez-theme="dark"] .light-event-detail{color:#b8b1c0!important}
+html[data-vibez-theme="dark"] .light-event-bottom{border-color:#403a48!important}
+html[data-vibez-theme="dark"] .light-event-bottom a{background:linear-gradient(110deg,#552979,#87378f 55%,#bd426e)!important;color:#fff!important}
+html[data-vibez-theme="dark"] .ticket-types-home{background:radial-gradient(ellipse at 80% 100%,#6d285326,transparent 40%),linear-gradient(135deg,#111018,#1b1722 62%,#211426)!important;color:#f5f2f8!important;border-color:#37303e!important}
+html[data-vibez-theme="dark"] .ticket-type-card{min-height:154px!important;padding:17px!important;border-radius:17px!important;background:linear-gradient(145deg,#282632 0%,#1c1a25 100%)!important;border-color:#4a4252!important;box-shadow:0 5px 0 #08080d,0 12px 22px #0006,inset 0 1px #ffffff12!important;color:#f5f2f8!important}
+html[data-vibez-theme="dark"] .ticket-type-card>strong{font-size:16px!important;color:#f7f3fa!important}
+html[data-vibez-theme="dark"] .ticket-type-card>small{font-size:10px!important;color:#b8b1c0!important}
+html[data-vibez-theme="dark"] .ticket-type-card .ticket-type-tag{font-size:8px!important;color:#c8a0e8!important}
+html[data-vibez-theme="dark"] .ticket-type-card .ticket-type-link{font-size:9px!important;color:#d5c9e1!important}
+html[data-vibez-theme="dark"] .ticket-type-card>b{color:#d9c7e8!important;opacity:.75}
+@media(max-width:700px){
+ html[data-vibez-theme="dark"] .ticket-types-home{padding:34px 5% 42px!important}
+ html[data-vibez-theme="dark"] .ticket-type-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+ html[data-vibez-theme="dark"] .ticket-type-card{min-height:150px!important;padding:15px!important}
+ html[data-vibez-theme="dark"] .ticket-type-card>strong{font-size:14px!important}
+ html[data-vibez-theme="dark"] .ticket-type-card>small{font-size:9px!important}
+ html[data-vibez-theme="dark"] .ticket-type-card .ticket-type-tag{font-size:7px!important;letter-spacing:1px!important}
+ html[data-vibez-theme="dark"] .ticket-type-card .ticket-type-link{font-size:8px!important}
+}
