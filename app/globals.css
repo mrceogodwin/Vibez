@@ -637,3 +637,42 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
 .flagship-event-spotlight{position:relative!important;margin:0 0 22px!important;}
 .flagship-event-spotlight .event-spotlight-slide{min-height:355px!important;height:355px!important;}
 @media(max-width:650px){.portrait-ad-section{padding:22px 4% 30px!important}.portrait-ad-heading{margin-bottom:12px!important}.flagship-event-spotlight .event-spotlight-slide{height:355px!important;min-height:355px!important}}
+
+
+/* November visual direction: compact discovery cards, consistent VIBEZ lockup,
+   purple ticket actions and a premium black-to-purple footer. */
+.light-brand{align-items:center!important;text-align:center!important}
+.light-brand>span:not(.brand-crown){font-size:inherit;letter-spacing:-2px}
+.light-brand .brand-crown{left:50%!important;transform:translateX(-50%)!important}
+.light-event-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.light-event-card{border-radius:13px}
+.light-event-image{height:164px}
+.light-event-body{padding:11px}
+.light-event-card h3{font-size:14px;min-height:34px}
+.light-event-bottom a,.hero-search button,.newsletter-band button,.create-event-btn{
+ background:linear-gradient(180deg,#a96aef 0%,#8750d0 55%,#6935ad 100%)!important;
+ color:#fff!important;border:1px solid #a879df!important;
+ box-shadow:inset 0 1px 0 #ffffff70,0 3px 0 #59318e,0 7px 15px #7141a333!important;
+}
+.light-event-bottom a{padding:9px 11px;border-radius:9px}
+.light-footer{
+ background:radial-gradient(ellipse at 82% 0%,#47216c 0%,transparent 42%),linear-gradient(135deg,#09070e 0%,#171020 48%,#2a1240 100%)!important;
+ color:#fff!important;border-top:1px solid #6f3ca0!important;padding:42px 5.2% 22px!important;
+}
+.light-footer .light-brand,.light-footer .light-brand small,.light-footer .footer-brand-col p,
+.light-footer .footer-col a,.light-footer .footer-col strong,.light-footer .footer-bottom,
+.light-footer .footer-bottom span{color:#f4effa!important}
+.light-footer .footer-brand-col p,.light-footer .footer-col a,.light-footer .footer-bottom{opacity:.78}
+.light-footer .social-links a{border-color:#ffffff35!important;background:#ffffff0c!important;color:#fff!important}
+.light-footer .footer-bottom{border-top:1px solid #ffffff22!important}
+.powered-by{grid-column:1/-1;display:block;text-align:center;margin-top:16px;padding-top:15px;border-top:1px solid #ffffff20;color:#d9b9ff;font-size:10px;letter-spacing:1.2px;font-weight:700}
+@media(max-width:650px){
+ .light-event-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .light-event-image{height:145px}
+ .light-event-body{padding:10px}
+ .light-event-card h3{font-size:13px;min-height:34px}
+ .light-event-bottom{align-items:flex-start;flex-direction:column;gap:9px}
+ .light-event-bottom a{width:100%;justify-content:center;padding:9px 6px;font-size:9px}
+ .light-footer{padding:34px 5% 20px!important}
+ .powered-by{font-size:9px;letter-spacing:.8px}
+}
