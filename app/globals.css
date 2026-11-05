@@ -750,3 +750,26 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
 .light-site .hero-feature .feature-cta svg{color:#fff!important;stroke:#fff!important;flex-shrink:0}
 .light-site .hero-feature .feature-cta:hover{filter:brightness(1.08);transform:translateY(-2px)}
 @media(max-width:760px){.light-site .hero-feature .feature-cta{min-height:39px!important;padding:10px 16px!important;font-size:10px!important}}
+
+
+/* Flagship advertising inventory — consolidated immediately above the footer */
+.flagship-ad-inventory{
+  padding:38px 5.2% 44px!important;
+  margin:30px 0 0!important;
+  background:radial-gradient(ellipse at 85% 0%,#49216d 0%,transparent 48%),linear-gradient(135deg,#09070e 0%,#171020 52%,#28123d 100%)!important;
+  border-top:1px solid #63358c;
+}
+.flagship-ad-inventory .portrait-ad-grid{
+  max-width:1240px;
+  margin:0 auto;
+  gap:16px;
+}
+.flagship-ad-inventory .portrait-ad-card{
+  min-height:320px;
+  box-shadow:0 5px 0 #120b1b,0 18px 34px #05030870,inset 0 1px 0 #ffffff55;
+}
+@media(max-width:760px){
+  .flagship-ad-inventory{padding:25px 4% 30px!important;margin-top:22px!important}
+  .flagship-ad-inventory .portrait-ad-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+  .flagship-ad-inventory .portrait-ad-card{min-height:235px!important}
+}
