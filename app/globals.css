@@ -1739,3 +1739,45 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   .flagship-event-spotlight .spotlight-feature-tag svg{width:18px!important;height:18px!important}
   .flagship-event-spotlight .spotlight-outline-cta{padding:11px 15px!important;border-radius:12px!important;font-size:11px!important}
 }
+
+
+/* Final featured-event CTA: clean ivory app button, not glassy grey */
+.flagship-event-spotlight .spotlight-outline-cta{
+  position:relative!important;z-index:2!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:10px!important;min-height:46px!important;
+  padding:12px 20px!important;margin-top:15px!important;
+  border:1px solid #fff!important;border-radius:13px!important;
+  background:#fff!important;color:#241a30!important;
+  font-size:13px!important;font-weight:800!important;letter-spacing:0!important;
+  line-height:1!important;text-decoration:none!important;text-shadow:none!important;
+  box-shadow:0 3px 0 #d8cce7,0 7px 16px rgba(0,0,0,.2)!important;
+  opacity:1!important;filter:none!important;backdrop-filter:none!important;
+  mix-blend-mode:normal!important;
+  -webkit-tap-highlight-color:transparent!important;
+  transition:transform .14s ease,box-shadow .14s ease!important;
+}
+.flagship-event-spotlight .spotlight-outline-cta::before,
+.flagship-event-spotlight .spotlight-outline-cta::after{display:none!important;content:none!important}
+.flagship-event-spotlight .spotlight-outline-cta svg{
+  display:block!important;flex:0 0 auto!important;width:17px!important;height:17px!important;
+  color:#8754dc!important;stroke-width:2.5!important;
+}
+.flagship-event-spotlight .spotlight-outline-cta:active{
+  transform:translateY(2px)!important;
+  box-shadow:0 1px 0 #d8cce7,0 3px 7px rgba(0,0,0,.16)!important;
+}
+.flagship-event-spotlight .spotlight-feature-tag{
+  width:40px!important;height:40px!important;padding:0!important;
+  display:grid!important;place-items:center!important;
+  border-radius:13px!important;
+  background:rgba(255,255,255,.17)!important;
+  border:1px solid rgba(255,255,255,.65)!important;
+  box-shadow:0 2px 8px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.3)!important;
+  font-size:0!important;letter-spacing:0!important;
+}
+.flagship-event-spotlight .spotlight-feature-tag svg{width:19px!important;height:19px!important;stroke-width:2!important}
+@media(max-width:650px){
+  .flagship-event-spotlight .spotlight-outline-cta{min-height:44px!important;padding:12px 17px!important;font-size:12px!important}
+  .flagship-event-spotlight .spotlight-feature-tag{width:38px!important;height:38px!important}
+}
