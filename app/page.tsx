@@ -2,18 +2,18 @@
 
 import { useMemo, useState, useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, UserRound, Flame, TrendingUp, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness } from "lucide-react";
 
 const events = [
-  { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick" },
-  { slug:"palmwine-poetry",name:"Palmwine & Poetry",category:"Arts & Culture",city:"Abuja",date:"29 Nov 2026",price:"₦5,000",image:"https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1000&q=85",tag:"Live experience" },
-  { slug:"after-dark-experience",name:"After Dark: The Experience",category:"Nightlife",city:"Port Harcourt",date:"06 Dec 2026",price:"₦12,000",image:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1000&q=85",tag:"Popular" },
-  { slug:"culture-festival",name:"The Culture Festival",category:"Festivals",city:"Lagos",date:"14 Dec 2026",price:"₦15,000",image:"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1000&q=85",tag:"Festival" },
-  { slug:"lagos-jazz-weekend",name:"Lagos Jazz Weekend",category:"Concerts",city:"Lagos",date:"19 Dec 2026",price:"₦10,000",image:"https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1000&q=85",tag:"Live music" },
-  { slug:"abuja-comedy-night",name:"Abuja Comedy Night",category:"Comedy",city:"Abuja",date:"20 Dec 2026",price:"₦7,500",image:"https://images.unsplash.com/photo-1585699324551-f6c309easee5?w=1000&q=85",tag:"Comedy pick" },
-  { slug:"new-years-countdown",name:"The Countdown Party",category:"Nightlife",city:"Lagos",date:"31 Dec 2026",price:"₦20,000",image:"https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1000&q=85",tag:"New year" },
-  { slug:"creative-market",name:"The Creative Market",category:"Arts & Culture",city:"Port Harcourt",date:"10 Jan 2027",price:"₦3,000",image:"https://images.unsplash.com/photo-1531058020387-3be344556be6?w=1000&q=85",tag:"Culture" },
-  { slug:"startup-social",name:"The Startup Social",category:"Conferences",city:"Abuja",date:"17 Jan 2027",price:"₦5,000",image:"https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&q=85",tag:"Networking" },
+  { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick",sold:12480 },
+  { slug:"palmwine-poetry",name:"Palmwine & Poetry",category:"Arts & Culture",city:"Abuja",date:"29 Nov 2026",price:"₦5,000",image:"https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1000&q=85",tag:"Live experience",sold:8320 },
+  { slug:"after-dark-experience",name:"After Dark: The Experience",category:"Nightlife",city:"Port Harcourt",date:"06 Dec 2026",price:"₦12,000",image:"https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1000&q=85",tag:"Popular",sold:6915 },
+  { slug:"culture-festival",name:"The Culture Festival",category:"Festivals",city:"Lagos",date:"14 Dec 2026",price:"₦15,000",image:"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1000&q=85",tag:"Festival",sold:5840 },
+  { slug:"lagos-jazz-weekend",name:"Lagos Jazz Weekend",category:"Concerts",city:"Lagos",date:"19 Dec 2026",price:"₦10,000",image:"https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1000&q=85",tag:"Live music",sold:4210 },
+  { slug:"abuja-comedy-night",name:"Abuja Comedy Night",category:"Comedy",city:"Abuja",date:"20 Dec 2026",price:"₦7,500",image:"https://images.unsplash.com/photo-1585699324551-f6c309easee5?w=1000&q=85",tag:"Comedy pick",sold:3680 },
+  { slug:"new-years-countdown",name:"The Countdown Party",category:"Nightlife",city:"Lagos",date:"31 Dec 2026",price:"₦20,000",image:"https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1000&q=85",tag:"New year",sold:3120 },
+  { slug:"creative-market",name:"The Creative Market",category:"Arts & Culture",city:"Port Harcourt",date:"10 Jan 2027",price:"₦3,000",image:"https://images.unsplash.com/photo-1531058020387-3be344556be6?w=1000&q=85",tag:"Culture",sold:2240 },
+  { slug:"startup-social",name:"The Startup Social",category:"Conferences",city:"Abuja",date:"17 Jan 2027",price:"₦5,000",image:"https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&q=85",tag:"Networking",sold:1780 },
 ];
 
 const categories = ["All events","Concerts","Nightlife","Festivals","Comedy","Arts & Culture","Conferences"];
@@ -31,6 +31,7 @@ export default function Home() {
   const [visibleEvents,setVisibleEvents]=useState(4);
   const [menuOpen,setMenuOpen]=useState(false);
   const [heroSlide,setHeroSlide]=useState(0);
+  const [salesTab,setSalesTab]=useState("Best Selling");
   const [highlightPlaying,setHighlightPlaying]=useState(false);
   const [email,setEmail]=useState("");
   const [subscribed,setSubscribed]=useState(false);
@@ -41,7 +42,7 @@ export default function Home() {
 
   return <main className="light-site">
     <header className="light-header">
-      <Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link>
+      <Link className="account-avatar" href="/signin" aria-label="Sign in to your VYBZ account"><UserRound size={20}/></Link><Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link>
       <nav className={menuOpen?"light-nav nav-open":"light-nav"}><a className="nav-current" href="#discover" onClick={()=>setMenuOpen(false)}>Home</a><a href="#events" onClick={()=>setMenuOpen(false)}>Events</a><a href="#discover" onClick={()=>setMenuOpen(false)}>Discover</a><a href="#organisers" onClick={()=>setMenuOpen(false)}>Organisers</a><a href="#vibez-tv" onClick={()=>setMenuOpen(false)}>Vibez TV</a></nav>
       <div className="light-header-actions"><a className="icon-search" href="#event-search" aria-label="Search events"><Search size={19}/></a><Link className="login-link" href="/signin">Log in</Link><Link className="create-event-btn" href="/organiser">＋ Create event</Link><button className="mobile-menu" onClick={()=>setMenuOpen(!menuOpen)} aria-label={menuOpen?"Close menu":"Open menu"}>{menuOpen?<X/>:<Menu/>}</button></div>
     </header>
@@ -52,6 +53,9 @@ export default function Home() {
       <a href="#events">Explore now <ArrowRight size={12}/></a>
     </div>
 
+
+    <section className="live-now-strip" aria-label="Live events"><span className="live-brand"><Crown size={15}/> VYBZ SELECT</span><span className="live-now-pill"><i/> LIVE NOW</span><span className="live-message">Get tickets to today’s hottest events</span><Link href="/events?status=live">Explore live events <ArrowRight size={15}/></Link><Link className="live-promote-link" href="/promotions?placement=live-now">Promote your live event</Link></section>
+    <section className="patron-section" aria-label="VYBZ patrons"><div className="patron-heading"><strong>OUR PATRONS</strong><span>Join 50,000+ event lovers <ArrowRight size={15}/></span></div><div className="patron-rail">{[{name:"Burna Boy",image:"photo-1535713875002-d1d0cf377fde"},{name:"Ayra Starr",image:"photo-1534528741775-53994a69daeb"},{name:"Flytime Entertainment",logo:"F"},{name:"Mavin Records",logo:"M"},{name:"Trace Naija",logo:"TRACE"},{name:"The Plug Events",logo:"THE PLUG"},{name:"LiveSpot Events",logo:"L"}].map((patron,i)=><div className="patron-item" key={patron.name}><div className={"patron-avatar patron-avatar-"+i}>{patron.image?<img src={"https://images.unsplash.com/"+patron.image+"?w=160&q=80"} alt=""/>:<strong>{patron.logo}</strong>}</div><b>{patron.name}</b></div>)}</div></section>
     <section className="light-hero" id="discover">
       <div className="hero-left"><span className="light-eyebrow">EVENTS · TICKETS · EXPERIENCES</span><h1>Find your next<br/><em>Vibez.</em></h1><p>Discover concerts, parties, festivals, shows and unique experiences across Nigeria.</p>
         <form className="hero-search" id="event-search" onSubmit={e=>{e.preventDefault();document.getElementById("events")?.scrollIntoView({behavior:"smooth"});}}>
@@ -74,6 +78,8 @@ export default function Home() {
 
     <section className="ad-slot ad-top" aria-label="Sponsored placement"><div className="ad-label">ADVERTISEMENT</div><div className="ad-top-copy"><span>VIBEZ BRAND PARTNER</span><strong>Your brand belongs in the middle of the moment.</strong><small>Reach people discovering their next experience.</small></div><div className="ad-top-action"><span>SPONSORED</span><a href="/advertise">Advertise with Vibez <ArrowUpRight size={15}/></a></div></section>
 
+
+    <section className="top-sales-section" aria-label="Top ticket sales"><div className="sales-heading"><div><span className="light-eyebrow">WHAT PEOPLE ARE BOOKING</span><h2><em>Top ticket sales.</em></h2></div><div className="sales-tabs">{[{name:"Best Selling",Icon:Flame},{name:"Trending",Icon:TrendingUp},{name:"Upcoming",Icon:CalendarDays}].map(t=><button key={t.name} className={salesTab===t.name?"active":""} onClick={()=>setSalesTab(t.name)}><t.Icon size={14}/>{t.name}</button>)}</div></div><div className="sales-event-grid">{[...events].sort((a,b)=>salesTab==="Upcoming"?a.date.localeCompare(b.date):b.sold-a.sold).slice(0,3).map((event,i)=><Link className="sales-event-card" href={"/events/"+event.slug} key={event.slug}><div className="sales-event-image" style={{backgroundImage:"url('"+event.image+"')"}}><b>#{i+1}</b></div><div className="sales-event-info"><strong>{event.name}</strong><span><MapPin size={12}/>{event.city}<i/><CalendarDays size={12}/>{event.date}</span><small>{event.sold.toLocaleString()} tickets sold</small></div></Link>)}</div><p className="sales-disclaimer">Ticket-sales rankings will reflect verified VYBZ transactions once live ticketing is enabled.</p></section>
     <section className="light-section" id="events"><div className="light-section-heading"><div><span className="light-eyebrow">DON’T HEAR IT LAST</span><h2>Trending <em>events.</em></h2></div><div className="rail-heading-actions"><a href="/events">View all events <ArrowRight size={16}/></a><button aria-label="Scroll events left" onClick={()=>moveEvents(-1)}>‹</button><button aria-label="Scroll events right" onClick={()=>moveEvents(1)}>›</button></div></div>
       <div className="event-controls"><div className="category-filters">{categories.map(item=><button key={item} className={category===item?"filter-active":""} onClick={()=>{setCategory(item);setVisibleEvents(4);}}>{item}</button>)}</div><div className="event-search-tools"><label className="event-inline-search"><Search size={16}/><input aria-label="Search events" placeholder="Search events..." value={query} onChange={e=>{setQuery(e.target.value);setVisibleEvents(4);}}/></label><label className="city-select"><MapPin size={15}/><select value={city} onChange={e=>{setCity(e.target.value);setVisibleEvents(4);}}><option>All locations</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option></select><ChevronDown size={14}/></label></div></div>
       {filtered.length?<><div className="event-rail-viewport" ref={eventRail}><div className="light-event-grid">{visibleFiltered.map(event=><article className="light-event-card" key={event.slug}><Link className="light-event-image" href={"/events/"+event.slug} style={{backgroundImage:"linear-gradient(180deg,transparent 48%,rgba(0,0,0,.5)),url('"+event.image+"')"}}><span className="event-tag">{event.tag}</span><span className="event-heart">♡</span></Link><div className="light-event-body"><div className="light-event-meta"><span>{event.category.toUpperCase()}</span><span>{event.city}</span></div><h3>{event.name}</h3><div className="light-event-detail"><span><CalendarDays size={14}/>{event.date}</span><span><MapPin size={14}/>{event.city}</span></div><div className="light-event-bottom"><strong>From {event.price}</strong><Link href={"/events/"+event.slug}>Get tickets <ArrowRight size={14}/></Link></div></div></article>)}</div></div>{visibleEvents<filtered.length&&<div className="load-more-wrap"><button className="load-more-events" onClick={()=>setVisibleEvents(n=>Math.min(n+5,filtered.length))}>Load more events <ArrowRight size={15}/></button></div>}</>:<div className="empty-events">No matching events in this selection. Try another category or location.</div>}</div>
