@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, UserRound, Flame, TrendingUp, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness } from "lucide-react";
 
@@ -32,6 +32,8 @@ export default function Home() {
   const [menuOpen,setMenuOpen]=useState(false);
   const [heroSlide,setHeroSlide]=useState(0);
   const [salesTab,setSalesTab]=useState("Best Selling");
+  const [spotlightIndex,setSpotlightIndex]=useState(0);
+  useEffect(()=>{const timer=window.setInterval(()=>setSpotlightIndex(i=>(i+1)%100),5500);return()=>window.clearInterval(timer);},[]);
   const [highlightPlaying,setHighlightPlaying]=useState(false);
   const [email,setEmail]=useState("");
   const [subscribed,setSubscribed]=useState(false);
@@ -47,15 +49,8 @@ export default function Home() {
       <div className="light-header-actions"><a className="icon-search" href="#event-search" aria-label="Search events"><Search size={19}/></a><Link className="login-link" href="/signin">Log in</Link><Link className="create-event-btn" href="/organiser">＋ Create event</Link><button className="mobile-menu" onClick={()=>setMenuOpen(!menuOpen)} aria-label={menuOpen?"Close menu":"Open menu"}>{menuOpen?<X/>:<Menu/>}</button></div>
     </header>
 
-    <div className="premium-ticker" aria-label="VYBZ premium updates">
-      <span className="ticker-label"><Crown size={12}/> VYBZ SELECT</span>
-      <div className="ticker-track"><div className="ticker-content"><span>✦ First access to the hottest events</span><i>•</i><span>Discover premium experiences across Nigeria</span><i>•</i><span>Early-bird drops and exclusive ticket offers</span><i>•</i><span>Meet the people shaping culture</span><i>•</i><span>First access to the hottest events</span><i>•</i><span>Discover premium experiences across Nigeria</span><i>•</i></div></div>
-      <a href="#events">Explore now <ArrowRight size={12}/></a>
-    </div>
-
-
-    <section className="live-now-strip" aria-label="Live events"><span className="live-brand"><Crown size={15}/> VYBZ SELECT</span><span className="live-now-pill"><i/> LIVE NOW</span><span className="live-message">Get tickets to today’s hottest events</span><Link href="/events?status=live">Explore live events <ArrowRight size={15}/></Link><Link className="live-promote-link" href="/promotions?placement=live-now">Promote your live event</Link></section>
-    <section className="patron-section" aria-label="VYBZ patrons"><div className="patron-heading"><strong>OUR PATRONS</strong><span>Join 50,000+ event lovers <ArrowRight size={15}/></span></div><div className="patron-rail">{[{name:"Burna Boy",image:"photo-1535713875002-d1d0cf377fde"},{name:"Ayra Starr",image:"photo-1534528741775-53994a69daeb"},{name:"Flytime Entertainment",logo:"F"},{name:"Mavin Records",logo:"M"},{name:"Trace Naija",logo:"TRACE"},{name:"The Plug Events",logo:"THE PLUG"},{name:"LiveSpot Events",logo:"L"}].map((patron,i)=><div className="patron-item" key={patron.name}><div className={"patron-avatar patron-avatar-"+i}>{patron.image?<img src={"https://images.unsplash.com/"+patron.image+"?w=160&q=80"} alt=""/>:<strong>{patron.logo}</strong>}</div><b>{patron.name}</b></div>)}</div></section>
+    <section className="live-now-strip" aria-label="Live now events"><span className="live-now-label"><i/> LIVE</span><div className="live-now-track"><div className="live-now-track-inner"><span>Discover events happening right now</span><b>•</b><span>Get your tickets while the moment is live</span><b>•</b><span>Discover events happening right now</span><b>•</b><span>Get your tickets while the moment is live</span></div></div><Link href="/events?status=live">Explore live events <ArrowRight size={15}/></Link></section>
+    <section className="partners-section" aria-label="Partners and sponsors"><div className="partners-heading"><span>IN GOOD COMPANY</span><h2>Partners <em>& sponsors.</em></h2><p>The brands and teams powering unforgettable experiences.</p></div><div className="partners-logo-viewport"><div className="partners-logo-track">{Array.from({length:2},(_,loop)=><div className="partners-logo-set" key={loop}>{Array.from({length:10},(_,i)=><div className="partner-logo-placeholder" key={i}><span>PARTNER LOGO</span></div>)}</div>)}</div></div></section>
     <section className="light-hero" id="discover">
       <div className="hero-left"><span className="light-eyebrow">EVENTS · TICKETS · EXPERIENCES</span><h1>Find your next<br/><em>Vibez.</em></h1><p>Discover concerts, parties, festivals, shows and unique experiences across Nigeria.</p>
         <form className="hero-search" id="event-search" onSubmit={e=>{e.preventDefault();document.getElementById("events")?.scrollIntoView({behavior:"smooth"});}}>
@@ -92,8 +87,7 @@ export default function Home() {
       </div>
     </section>
 
-    <section className="ad-banner" aria-label="Sponsored brand banner"><div className="ad-banner-text"><span className="sponsored-kicker">SPONSORED · BRAND PARTNER</span><h2>Make your brand<br/>part of the <em>Vibez.</em></h2><p>Connect with audiences who show up for culture, music and experiences.</p><a href="/advertise">Explore advertising <ArrowUpRight size={16}/></a></div><div className="ad-banner-art"><span>YOUR BRAND<br/>HERE</span><small>CAMPAIGN PLACEMENT</small></div></section>
-
+    <section className="event-spotlight-section" aria-label="Event spotlights"><div className="event-spotlight-heading"><div><span className="light-eyebrow">TAKE CENTRE STAGE</span><h2>Your event. <em>Front and centre.</em></h2><p>Book a premium spotlight and put your event in front of people ready to go out.</p></div><Link href="/promotions?placement=event-spotlight">Rent a spotlight <ArrowUpRight size={16}/></Link></div><div className="event-spotlight-slider"><div className="event-spotlight-slide"><div className="spotlight-empty-art"><span>VYBZ EVENT SPOTLIGHT</span><strong>Make this space<br/>your moment.</strong><small>FEATURED EVENT · {String(spotlightIndex+1).padStart(2,"0")} / 100</small></div><div className="spotlight-slide-copy"><span>PREMIUM EVENT PLACEMENT</span><h3>Own the spotlight.</h3><p>Approved event campaigns rotate here automatically. Each placement links directly to its event ticket page.</p><Link href="/promotions?placement=event-spotlight">Feature your event <ArrowRight size={15}/></Link></div></div><div className="spotlight-controls"><span>{String(spotlightIndex+1).padStart(2,"0")} <i/> 100 available campaign positions</span><div><button aria-label="Previous spotlight" onClick={()=>setSpotlightIndex(i=>(i+99)%100)}><ChevronLeft size={17}/></button><button aria-label="Next spotlight" onClick={()=>setSpotlightIndex(i=>(i+1)%100)}><ChevronRight size={17}/></button></div></div></div></section>
     <section className="portrait-ad-section">
       <div className="portrait-ad-heading"><div><span className="light-eyebrow">HIGH-IMPACT BRAND VISIBILITY</span><h2>Own the <em>spotlight.</em></h2><p>Premium portrait placements designed to put your brand in the path of discovery.</p></div><a href="/advertise">Rent a placement <ArrowUpRight size={16}/></a></div>
       <div className="portrait-ad-grid">
@@ -101,7 +95,7 @@ export default function Home() {
         <a className="portrait-ad-card portrait-ad-purple" href="/advertise"><span className="portrait-ad-label">PREMIUM · 02</span><div><small>EVENT DISCOVERY</small><strong>Be part of<br/>the next big thing.</strong><span>Rent this space <ArrowUpRight size={14}/></span></div></a>
         <a className="portrait-ad-card portrait-ad-dark" href="/advertise"><span className="portrait-ad-label">FEATURED · 03</span><div><small>VYBZ TV & CULTURE</small><strong>Stay in<br/>the conversation.</strong><span>Rent this space <ArrowUpRight size={14}/></span></div></a>
       </div>
-      <p className="portrait-ad-footnote">Illustrative advertising inventory · Rates, dates and availability confirmed by the VYBZ partnerships team.</p>
+      
     </section>
 
     <section className="host-spotlight"><div className="host-spotlight-heading"><span className="light-eyebrow">MEET THE PEOPLE MAKING IT HAPPEN</span><h2>Hosts & <em>event curators.</em></h2><p>Follow the hosts bringing the best experiences to your city.</p></div><div className="host-avatar-rail">{[{name:"DJ Neptune",role:"DJ · Lagos",img:"photo-1524368535928-5b5e00ddc76b"},{name:"Toke Makinwa",role:"Host · Lagos",img:"photo-1534528741775-53994a69daeb"},{name:"AY Live",role:"Comedy · Lagos",img:"photo-1500648767791-00dcc994a43e"},{name:"Seyi Vibes",role:"Artist · Lagos",img:"photo-1506794778202-cad84cf45f1d"},{name:"The Culture Plug",role:"Curator · Abuja",img:"photo-1531123897727-8f129e1688ce"},{name:"LiveSpot",role:"Event host",img:"photo-1524504388940-b1c1722653e1"}].map(host=><a href="/organisers" className="host-avatar-item" key={host.name}><span className="host-avatar" style={{backgroundImage:"url(https://images.unsplash.com/"+host.img+"?w=240&q=85)"}}/><strong>{host.name}</strong><small>{host.role}</small></a>)}</div></section>
