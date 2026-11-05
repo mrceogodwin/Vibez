@@ -1017,3 +1017,27 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
  .recent-booking-copy{padding:9px}
  .recent-bookings-heading h2{font-size:23px}
 }
+
+
+/* Seamless host rail -> hero transition: remove the hard horizontal divider
+   and let both section backgrounds dissolve into the same warm canvas. */
+.host-spotlight{
+  position:relative!important;
+  border-top:0!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+  background:linear-gradient(180deg,#fbfaff 0%,#faf9f7 68%,#f8f7f4 100%)!important;
+  padding-bottom:8px!important;
+}
+.light-hero{
+  position:relative!important;
+  border-top:0!important;
+  box-shadow:none!important;
+  background:radial-gradient(ellipse at 83% 18%,rgba(222,210,246,.30),transparent 36%),
+    linear-gradient(180deg,#f8f7f4 0%,#f6f4f0 100%)!important;
+  padding-top:34px!important;
+}
+@media(max-width:650px){
+ .host-spotlight{padding-bottom:3px!important}
+ .light-hero{padding-top:29px!important}
+}
