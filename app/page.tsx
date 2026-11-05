@@ -103,7 +103,6 @@ export default function Home() {
         </Link>
         <div className="spotlight-rental-row"><span>100 premium event spotlight positions</span><Link href="/promotions?placement=event-spotlight">Rent a spotlight <ArrowUpRight size={16}/></Link></div>
       </div>
-      </div>
     </section>
 
 
