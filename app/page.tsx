@@ -89,6 +89,8 @@ export default function Home() {
       </div>
     </section>
 
+    <section className="organiser-light" id="organisers"><div className="light-section-heading"><div><span className="light-eyebrow">THE PEOPLE BEHIND THE MOMENTS</span><h2>Featured <em>organisers.</em></h2></div><a href="/organisers">View all organisers <ArrowRight size={16}/></a></div><div className="organiser-grid">{organisers.map(org=><article className="organiser-card" key={org.name}><div className={"organiser-avatar "+org.tone}>{org.mark}</div><div className="organiser-info"><strong>{org.name} <CheckCircle2 size={14}/></strong><span>Verified organiser</span><small>{org.count}</small></div><button onClick={e=>{const b=e.currentTarget;b.textContent=b.textContent==="Following"?"Follow":"Following";}}>Follow</button></article>)}</div></section>
+
     <section className="portrait-ad-section">
       <div className="portrait-ad-heading"><div><span className="light-eyebrow">HIGH-IMPACT EVENT VISIBILITY</span><h2>Own the <em>spotlight.</em></h2><p>Premium event features that put your experience in front of people ready to go out.</p></div></div>
       <div className="event-spotlight-slider flagship-event-spotlight" aria-label="Featured event spotlight carousel">
@@ -110,8 +112,6 @@ export default function Home() {
 
 
     <section className="ad-banner ad-banner-compact"><div className="ad-banner-text"><span className="sponsored-kicker">SPONSORED · EVENT PARTNER</span><h2>Put your event<br/>in the <em>spotlight.</em></h2><p>Reach people ready to discover their next experience.</p><a href="/advertise">Promote an event <ArrowUpRight size={16}/></a></div><div className="ad-banner-art"><span>YOUR EVENT<br/>HERE</span><small>FEATURED EVENT CAMPAIGN</small></div></section>
-
-    <section className="organiser-light" id="organisers"><div className="light-section-heading"><div><span className="light-eyebrow">THE PEOPLE BEHIND THE MOMENTS</span><h2>Featured <em>organisers.</em></h2></div><a href="/organisers">View all organisers <ArrowRight size={16}/></a></div><div className="organiser-grid">{organisers.map(org=><article className="organiser-card" key={org.name}><div className={"organiser-avatar "+org.tone}>{org.mark}</div><div className="organiser-info"><strong>{org.name} <CheckCircle2 size={14}/></strong><span>Verified organiser</span><small>{org.count}</small></div><button onClick={e=>{const b=e.currentTarget;b.textContent=b.textContent==="Following"?"Follow":"Following";}}>Follow</button></article>)}</div></section>
 
     <section className="ad-slot ad-mid-slot"><div className="ad-top-copy"><span>VIBEZ SELECT · SPONSORED</span><strong>Give your next campaign a place in culture.</strong><small>Premium placements across discovery, events and experiences.</small></div><div className="ad-top-action"><span>BRAND SPOTLIGHT</span><a href="/advertise">Explore placements <ArrowUpRight size={15}/></a></div></section>
 
