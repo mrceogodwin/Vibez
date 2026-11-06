@@ -2875,3 +2875,66 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
     transform:translateX(-50%)!important;
   }
 }
+
+
+/* Final mobile containment and interaction polish. Keep page sections centered,
+   while horizontal rails remain the only elements allowed to scroll sideways. */
+@media (max-width: 760px) {
+  html, body { overflow-x: clip !important; }
+  body > main.light-site {
+    width: 100% !important; max-width: 100% !important; min-width: 0 !important;
+    margin-inline: auto !important; overflow-x: clip !important;
+  }
+  body > main.light-site > .light-header,
+  body > main.light-site > .live-now-strip,
+  body > main.light-site > .category-strip {
+    width: 100% !important; max-width: 100% !important; min-width: 0 !important;
+    left: auto !important; right: auto !important; transform: none !important;
+    box-sizing: border-box !important;
+  }
+  body > main.light-site > .ad-slot,
+  body > main.light-site > .ad-banner,
+  body > main.light-site > .category-mid-ad-shell,
+  body > main.light-site > .newsletter-band {
+    position: relative !important; left: auto !important; right: auto !important;
+    transform: none !important; width: calc(100% - 36px) !important;
+    max-width: calc(100% - 36px) !important; min-width: 0 !important;
+    margin-left: auto !important; margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
+  body > main.light-site > .ad-slot *,
+  body > main.light-site > .ad-banner *,
+  body > main.light-site > .category-mid-ad-shell * {
+    min-width: 0 !important; max-width: 100% !important; box-sizing: border-box !important;
+  }
+  body > main.light-site > .ad-banner.ad-banner-final {
+    display: grid !important; grid-template-columns: minmax(0,1fr) !important;
+    overflow: hidden !important; padding: 24px 18px !important;
+  }
+  .light-site .ad-banner-final .ad-banner-art { width: 100% !important; }
+  .light-site .light-footer .footer-brand-col { min-width: 0 !important; text-align: center !important; }
+  .light-site .light-footer .footer-brand-col > p { max-width: 34rem !important; margin-inline: auto !important; }
+  .light-site .light-footer .footer-brand-col .light-brand {
+    position: relative !important; left: auto !important; right: auto !important;
+    transform: none !important; margin-inline: auto !important;
+    align-items: center !important; text-align: center !important;
+  }
+  .light-site .light-footer .footer-brand-col .light-brand > .brand-crown {
+    left: 50% !important; right: auto !important; transform: translateX(-50%) !important;
+  }
+  .light-site .sales-heading, .light-site .recent-bookings-heading,
+  .light-site .light-section-heading { min-width: 0 !important; }
+  .light-site .sales-tabs { min-width: 0 !important; max-width: 100% !important; overflow-x: auto !important; }
+  .light-site .organiser-card > button.is-following,
+  .light-site .host-follow-btn.is-following {
+    background: #21102d !important; color: #fff !important; border-color: #21102d !important;
+  }
+}
+@media (max-width: 390px) {
+  body > main.light-site > .ad-slot,
+  body > main.light-site > .ad-banner,
+  body > main.light-site > .category-mid-ad-shell,
+  body > main.light-site > .newsletter-band {
+    width: calc(100% - 28px) !important; max-width: calc(100% - 28px) !important;
+  }
+}
