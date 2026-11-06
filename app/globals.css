@@ -2424,3 +2424,108 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   body>main.light-site>.vibez-tv-light{padding-left:14px!important;padding-right:14px!important}
   body>main.light-site>.recent-bookings-section{padding-left:14px!important;padding-right:14px!important}
 }
+
+
+/* Featured-organiser sponsor placements: hard contain both banner cards within viewport. */
+.ad-slot.ad-mid-slot,
+.ad-banner.ad-banner-final{
+  display:flex!important;
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  transform:none!important;
+  width:min(1120px,calc(100% - 48px))!important;
+  max-width:min(1120px,calc(100% - 48px))!important;
+  min-width:0!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+.ad-slot.ad-mid-slot{
+  margin-top:24px!important;
+  margin-bottom:30px!important;
+  padding:24px 28px!important;
+  gap:18px!important;
+  overflow:hidden!important;
+}
+.ad-banner.ad-banner-final{
+  margin-top:30px!important;
+  margin-bottom:48px!important;
+  padding:34px 38px!important;
+  min-height:0!important;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important;
+  gap:28px!important;
+  overflow:hidden!important;
+}
+.ad-slot.ad-mid-slot>*,
+.ad-banner.ad-banner-final>*{
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+.ad-top-copy strong,.ad-top-copy small,
+.ad-banner-final .ad-banner-text h2,
+.ad-banner-final .ad-banner-text p{
+  max-width:100%!important;
+  overflow-wrap:anywhere!important;
+}
+.ad-banner-final .ad-banner-art{width:100%!important;max-width:100%!important;min-width:0!important}
+@media(max-width:760px){
+  .ad-slot.ad-mid-slot,
+  .ad-banner.ad-banner-final{
+    width:calc(100% - 36px)!important;
+    max-width:calc(100% - 36px)!important;
+    min-width:0!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    box-sizing:border-box!important;
+    border-radius:20px!important;
+  }
+  .ad-slot.ad-mid-slot{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    gap:14px!important;
+    margin-top:20px!important;
+    margin-bottom:26px!important;
+    padding:22px 18px!important;
+  }
+  .ad-mid-slot .ad-top-copy,
+  .ad-mid-slot .ad-top-action{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    align-items:flex-start!important;
+  }
+  .ad-mid-slot .ad-top-copy strong{font-size:clamp(19px,5.2vw,23px)!important;line-height:1.2!important}
+  .ad-mid-slot .ad-top-copy small{font-size:11px!important;line-height:1.5!important}
+  .ad-banner.ad-banner-final{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:18px!important;
+    margin-top:24px!important;
+    margin-bottom:36px!important;
+    padding:24px 18px!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .ad-banner-final .ad-banner-text,
+  .ad-banner-final .ad-banner-art{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  .ad-banner-final .ad-banner-text h2{font-size:clamp(30px,8vw,42px)!important;line-height:1.08!important}
+  .ad-banner-final .ad-banner-text p{font-size:13px!important;line-height:1.55!important}
+  .ad-banner-final .ad-banner-art{min-height:150px!important;height:150px!important}
+}
+@media(max-width:390px){
+  .ad-slot.ad-mid-slot,
+  .ad-banner.ad-banner-final{
+    width:calc(100% - 28px)!important;
+    max-width:calc(100% - 28px)!important;
+  }
+  .ad-slot.ad-mid-slot{padding:19px 15px!important}
+  .ad-banner.ad-banner-final{padding:21px 15px!important}
+}
