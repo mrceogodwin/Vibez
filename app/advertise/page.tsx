@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, BarChart3, CalendarDays, CheckCircle2, Megaphone, Tv, MousePointerClick, ShieldCheck } from "lucide-react";
 
@@ -16,7 +16,7 @@ export default function AdvertisePage(){
  const [form,setForm]=useState({advertiserName:"",advertiserEmail:"",name:"",placement:"MID_PAGE_BANNER",budgetNaira:"",headline:"",body:"",imageUrl:"",destinationUrl:""});
  const [busy,setBusy]=useState(false);const [error,setError]=useState("");const [success,setSuccess]=useState("");
  const change=(field:keyof typeof form,value:string)=>setForm(current=>({...current,[field]:value}));
- async function submit(e:React.FormEvent<HTMLFormElement>){
+ async function submit(e:FormEvent<HTMLFormElement>){
   e.preventDefault();setBusy(true);setError("");setSuccess("");
   try{
    const response=await fetch("/api/advertising/campaigns",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
