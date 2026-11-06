@@ -150,7 +150,7 @@ export default function Home() {
 
 
 
-    <section className="ad-banner ad-banner-final"><div className="ad-banner-text"><span className="sponsored-kicker">SPONSORED · CULTURE PARTNER</span><h2>Be where the<br/><em>moments happen.</em></h2><p>Connect your brand to live culture, community and unforgettable experiences.</p><a href="/advertise">Become a partner <ArrowUpRight size={16}/></a></div><div className="ad-banner-art"><span>PARTNER<br/>WITH VYBZ</span><small>CULTURE & COMMUNITY</small></div></section>
+
 
     <section className="vibez-tv-light" id="vibez-tv"><div className="tv-light-image"><span>VIBEZ TV</span></div><div className="tv-light-copy"><span className="light-eyebrow">THE SHOW GOES ON</span><h2>Relive the moments.<br/><em>Discover what’s next.</em></h2><p>Concert highlights, interviews, performances and stories from the experiences shaping culture.</p><a href="/tv">Explore Vibez TV <ArrowRight size={16}/></a></div></section>
 
@@ -168,6 +168,8 @@ export default function Home() {
     </section>
 
     <section className="ad-slot ad-top" aria-label="Sponsored placement"><div className="ad-label">ADVERTISEMENT</div><div className="ad-top-copy"><span>VIBEZ BRAND PARTNER</span><strong>Your brand belongs in the middle of the moment.</strong><small>Reach people discovering their next experience.</small></div><div className="ad-top-action"><span>SPONSORED</span><a href="/advertise">Advertise with Vibez <ArrowUpRight size={15}/></a></div></section>
+
+    <section className="ad-banner ad-banner-final"><div className="ad-banner-text"><span className="sponsored-kicker">SPONSORED · CULTURE PARTNER</span><h2>Be where the<br/><em>moments happen.</em></h2><p>Connect your brand to live culture, community and unforgettable experiences.</p><a href="/advertise">Become a partner <ArrowUpRight size={16}/></a></div><div className="ad-banner-art"><span>PARTNER<br/>WITH VYBZ</span><small>CULTURE & COMMUNITY</small></div></section>
 
     <footer className="light-footer"><div className="footer-brand-col"><Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link><p>Nigeria’s home for discovering events, buying tickets and staying connected to the experiences you love.</p><div className="social-links"><a href="#instagram">ig</a><a href="#tiktok">tk</a><a href="#youtube" aria-label="YouTube">yt</a><a href="#x">𝕏</a></div></div><div className="footer-col"><strong>Explore</strong><a href="#events">Events</a><a href="#discover">Discover</a><a href="/organisers">Organisers</a><a href="/tv">Vibez TV</a></div><div className="footer-col"><strong>For organisers</strong><a href="/organiser">Create an event</a><a href="/pricing">Pricing</a><a href="/organiser-guide">Organiser guide</a><a href="/support">Support</a></div><div className="footer-col"><strong>Company</strong><a href="/about">About Vibez</a><a href="/contact">Contact</a><a href="/privacy">Privacy policy</a><a href="/terms">Terms of service</a></div><div className="footer-bottom"><span>© 2026 Vibez. All rights reserved.</span><span>Made for the moments that matter. <b>NG</b></span><strong className="powered-by">Powered by Cookit Technologies Ltd.</strong></div></footer>
   </main>;
