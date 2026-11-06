@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import AdPlacementBanner from "@/components/AdPlacementBanner";
 import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, UserRound, Flame, TrendingUp, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness, Sun, Moon, Monitor } from "lucide-react";
 
 const events = [
@@ -120,7 +121,7 @@ export default function Home() {
       <div className="category-ticket-grid">{events.filter(event=>event.category==="Concerts").slice(0,4).map(event=><article className="light-event-card" key={event.slug}><Link className="light-event-image" href={"/events/"+event.slug} style={{backgroundImage:"linear-gradient(180deg,transparent 48%,rgba(0,0,0,.5)),url('"+event.image+"')"}}><span className="event-tag">{event.tag}</span></Link><div className="light-event-body"><div className="light-event-meta"><span>CONCERTS</span><span>{event.city}</span></div><h3>{event.name}</h3><div className="light-event-detail"><span><CalendarDays size={14}/>{event.date}</span><span><MapPin size={14}/>{event.city}</span></div><div className="light-event-bottom"><strong>From {event.price}</strong><Link href={"/events/"+event.slug}>Get tickets <ArrowRight size={14}/></Link></div></div></article>)}</div>
     </section>
 
-    <section className="ad-banner ad-banner-compact category-mid-ad"><div className="ad-banner-text"><span className="sponsored-kicker">SPONSORED · VIBEZ PARTNER</span><h2>Make your brand<br/>part of the <em>night.</em></h2><p>Reach fans as they discover their next live experience.</p><a href="/advertise">Advertise with Vibez <ArrowUpRight size={16}/></a></div><div className="ad-banner-art"><span>YOUR BRAND<br/>HERE</span><small>FEATURED PARTNER CAMPAIGN</small></div></section>
+    <AdPlacementBanner placement="MID_PAGE_BANNER"><section className="ad-banner ad-banner-compact category-mid-ad"><div className="ad-banner-text"><span className="sponsored-kicker">SPONSORED · VIBEZ PARTNER</span><h2>Make your brand<br/>part of the <em>night.</em></h2><p>Reach fans as they discover their next live experience.</p><a href="/advertise">Advertise with Vibez <ArrowUpRight size={16}/></a></div><div className="ad-banner-art"><span>YOUR BRAND<br/>HERE</span><small>FEATURED PARTNER CAMPAIGN</small></div></section></AdPlacementBanner>
 
     <section className="category-ticket-section nightlife-ticket-section" aria-label="Nightlife and party tickets">
       <div className="light-section-heading"><div><span className="light-eyebrow">AFTER DARK · ALL NIGHT</span><h2>Nightlife &amp; <em>parties.</em></h2></div><a href="/events?category=Nightlife">Explore nightlife <ArrowRight size={16}/></a></div>
