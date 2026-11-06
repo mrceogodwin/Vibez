@@ -2272,3 +2272,61 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
  .category-mid-ad{margin:24px 4% 28px!important}
  .nightlife-ticket-section{margin-top:32px!important;margin-bottom:38px!important}
 }
+
+
+/* Mid-page sponsored banner: keep the complete card inside the viewport gutters. */
+.category-mid-ad-shell{
+  display:block!important;
+  position:relative!important;
+  width:min(1120px,calc(100% - 44px))!important;
+  max-width:1120px!important;
+  min-width:0!important;
+  margin:30px auto 42px!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+}
+.category-mid-ad-shell>.live-ad-link,
+.category-mid-ad-shell>.ad-banner,
+.category-mid-ad-shell>section,
+.category-mid-ad-shell>a{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+.category-mid-ad-shell .ad-banner.live-ad-banner,
+.category-mid-ad-shell .ad-banner.live-ad-campaign{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+  border-radius:24px!important;
+}
+.category-mid-ad-shell .ad-banner-text{
+  max-width:100%!important;
+  min-width:0!important;
+  overflow-wrap:anywhere!important;
+}
+@media(max-width:650px){
+  .category-mid-ad-shell{
+    width:calc(100% - 36px)!important;
+    max-width:calc(100% - 36px)!important;
+    margin:24px auto 34px!important;
+    padding:0!important;
+  }
+  .category-mid-ad-shell .ad-banner.live-ad-banner,
+  .category-mid-ad-shell .ad-banner.live-ad-campaign{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    min-height:260px!important;
+    margin:0!important;
+    padding:22px 18px!important;
+    border-radius:20px!important;
+  }
+}
