@@ -41,7 +41,11 @@ export default function Home() {
   const [salesTab,setSalesTab]=useState("Best Selling");
   const [spotlightIndex,setSpotlightIndex]=useState(0);
   const [followedHosts,setFollowedHosts]=useState<string[]>([]);
-  useEffect(()=>{const timer=window.setInterval(()=>setSpotlightIndex(i=>(i+1)%events.length),4000);return()=>window.clearInterval(timer);},[]);
+  const [followedOrganisers,setFollowedOrganisers]=useState<string[]>([]);
+  const [followPreferencesReady,setFollowPreferencesReady]=useState(false);
+  useEffect(()=>{try{const hosts=JSON.parse(window.localStorage.getItem("vibez-followed-hosts")||"[]");const organisers=JSON.parse(window.localStorage.getItem("vibez-followed-organisers")||"[]");if(Array.isArray(hosts))setFollowedHosts(hosts.filter((name):name is string=>typeof name==="string"));if(Array.isArray(organisers))setFollowedOrganisers(organisers.filter((name):name is string=>typeof name==="string"));}catch{}setFollowPreferencesReady(true);},[]);
+  useEffect(()=>{if(!followPreferencesReady)return;window.localStorage.setItem("vibez-followed-hosts",JSON.stringify(followedHosts));window.localStorage.setItem("vibez-followed-organisers",JSON.stringify(followedOrganisers));},[followedHosts,followedOrganisers,followPreferencesReady]);
+  useEffect(()=>{const timer=window.setInterval(()=>{if(!document.hidden&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches)setSpotlightIndex(i=>(i+1)%events.length);},6500);return()=>window.clearInterval(timer);},[]);
   const [highlightPlaying,setHighlightPlaying]=useState(false);
   const [email,setEmail]=useState("");
   const [subscribed,setSubscribed]=useState(false);
@@ -142,7 +146,7 @@ export default function Home() {
 
             <section className="ad-slot ad-mid-slot"><div className="ad-top-copy"><span>VIBEZ SELECT · SPONSORED</span><strong>Give your next campaign a place in culture.</strong><small>Premium placements across discovery, events and experiences.</small></div><div className="ad-top-action"><span>BRAND SPOTLIGHT</span><a href="/advertise">Explore placements <ArrowUpRight size={15}/></a></div></section>
 
-    <section className="organiser-light" id="organisers"><div className="light-section-heading"><div><span className="light-eyebrow">THE PEOPLE BEHIND THE MOMENTS</span><h2>Featured <em>organisers.</em></h2></div><a href="/organisers">View all organisers <ArrowRight size={16}/></a></div><div className="organiser-grid">{organisers.map(org=><article className="organiser-card" key={org.name}><div className={"organiser-avatar "+org.tone}>{org.mark}</div><div className="organiser-info"><strong>{org.name} <CheckCircle2 size={14}/></strong><span>Verified organiser</span><small>{org.count}</small></div><button onClick={e=>{const b=e.currentTarget;b.textContent=b.textContent==="Following"?"Follow":"Following";}}>Follow</button></article>)}</div></section>
+    <section className="organiser-light" id="organisers"><div className="light-section-heading"><div><span className="light-eyebrow">THE PEOPLE BEHIND THE MOMENTS</span><h2>Featured <em>organisers.</em></h2></div><a href="/organisers">View all organisers <ArrowRight size={16}/></a></div><div className="organiser-grid">{organisers.map(org=><article className="organiser-card" key={org.name}><div className={"organiser-avatar "+org.tone}>{org.mark}</div><div className="organiser-info"><strong>{org.name} <CheckCircle2 size={14}/></strong><span>Verified organiser</span><small>{org.count}</small></div><button type="button" className={followedOrganisers.includes(org.name)?"is-following":""} aria-pressed={followedOrganisers.includes(org.name)} onClick={()=>setFollowedOrganisers(current=>current.includes(org.name)?current.filter(name=>name!==org.name):[...current,org.name])}>{followedOrganisers.includes(org.name)?"Following":"Follow"}</button></article>)}</div></section>
 
 
 
@@ -150,7 +154,7 @@ export default function Home() {
 
     <section className="vibez-tv-light" id="vibez-tv"><div className="tv-light-image"><span>VIBEZ TV</span></div><div className="tv-light-copy"><span className="light-eyebrow">THE SHOW GOES ON</span><h2>Relive the moments.<br/><em>Discover what’s next.</em></h2><p>Concert highlights, interviews, performances and stories from the experiences shaping culture.</p><a href="/tv">Explore Vibez TV <ArrowRight size={16}/></a></div></section>
 
-    <section className="newsletter-band"><div><span className="light-eyebrow">GOOD THINGS, STRAIGHT TO YOUR INBOX</span><h2>Stay in the <em>Vibez.</em></h2><p>Get event drops, exclusive ticket offers and experiences worth showing up for.</p></div><form onSubmit={e=>{e.preventDefault();if(email.includes("@"))setSubscribed(true);}}><label htmlFor="newsletter-email">Your email address</label><div><input id="newsletter-email" type="email" required placeholder="you@example.com" value={email} onChange={e=>setEmail(e.target.value)}/><button>{subscribed?"You're on the list":"Subscribe"}</button></div><small>{subscribed?"Thanks for your interest. Newsletter signup will be enabled at launch.":"No spam. Just the good stuff."}</small></form></section>
+    <section className="newsletter-band"><div><span className="light-eyebrow">GOOD THINGS, STRAIGHT TO YOUR INBOX</span><h2>Stay in the <em>Vibez.</em></h2><p>Get event drops, exclusive ticket offers and experiences worth showing up for.</p></div><form onSubmit={e=>e.preventDefault()}><label htmlFor="newsletter-email">Your email address</label><div><input id="newsletter-email" type="email" placeholder="you@example.com" value={email} onChange={e=>setEmail(e.target.value)} disabled/><button type="button" disabled aria-disabled="true">Coming soon</button></div><small>Newsletter signup opens at launch. Your details are not being collected yet.</small></form></section>
 
     <section className="recent-bookings-section" aria-label="Recent event bookings">
       <div className="recent-bookings-heading"><div><span className="light-eyebrow">THE MOMENT, IN NUMBERS</span><h2>Recently <em>booked.</em></h2></div><span className="activity-preview-label">Platform preview</span></div>
