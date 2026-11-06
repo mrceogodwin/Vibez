@@ -2150,3 +2150,125 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   box-shadow:none!important;
   outline:0!important;
 }
+
+
+/* Concert and nightlife category rails: padded, swipeable horizontal carousels. */
+.category-ticket-section{
+  width:min(1120px,100%)!important;
+  max-width:1120px!important;
+  margin:42px auto 40px!important;
+  padding:0 22px!important;
+  box-sizing:border-box!important;
+  min-width:0!important;
+}
+.category-ticket-section .light-section-heading{
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:16px!important;
+  margin:0 0 20px!important;
+  min-width:0!important;
+}
+.category-rail-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  flex-shrink:0!important;
+}
+.category-rail-actions>a{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  margin-right:8px!important;
+  white-space:nowrap!important;
+  font-size:11px!important;
+  font-weight:700!important;
+}
+.category-rail-actions>button{
+  width:38px!important;
+  height:38px!important;
+  flex:0 0 38px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid #e4dfeb!important;
+  border-radius:50%!important;
+  background:#fff!important;
+  color:#292431!important;
+  box-shadow:0 4px 0 #e9e4ef!important;
+  cursor:pointer!important;
+}
+.category-ticket-viewport{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  overscroll-behavior-x:contain!important;
+  scroll-snap-type:x mandatory!important;
+  scroll-behavior:smooth!important;
+  scrollbar-width:none!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding:0 1px 14px!important;
+  box-sizing:border-box!important;
+}
+.category-ticket-viewport::-webkit-scrollbar{display:none!important}
+.category-ticket-grid{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  align-items:stretch!important;
+  gap:18px!important;
+  width:max-content!important;
+  min-width:100%!important;
+  padding:0 0 2px!important;
+  box-sizing:border-box!important;
+}
+.category-ticket-grid>.light-event-card{
+  flex:0 0 calc((min(1120px,100vw) - 62px)/2)!important;
+  width:calc((min(1120px,100vw) - 62px)/2)!important;
+  max-width:calc((min(1120px,100vw) - 62px)/2)!important;
+  min-width:0!important;
+  scroll-snap-align:start!important;
+}
+.category-ticket-grid .light-event-image{height:clamp(170px,22vw,245px)!important}
+.category-ticket-grid .light-event-body{padding:16px!important}
+.category-ticket-grid .light-event-card h3{font-size:16px!important;line-height:1.3!important}
+.category-mid-ad{margin-top:30px!important;margin-bottom:34px!important}
+.nightlife-ticket-section{margin-top:38px!important;margin-bottom:46px!important}
+@media(max-width:650px){
+ .category-ticket-section{
+   width:100%!important;
+   max-width:100%!important;
+   margin:34px auto 32px!important;
+   padding:0 17px!important;
+ }
+ .category-ticket-section .light-section-heading{
+   align-items:flex-end!important;
+   gap:8px!important;
+   margin-bottom:17px!important;
+ }
+ .category-ticket-section .light-section-heading h2{font-size:clamp(22px,6vw,27px)!important;line-height:1.12!important}
+ .category-rail-actions{gap:6px!important}
+ .category-rail-actions>a{font-size:8px!important;gap:3px!important;margin-right:2px!important}
+ .category-rail-actions>a svg{width:13px!important;height:13px!important}
+ .category-rail-actions>button{width:31px!important;height:31px!important;flex-basis:31px!important}
+ .category-rail-actions>button svg{width:15px!important;height:15px!important}
+ .category-ticket-viewport{width:100%!important;padding:0 0 12px!important}
+ .category-ticket-grid{gap:12px!important;min-width:0!important}
+ .category-ticket-grid>.light-event-card{
+   flex:0 0 82%!important;
+   width:82%!important;
+   max-width:82%!important;
+   min-width:0!important;
+ }
+ .category-ticket-grid .light-event-image{height:clamp(155px,43vw,190px)!important}
+ .category-ticket-grid .light-event-body{padding:12px!important}
+ .category-ticket-grid .light-event-meta{font-size:8px!important;letter-spacing:.5px!important}
+ .category-ticket-grid .light-event-card h3{font-size:14px!important;line-height:1.25!important;min-height:36px!important;margin:8px 0!important}
+ .category-ticket-grid .light-event-detail{font-size:10px!important;gap:8px!important}
+ .category-ticket-grid .light-event-bottom{align-items:center!important;flex-direction:row!important;justify-content:space-between!important;gap:8px!important;margin-top:12px!important;padding-top:10px!important}
+ .category-ticket-grid .light-event-bottom strong{font-size:11px!important}
+ .category-ticket-grid .light-event-bottom a{width:auto!important;justify-content:center!important;padding:9px 12px!important;font-size:10px!important;white-space:nowrap!important}
+ .category-mid-ad{margin:24px 4% 28px!important}
+ .nightlife-ticket-section{margin-top:32px!important;margin-bottom:38px!important}
+}
