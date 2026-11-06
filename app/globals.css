@@ -1953,3 +1953,54 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
  .ad-admin-footer{flex-direction:column}
  .ad-admin-footer span{text-align:left}
 }
+
+
+/* Mid-page partner placement: keep the full flagship banner composition inside the viewport. */
+.live-ad-link{display:block;width:100%;min-width:0;max-width:100%;color:inherit}
+.ad-banner.live-ad-banner{
+  width:auto!important;
+  max-width:calc(100% - 10.4%)!important;
+  margin:0 5.2% 42px!important;
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;
+  align-items:center!important;
+  gap:clamp(14px,3vw,35px)!important;
+  padding:clamp(20px,3vw,34px) clamp(18px,4vw,34px)!important;
+  min-height:220px!important;
+  overflow:hidden!important;
+}
+.ad-banner.live-ad-banner .ad-banner-text,
+.ad-banner.live-ad-banner .ad-banner-art{min-width:0!important;max-width:100%!important;width:100%!important;box-sizing:border-box!important}
+.ad-banner.live-ad-banner .ad-banner-text{overflow-wrap:anywhere}
+.ad-banner.live-ad-banner .ad-banner-art{min-height:155px!important;height:auto!important;align-self:stretch;overflow:hidden!important;transform:none!important}
+.ad-banner.live-ad-banner .ad-banner-art img{display:block;width:100%;height:100%;min-height:155px;object-fit:cover;border-radius:inherit}
+.ad-banner.live-ad-banner .ad-banner-text h2{font-size:clamp(22px,3vw,36px)!important;line-height:1.08!important}
+.ad-banner.live-ad-banner .ad-banner-text p{font-size:11px!important;line-height:1.6!important}
+@media(max-width:650px){
+  .ad-banner.live-ad-banner{
+    width:auto!important;
+    max-width:92%!important;
+    margin:0 4% 28px!important;
+    padding:17px 14px!important;
+    grid-template-columns:minmax(0,1.12fr) minmax(92px,.88fr)!important;
+    gap:10px!important;
+    min-height:150px!important;
+    border-radius:17px!important;
+  }
+  .ad-banner.live-ad-banner .ad-banner-art{min-height:108px!important;height:108px!important;border-radius:12px!important}
+  .ad-banner.live-ad-banner .ad-banner-art img{min-height:108px}
+  .ad-banner.live-ad-banner .ad-banner-art span{font-size:clamp(11px,3.2vw,17px)!important;line-height:1.12!important;letter-spacing:.5px!important}
+  .ad-banner.live-ad-banner .ad-banner-art small{font-size:5px!important;letter-spacing:.6px!important;margin-top:6px!important}
+  .ad-banner.live-ad-banner .ad-banner-text .sponsored-kicker{font-size:6px!important;letter-spacing:.9px!important}
+  .ad-banner.live-ad-banner .ad-banner-text h2{font-size:clamp(15px,4.2vw,20px)!important;letter-spacing:-.45px!important;margin:6px 0!important}
+  .ad-banner.live-ad-banner .ad-banner-text p{font-size:8px!important;line-height:1.35!important;margin:0 0 6px!important}
+  .ad-banner.live-ad-banner .ad-banner-text .live-ad-cta{font-size:8px!important;gap:4px!important}
+}
+
+/* Host & event curators: remove the tinted section panel, retain the content and rail. */
+.host-spotlight{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
