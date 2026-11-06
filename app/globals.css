@@ -1532,3 +1532,160 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   .vibez-drawer{padding-left:18px!important;padding-right:18px!important}
   .drawer-links a{min-height:46px!important}
 }
+
+
+/* Mobile layout repair: keep the restored VIBEZ hero and header inside the viewport */
+@media (max-width: 650px) {
+  .light-header {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 4%;
+    gap: 9px;
+    justify-content: flex-start;
+    overflow: visible;
+  }
+  .light-header .account-avatar {
+    order: 0 !important;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    margin: 0 !important;
+  }
+  .light-header .light-brand {
+    order: 1 !important;
+    flex: 0 0 auto;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: center !important;
+    white-space: nowrap;
+  }
+  .light-header .brand-crown {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  .light-header .light-nav {
+    display: none !important;
+  }
+  .light-header .light-header-actions {
+    order: 2 !important;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 0 auto !important;
+    min-width: 0;
+  }
+  .light-header .icon-search {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+  }
+  .light-header .login-link {
+    padding: 9px 11px;
+    white-space: nowrap;
+  }
+  .light-header .mobile-menu {
+    display: inline-flex !important;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .light-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 22px;
+    padding: 30px 4% 24px !important;
+    overflow: clip;
+  }
+  .light-hero > *,
+  .light-hero .hero-left,
+  .light-hero .hero-carousel,
+  .light-hero .flagship-event-spotlight,
+  .light-hero .event-spotlight-slider {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-inline: 0;
+  }
+  .light-hero .hero-left {
+    padding: 0;
+  }
+  .light-hero .hero-left h1 {
+    max-width: 100%;
+    overflow-wrap: normal;
+  }
+  .light-hero .hero-search {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+  .light-hero .host-spotlight {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-inline: 0;
+    overflow: hidden;
+  }
+  .light-hero .host-avatar-viewport {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .light-hero .host-avatar-rail {
+    width: max-content;
+    max-width: none;
+  }
+  .light-hero .hero-carousel {
+    display: block;
+    align-self: stretch;
+  }
+  .light-hero .flagship-event-spotlight {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden;
+  }
+  .light-hero .flagship-event-spotlight .event-spotlight-slide {
+    display: flex !important;
+    width: 100%;
+    min-width: 0;
+    min-height: 355px !important;
+    height: 355px !important;
+    padding: 20px !important;
+    align-items: flex-end !important;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+  .light-hero .spotlight-feature-copy {
+    max-width: 100%;
+    min-width: 0;
+    padding-bottom: 36px;
+  }
+  .light-hero .spotlight-feature-copy h3 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 380px) {
+  .light-header { gap: 7px; }
+  .light-header .light-brand { font-size: 21px; }
+  .light-header .light-header-actions { gap: 6px; }
+  .light-header .login-link { padding-inline: 8px; font-size: 10px; }
+  .light-header .mobile-menu { flex-basis: 30px; width: 30px; }
+}
+
+/* Prevent accidental page-wide horizontal panning from oversized homepage children. */
+.light-site {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
