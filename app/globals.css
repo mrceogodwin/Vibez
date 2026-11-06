@@ -2529,3 +2529,134 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   .ad-slot.ad-mid-slot{padding:19px 15px!important}
   .ad-banner.ad-banner-final{padding:21px 15px!important}
 }
+
+
+/* VIBEZ mobile QA pass: a single viewport-width contract for homepage sections. */
+@media(max-width:760px){
+  html,body{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin:0!important;
+    overflow-x:clip!important;
+  }
+  body>main.light-site{
+    display:block!important;
+    position:relative!important;
+    inset:auto!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:0!important;
+    overflow-x:clip!important;
+    box-sizing:border-box!important;
+  }
+  body>main.light-site>section{
+    position:relative;
+    left:auto!important;
+    right:auto!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+    box-sizing:border-box!important;
+  }
+  body>main.light-site>section>*{
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .light-site .light-header,
+  .light-site .live-now-strip,
+  .light-site .category-strip{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  .light-site .light-hero{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    padding-left:18px!important;
+    padding-right:18px!important;
+    box-sizing:border-box!important;
+  }
+  .light-site .hero-left,
+  .light-site .hero-carousel,
+  .light-site .event-spotlight-slider,
+  .light-site .event-spotlight-slide,
+  .light-site .host-spotlight{
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .light-site .ad-slot.ad-top,
+  .light-site .ad-banner.ad-banner-compact,
+  .light-site .ad-banner.ad-banner-final,
+  .light-site .ad-slot.ad-mid-slot{
+    width:calc(100% - 36px)!important;
+    max-width:calc(100% - 36px)!important;
+    min-width:0!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+  .light-site .ad-top-copy,
+  .light-site .ad-top-action,
+  .light-site .ad-banner-text,
+  .light-site .ad-banner-art{
+    min-width:0!important;
+    max-width:100%!important;
+    overflow-wrap:anywhere!important;
+    box-sizing:border-box!important;
+  }
+  .light-site .top-sales-section,
+  .light-site .category-ticket-section,
+  .light-site .light-section,
+  .light-site .ticket-types-home,
+  .light-site .organiser-light,
+  .light-site .recent-bookings-section{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  .light-site .sales-heading,
+  .light-site .light-section-heading,
+  .light-site .organiser-grid,
+  .light-site .ticket-type-grid,
+  .light-site .event-controls,
+  .light-site .event-rail-viewport,
+  .light-site .sales-event-viewport,
+  .light-site .category-ticket-viewport,
+  .light-site .recent-bookings-rail{
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .light-site .newsletter-band,
+  .light-site .vibez-tv-light{
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .light-site img,
+  .light-site video,
+  .light-site iframe{
+    max-width:100%;
+  }
+}
+@media(max-width:390px){
+  body>main.light-site>.light-hero{padding-left:14px!important;padding-right:14px!important}
+  .light-site .ad-slot.ad-top,
+  .light-site .ad-banner.ad-banner-compact,
+  .light-site .ad-banner.ad-banner-final,
+  .light-site .ad-slot.ad-mid-slot{
+    width:calc(100% - 28px)!important;
+    max-width:calc(100% - 28px)!important;
+  }
+}
