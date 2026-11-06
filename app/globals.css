@@ -2134,3 +2134,19 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
  .ad-banner.live-ad-banner .live-ad-cta,
  .ad-banner.live-ad-campaign .live-ad-cta{min-height:43px!important;padding:0 17px!important;font-size:10px!important}
 }
+
+
+/* Homepage host-curator area: remove the tinted panel/canvas behind the host rail and stats. */
+.light-hero{
+  background:#fff!important;
+}
+.light-hero .hero-left{
+  background:transparent!important;
+}
+.light-hero .hero-left .host-spotlight{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
