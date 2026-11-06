@@ -1689,3 +1689,78 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   max-width: 100%;
   overflow-x: clip;
 }
+
+
+/* Mobile right-edge containment: keep compact sponsored banner and cards inside the viewport. */
+@media (max-width: 650px) {
+  .light-site,
+  .light-site > section,
+  .top-sales-section,
+  .ad-banner.ad-banner-compact,
+  .light-section,
+  .event-controls,
+  .event-search-tools {
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .ad-banner.ad-banner-compact {
+    width: auto !important;
+    margin-left: 4% !important;
+    margin-right: 4% !important;
+    padding: 13px 12px !important;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr) !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+  }
+
+  .ad-banner-compact .ad-banner-text,
+  .ad-banner-compact .ad-banner-art {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .ad-banner-compact .ad-banner-text {
+    overflow-wrap: anywhere;
+  }
+
+  .ad-banner-compact .ad-banner-art {
+    transform: none !important;
+    overflow: hidden !important;
+  }
+
+  .ad-banner-compact .ad-banner-art span,
+  .ad-banner-compact .ad-banner-art small {
+    max-width: 100% !important;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+
+  .sales-event-grid {
+    width: 100% !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .sales-event-card,
+  .sales-event-info,
+  .sales-event-info > strong,
+  .sales-event-info > span,
+  .sales-event-info > small {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .sales-event-info > span {
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+
+  .event-search-tools .city-select {
+    min-width: 0 !important;
+    max-width: 47% !important;
+  }
+}
