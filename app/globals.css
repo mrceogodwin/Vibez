@@ -2004,3 +2004,133 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   border:0!important;
   box-shadow:none!important;
 }
+
+
+/* Flagship mid-page sponsor banner — full image treatment with safe mobile sizing. */
+.ad-banner.live-ad-banner,
+.ad-banner.live-ad-campaign{
+  position:relative!important;
+  isolation:isolate!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-end!important;
+  align-items:flex-start!important;
+  width:calc(100% - 10.4%)!important;
+  max-width:none!important;
+  min-width:0!important;
+  min-height:310px!important;
+  height:auto!important;
+  margin:8px 5.2% 48px!important;
+  padding:clamp(24px,4vw,42px)!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+  border:1px solid #ffffff25!important;
+  border-radius:26px!important;
+  background-color:#21132f!important;
+  background-size:cover!important;
+  background-position:center 48%!important;
+  background-repeat:no-repeat!important;
+  box-shadow:0 8px 0 #e2d9e9,0 18px 36px #21132f18!important;
+  color:#fff!important;
+  text-align:left!important;
+}
+.ad-banner.live-ad-banner:before,
+.ad-banner.live-ad-campaign:before{
+  content:""!important;
+  position:absolute!important;
+  z-index:-1!important;
+  inset:0!important;
+  background:linear-gradient(0deg,rgba(10,7,17,.9) 0%,rgba(10,7,17,.36) 62%,rgba(10,7,17,.08) 100%)!important;
+  pointer-events:none!important;
+}
+.ad-banner.live-ad-banner:after,
+.ad-banner.live-ad-campaign:after{display:none!important}
+.ad-banner.live-ad-banner .ad-banner-text,
+.ad-banner.live-ad-campaign .ad-banner-text{
+  position:relative!important;
+  z-index:1!important;
+  width:min(100%,700px)!important;
+  max-width:700px!important;
+  min-width:0!important;
+  overflow-wrap:anywhere!important;
+  color:#fff!important;
+}
+.ad-banner.live-ad-banner .live-ad-label{
+  position:absolute!important;
+  top:22px!important;
+  right:24px!important;
+  z-index:2!important;
+  color:#ffffffb8!important;
+  font-size:8px!important;
+  font-weight:800!important;
+  letter-spacing:2px!important;
+}
+.ad-banner.live-ad-banner .sponsored-kicker,
+.ad-banner.live-ad-campaign .sponsored-kicker{
+  color:#d7b8ff!important;
+  font-size:9px!important;
+  letter-spacing:2px!important;
+  font-weight:800!important;
+}
+.ad-banner.live-ad-banner .ad-banner-text h2,
+.ad-banner.live-ad-campaign .ad-banner-text h2{
+  color:#fff!important;
+  font-size:clamp(27px,4.2vw,46px)!important;
+  line-height:1.04!important;
+  letter-spacing:-1.6px!important;
+  max-width:680px!important;
+  margin:13px 0 10px!important;
+}
+.ad-banner.live-ad-banner .ad-banner-text h2 em,
+.ad-banner.live-ad-campaign .ad-banner-text h2 em{color:#d7b8ff!important}
+.ad-banner.live-ad-banner .ad-banner-text p,
+.ad-banner.live-ad-campaign .ad-banner-text p{
+  color:#ffffffd1!important;
+  font-size:12px!important;
+  line-height:1.65!important;
+  max-width:470px!important;
+  margin:0 0 18px!important;
+}
+.ad-banner.live-ad-banner .ad-banner-text>a,
+.ad-banner.live-ad-banner .live-ad-cta,
+.ad-banner.live-ad-campaign .live-ad-cta{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:12px!important;
+  min-height:48px!important;
+  padding:0 22px!important;
+  border:1px solid #ffffff45!important;
+  border-radius:999px!important;
+  background:#ffffff18!important;
+  color:#fff!important;
+  font-size:11px!important;
+  font-weight:700!important;
+  text-decoration:none!important;
+  backdrop-filter:blur(12px)!important;
+}
+.ad-banner.live-ad-link{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;color:inherit!important;text-decoration:none!important}
+@media(max-width:650px){
+ .ad-banner.live-ad-banner,
+ .ad-banner.live-ad-campaign{
+   width:92%!important;
+   max-width:92%!important;
+   min-height:285px!important;
+   margin:8px auto 38px!important;
+   padding:22px 18px 22px!important;
+   border-radius:21px!important;
+   background-position:center center!important;
+ }
+ .ad-banner.live-ad-banner .live-ad-label{top:15px!important;right:15px!important;font-size:6px!important;letter-spacing:1.2px!important}
+ .ad-banner.live-ad-banner .ad-banner-text,
+ .ad-banner.live-ad-campaign .ad-banner-text{width:100%!important;max-width:100%!important}
+ .ad-banner.live-ad-banner .sponsored-kicker,
+ .ad-banner.live-ad-campaign .sponsored-kicker{font-size:7px!important;letter-spacing:1.25px!important}
+ .ad-banner.live-ad-banner .ad-banner-text h2,
+ .ad-banner.live-ad-campaign .ad-banner-text h2{font-size:clamp(25px,7vw,34px)!important;line-height:1.06!important;letter-spacing:-.9px!important;margin:10px 0!important}
+ .ad-banner.live-ad-banner .ad-banner-text p,
+ .ad-banner.live-ad-campaign .ad-banner-text p{font-size:10px!important;line-height:1.5!important;margin-bottom:13px!important}
+ .ad-banner.live-ad-banner .ad-banner-text>a,
+ .ad-banner.live-ad-banner .live-ad-cta,
+ .ad-banner.live-ad-campaign .live-ad-cta{min-height:43px!important;padding:0 17px!important;font-size:10px!important}
+}
