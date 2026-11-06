@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import { AdPlacement } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
 
     const campaign = await prisma.adCampaign.create({
       data: {
+        id: randomUUID(),
         name,
         advertiserName,
         advertiserEmail,
