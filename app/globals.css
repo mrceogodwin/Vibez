@@ -1806,3 +1806,37 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
   .sales-event-info>span{font-size:8px!important;white-space:normal!important;flex-wrap:wrap}
   .sales-event-info>small{font-size:9px!important}
 }
+
+
+/* Homepage curated ticket-category grids and the sponsored placement between them. */
+.category-ticket-section{
+  width:min(1120px,90%);margin:34px auto 30px;min-width:0;
+}
+.category-ticket-section .light-section-heading{margin-bottom:17px}
+.category-ticket-section .light-section-heading h2{font-size:clamp(25px,3vw,33px)}
+.category-ticket-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
+}
+.category-ticket-grid .light-event-card{min-width:0}
+.category-ticket-grid .light-event-image{height:clamp(160px,22vw,230px)}
+.category-ticket-grid .light-event-body{padding:14px}
+.category-ticket-grid .light-event-card h3{font-size:15px}
+.category-mid-ad{margin-top:28px!important;margin-bottom:28px!important}
+.nightlife-ticket-section{margin-top:30px;margin-bottom:42px}
+@media(max-width:650px){
+  .category-ticket-section{width:90%;margin:28px auto 24px}
+  .category-ticket-section .light-section-heading{align-items:flex-start;gap:10px}
+  .category-ticket-section .light-section-heading h2{font-size:24px;line-height:1.12}
+  .category-ticket-section .light-section-heading>a{font-size:9px;white-space:nowrap;padding-top:7px}
+  .category-ticket-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .category-ticket-grid .light-event-image{height:clamp(105px,34vw,155px)}
+  .category-ticket-grid .light-event-body{padding:9px}
+  .category-ticket-grid .light-event-meta{font-size:6px;letter-spacing:.3px}
+  .category-ticket-grid .light-event-card h3{font-size:11px;line-height:1.25;min-height:34px;margin:7px 0}
+  .category-ticket-grid .light-event-detail{font-size:8px;gap:5px}
+  .category-ticket-grid .light-event-bottom{align-items:flex-start;flex-direction:column;gap:8px;margin-top:9px;padding-top:9px}
+  .category-ticket-grid .light-event-bottom strong{font-size:9px}
+  .category-ticket-grid .light-event-bottom a{width:100%;justify-content:center;padding:8px 5px;font-size:8px}
+  .category-mid-ad{margin:22px 4% 24px!important}
+  .nightlife-ticket-section{margin-top:24px;margin-bottom:30px}
+}
