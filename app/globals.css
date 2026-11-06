@@ -1764,3 +1764,45 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
     max-width: 47% !important;
   }
 }
+
+
+/* Top 10 ticket sales: horizontal, swipeable ranking rail with arrow controls. */
+.sales-controls{
+  display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:0;
+}
+.sales-rail-actions{display:flex;align-items:center;gap:7px;flex:0 0 auto}
+.sales-rail-actions button{
+  width:34px;height:34px;display:grid;place-items:center;padding:0;
+  border:1px solid #e7e3ed;border-radius:50%;
+  background:linear-gradient(180deg,#fff,#f5f2f9);color:#4d4858;
+  box-shadow:0 3px 0 #e8e3ed,0 6px 12px #25143a0b;cursor:pointer;
+}
+.sales-rail-actions button:active{transform:translateY(1px);box-shadow:0 1px 0 #e8e3ed}
+.sales-event-viewport{
+  width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+}
+.sales-event-viewport::-webkit-scrollbar{display:none}
+.sales-event-grid{
+  display:flex!important;flex-wrap:nowrap!important;gap:14px!important;
+  width:100%;min-width:0;
+}
+.sales-event-card{
+  display:block;flex:0 0 calc((100% - 28px)/3);width:calc((100% - 28px)/3);
+  min-width:0;scroll-snap-align:start;
+}
+@media(max-width:650px){
+  .sales-heading{align-items:flex-start;flex-direction:column;gap:13px}
+  .sales-controls{width:100%;justify-content:space-between;gap:8px}
+  .sales-tabs{flex:1 1 auto;width:auto;min-width:0}
+  .sales-tabs button{flex:1 1 0;min-width:0}
+  .sales-rail-actions button{width:32px;height:32px}
+  .sales-event-grid{gap:10px!important}
+  .sales-event-card{flex:0 0 74%;width:74%;max-width:280px}
+  .sales-event-image{height:clamp(105px,32vw,150px)}
+  .sales-event-info{padding:10px!important;gap:7px!important}
+  .sales-event-info>strong{font-size:11px!important;min-height:30px!important}
+  .sales-event-info>span{font-size:8px!important;white-space:normal!important;flex-wrap:wrap}
+  .sales-event-info>small{font-size:9px!important}
+}
