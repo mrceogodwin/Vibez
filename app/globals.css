@@ -3405,3 +3405,113 @@ html[data-vibez-theme="dark"] .light-site :focus-visible {
     background:#15111c!important; border-color:#393044!important;
   }
 }
+
+
+/* Dark theme repair pass: cover the leaderboard, proof rail and every ticket rail.
+   These sections were still using their light-mode surface tokens. */
+html[data-vibez-theme="dark"] body,
+html[data-vibez-theme="dark"] body > main.light-site {
+  background:#09080e!important;
+  color:#f5f0fa!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site > .top-sales-section,
+html[data-vibez-theme="dark"] body > main.light-site > .recent-bookings-section,
+html[data-vibez-theme="dark"] body > main.light-site > .category-ticket-section,
+html[data-vibez-theme="dark"] body > main.light-site > .ticket-types-home,
+html[data-vibez-theme="dark"] body > main.light-site > .light-section {
+  background:linear-gradient(180deg,#100d16 0%,#0b0a10 100%)!important;
+  color:#f5f0fa!important;
+  border-color:#2d2537!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .sales-heading h2,
+html[data-vibez-theme="dark"] body > main.light-site .recent-bookings-heading h2,
+html[data-vibez-theme="dark"] body > main.light-site .recent-bookings-heading h2 em,
+html[data-vibez-theme="dark"] body > main.light-site .sales-heading h2 em {
+  color:#f5effb!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .sales-heading h2 em,
+html[data-vibez-theme="dark"] body > main.light-site .recent-bookings-heading h2 em {
+  color:#c7a0f5!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .sales-event-card,
+html[data-vibez-theme="dark"] body > main.light-site .recent-booking-card,
+html[data-vibez-theme="dark"] body > main.light-site .category-ticket-section .light-event-card,
+html[data-vibez-theme="dark"] body > main.light-site .light-section .light-event-card {
+  background:linear-gradient(155deg,#211a2b 0%,#17131e 68%,#1d1726 100%)!important;
+  border:1px solid #40334e!important;
+  color:#f5effb!important;
+  box-shadow:0 5px 0 #08070c,0 14px 26px #0008,inset 0 1px #ffffff10!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .sales-event-info,
+html[data-vibez-theme="dark"] body > main.light-site .recent-booking-copy,
+html[data-vibez-theme="dark"] body > main.light-site .light-event-body {
+  background:transparent!important;
+  color:#f4eff9!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .sales-event-info strong,
+html[data-vibez-theme="dark"] body > main.light-site .recent-booking-copy>strong,
+html[data-vibez-theme="dark"] body > main.light-site .booking-count b,
+html[data-vibez-theme="dark"] body > main.light-site .light-event-card h3,
+html[data-vibez-theme="dark"] body > main.light-site .light-event-bottom strong {
+  color:#fbf8ff!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .sales-event-info span,
+html[data-vibez-theme="dark"] body > main.light-site .sales-event-info small,
+html[data-vibez-theme="dark"] body > main.light-site .recent-booking-copy>span,
+html[data-vibez-theme="dark"] body > main.light-site .booking-count small,
+html[data-vibez-theme="dark"] body > main.light-site .booking-preview-note,
+html[data-vibez-theme="dark"] body > main.light-site .sales-disclaimer,
+html[data-vibez-theme="dark"] body > main.light-site .light-event-meta,
+html[data-vibez-theme="dark"] body > main.light-site .light-event-detail {
+  color:#bcb2c8!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .booking-count {
+  border-color:#3b3047!important;
+  color:#a9e2be!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .activity-preview-label {
+  background:#211a2b!important;
+  border-color:#49385a!important;
+  color:#d7c4e9!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .sales-tabs button,
+html[data-vibez-theme="dark"] body > main.light-site .sales-rail-actions button,
+html[data-vibez-theme="dark"] body > main.light-site .category-rail-actions button,
+html[data-vibez-theme="dark"] body > main.light-site .rail-heading-actions button {
+  background:linear-gradient(145deg,#292233,#18141f)!important;
+  border:1px solid #493a58!important;
+  color:#eee6f6!important;
+  box-shadow:0 3px 0 #09070d,0 7px 14px #0006!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .sales-tabs button.active {
+  background:linear-gradient(145deg,#c7a0f5,#8958c9)!important;
+  border-color:#d7b9fb!important;
+  color:#160e20!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .account-avatar {
+  background:linear-gradient(145deg,#352548,#21172e)!important;
+  border-color:#725493!important;
+  color:#e2caff!important;
+  box-shadow:0 4px 14px #0008,inset 0 1px #ffffff20!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .live-now-strip {
+  background:linear-gradient(100deg,#17121f,#21162f 52%,#121019)!important;
+  border-block:1px solid #ffffff16!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .live-now-track-inner span {
+  color:#e1d6eb!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .live-now-track-inner b {
+  color:#c49af2!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .live-now-label {
+  background:#351a32!important;
+  color:#ffd9e8!important;
+  border:1px solid #7b3c68!important;
+}
+html[data-vibez-theme="dark"] body > main.light-site .load-more-events {
+  background:linear-gradient(145deg,#c5a0f0,#8955c9)!important;
+  color:#170f20!important;
+  border:1px solid #d6b9f7!important;
+  box-shadow:0 4px 0 #50306e,0 10px 20px #0007!important;
+}
