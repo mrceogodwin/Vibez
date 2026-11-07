@@ -8,7 +8,7 @@ function authorised(request:Request){const expected=process.env.VIBEZ_ADMIN_KEY;
 const clean=(v:unknown,n:number)=>typeof v==="string"?v.trim().slice(0,n):"";
 export async function GET(request:Request){
  if(!authorised(request))return NextResponse.json({error:"Unauthorised."},{status:401});
- try{const events=await prisma.event.findMany({include:{organizer:{select:{id:true,name:true,email:true,organizerProfile:{select:{businessName:true,verificationStatus:true}}}},ticketTypes:true},orderBy:{createdAt:"desc"},take:200});return NextResponse.json({events});}
+ try{const [events,organizers]=await Promise.all([prisma.event.findMany({include:{organizer:{select:{id:true,name:true,email:true,organizerProfile:{select:{businessName:true,verificationStatus:true}}}},ticketTypes:true},orderBy:{createdAt:"desc"},take:200}),prisma.user.findMany({where:{role:UserRole.ORGANIZER,organizerProfile:{is:{verificationStatus:"APPROVED"}}},select:{id:true,name:true,email:true,organizerProfile:{select:{businessName:true}}},orderBy:{createdAt:"desc"},take:200})]);return NextResponse.json({events,organizers});}
  catch{return NextResponse.json({error:"Could not load events. Check the database and Prisma schema."},{status:500});}
 }
 export async function POST(request:Request){
