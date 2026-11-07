@@ -215,3 +215,29 @@ model VerificationToken {
   expires    DateTime
   @@unique([identifier, token])
 }
+
+
+enum OrganizerApplicationStatus {
+  NEW
+  CONTACTED
+  APPROVED
+  DECLINED
+}
+
+model OrganizerApplication {
+  id             String                     @id @default(cuid())
+  businessName   String
+  contactName    String
+  email          String
+  phone          String
+  website        String?
+  city           String
+  eventTypes     String
+  expectedEvents String?
+  message        String?                    @db.Text
+  status         OrganizerApplicationStatus @default(NEW)
+  createdAt      DateTime                   @default(now())
+  updatedAt      DateTime                   @updatedAt
+  @@index([status, createdAt])
+  @@index([email, createdAt])
+}
