@@ -4676,3 +4676,10 @@ html[data-vibez-theme="dark"] .category-strip{grid-template-columns:repeat(6,min
 @media(min-width:761px){
   .purchase-page,.attendee-shell,.ad-admin-page{padding-bottom:0}
 }
+
+@media(max-width:760px){
+  .purchase-layout>.order-summary{order:-1}
+  .purchase-layout>.purchase-main{order:1}
+  .dock-admin-hidden{display:none!important}
+}
+@media(min-width:761px){.dock-admin-hidden{display:none!important}}
