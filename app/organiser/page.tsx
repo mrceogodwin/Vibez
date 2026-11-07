@@ -15,7 +15,7 @@ export default function OrganiserPage(){
  <section className="advertiser-request" id="organiser-application"><div className="advertiser-request-heading"><span className="light-eyebrow">ORGANISER ONBOARDING</span><h2>Tell us about <em>your events.</em></h2><p>Complete the required fields. Your information is used to review this application and contact you.</p></div>
  {success?<div className="advertiser-success"><CheckCircle2 size={25}/><strong>Application received</strong><p>{success}</p><button type="button" onClick={()=>setSuccess("")}>Submit another application</button></div>:<form className="advertiser-form" onSubmit={submit}>
  <label>Organisation / business name *<input required maxLength={120} value={form.businessName} onChange={e=>change("businessName",e.target.value)} placeholder="Your event company or brand"/></label>
- <label>Contact person's full name *<input required maxLength={100} value={form.contactName} onChange={e=>change("contactName",e.target.value)} placeholder="Full name"/></label>
+ <label>Contact person&apos;s full name *<input required maxLength={100} value={form.contactName} onChange={e=>change("contactName",e.target.value)} placeholder="Full name"/></label>
  <label>Business email *<input required type="email" maxLength={254} value={form.email} onChange={e=>change("email",e.target.value)} placeholder="you@company.com"/></label>
  <label>Phone number *<input required type="tel" maxLength={40} value={form.phone} onChange={e=>change("phone",e.target.value)} placeholder="+234…"/></label>
  <label>Website (optional)<input type="url" value={form.website} onChange={e=>change("website",e.target.value)} placeholder="https://…"/></label>
