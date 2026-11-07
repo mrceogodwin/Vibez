@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
-import { OrganizerApplicationStatus, UserRole } from "@prisma/client";
+import { EventStatus, OrganizerApplicationStatus, UserRole } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -37,6 +37,23 @@ export async function PATCH(request: Request) {
     const result = await prisma.$transaction(async (tx) => {
       const application = await tx.organizerApplication.findUnique({ where: { id } });
       if (!application) throw new Error("APPLICATION_NOT_FOUND");
+
+      if (status === OrganizerApplicationStatus.DECLINED) {
+        const existing = await tx.user.findUnique({
+          where: { email: application.email.toLowerCase() },
+          select: { id: true, role: true, organizerProfile: { select: { id: true } } },
+        });
+        if (existing?.role === UserRole.ORGANIZER && existing.organizerProfile) {
+          await tx.organizerProfile.update({
+            where: { userId: existing.id },
+            data: { verificationStatus: "DECLINED" },
+          });
+          await tx.event.updateMany({
+            where: { organizerId: existing.id, status: EventStatus.PUBLISHED },
+            data: { status: EventStatus.REJECTED },
+          });
+        }
+      }
 
       if (status === OrganizerApplicationStatus.APPROVED) {
         const email = application.email.toLowerCase();
@@ -90,7 +107,9 @@ export async function PATCH(request: Request) {
       application: result,
       message: status === OrganizerApplicationStatus.APPROVED
         ? "Application approved and organiser profile provisioned. Login access is not enabled until authentication is configured."
-        : "Application status updated.",
+        : status === OrganizerApplicationStatus.DECLINED
+          ? "Application declined. Any existing organiser verification was revoked and their published events were removed from public listings."
+          : "Application status updated.",
     });
   } catch (error) {
     if (error instanceof Error && error.message === "APPLICATION_NOT_FOUND") {
