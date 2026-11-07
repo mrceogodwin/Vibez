@@ -3770,3 +3770,17 @@ html[data-vibez-theme="dark"] .light-site :is(button,a,input,select):focus-visib
 .organiser-page .advertiser-form input,.organiser-page .advertiser-form select,.organiser-page .advertiser-form textarea{box-sizing:border-box;max-width:100%}
 .organiser-page .advertiser-form button:disabled{opacity:.6;cursor:wait}
 @media(max-width:650px){.organiser-page .advertiser-form-submit{align-items:stretch;flex-direction:column}.organiser-page .advertiser-form-submit button{width:100%;justify-content:center}}
+
+
+/* VIBEZ event admin creation form */
+.ad-admin-access.ad-admin-create{display:block;max-width:none;margin-bottom:24px}
+.ad-admin-create label{display:flex;flex-direction:column;gap:7px;min-width:0;margin:0 0 13px;color:#625c6b;font-size:10px;font-weight:700}
+.ad-admin-create input,.ad-admin-create select,.ad-admin-create textarea{box-sizing:border-box;width:100%;min-width:0;border:1px solid #e5e1eb;border-radius:8px;background:#fff;padding:11px 12px;color:#282431;font:400 11px/1.5 inherit}
+.ad-admin-create textarea{resize:vertical}
+.ad-admin-create input:focus,.ad-admin-create select:focus,.ad-admin-create textarea:focus{outline:2px solid #cbb4ed;outline-offset:1px}
+.ad-admin-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+.ad-admin-create .ad-admin-section-title{margin:22px 0 13px}
+.ad-admin-create>button[type=submit]{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:8px;padding:12px 16px;background:#20152b;color:#fff;font-size:10px;font-weight:700;cursor:pointer}
+.ad-admin-create>button:disabled{opacity:.55;cursor:wait}
+.ad-admin-empty a{color:#7650a9;font-weight:700;text-decoration:underline}
+@media(max-width:700px){.ad-admin-form-grid{grid-template-columns:1fr}.ad-admin-create{padding:17px}.ad-admin-create>button[type=submit]{width:100%}}
