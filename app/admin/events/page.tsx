@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck, CalendarDays, KeyRound, MapPin, Plus, RefreshCw, ShieldCheck, Ticket } from "lucide-react";
 
@@ -43,7 +43,7 @@ export default function EventAdminPage() {
     } finally { setLoading(false); }
   }
 
-  async function createEvent(e: React.FormEvent<HTMLFormElement>) {
+  async function createEvent(e: FormEvent<HTMLFormElement>) {
     e.preventDefault(); setError(""); setNotice("");
     if (!form.organizerId) { setError("Select an approved organiser first."); return; }
     if (!form.startsAt || new Date(form.startsAt) <= new Date()) { setError("Choose a future event start date and time."); return; }
