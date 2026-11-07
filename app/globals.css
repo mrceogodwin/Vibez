@@ -4174,3 +4174,76 @@ html[data-vibez-theme="dark"] .mobile-bottom-dock .dock-item.dock-active{color:#
 html[data-vibez-theme="dark"] .mobile-bottom-dock .dock-item.dock-active svg{color:#c44d52!important;filter:drop-shadow(0 0 7px #b53c4380)}
 @media(max-width:760px){html[data-vibez-theme="dark"] .mobile-bottom-dock{display:flex}html[data-vibez-theme="dark"] body{padding-bottom:100px}html[data-vibez-theme="dark"] .simple-footer,html[data-vibez-theme="dark"] .light-footer{padding-bottom:125px!important}}
 @media(min-width:761px){.mobile-bottom-dock{display:none!important}}
+
+/* VIBEZ app-surface refinement: event discovery, purchase and attendee pages */
+html[data-vibez-theme="dark"] .simple-page.organiser-page .organiser-trust,
+html[data-vibez-theme="dark"] .simple-page .organiser-trust,
+html[data-vibez-theme="dark"] .simple-page .ad-measure,
+html[data-vibez-theme="dark"] .simple-page .organiser-steps,
+html[data-vibez-theme="dark"] .simple-page .advertiser-request,
+html[data-vibez-theme="dark"] .simple-page .advertiser-success,
+html[data-vibez-theme="dark"] .simple-page .measure-list{
+ background:linear-gradient(150deg,#252221,#171615)!important;color:#e9e1dc!important;
+ border:1px solid #49403d!important;border-radius:18px!important;
+ box-shadow:0 4px 0 #090909,0 12px 22px #0008,inset 0 1px #ffffff12!important;
+}
+html[data-vibez-theme="dark"] .simple-page .advertiser-form input,
+html[data-vibez-theme="dark"] .simple-page .advertiser-form select,
+html[data-vibez-theme="dark"] .simple-page .advertiser-form textarea{
+ background:#141312!important;border:1px solid #514744!important;color:#f5efea!important;border-radius:11px!important;
+}
+html[data-vibez-theme="dark"] .purchase-page .purchase-layout{align-items:start}
+html[data-vibez-theme="dark"] .purchase-page .purchase-section-title{color:#f4eee9!important}
+html[data-vibez-theme="dark"] .purchase-page .purchase-facts>div,
+html[data-vibez-theme="dark"] .purchase-page .secure-points>div{
+ background:#1c1a19!important;border:1px solid #403936!important;border-radius:13px!important;color:#e8dfd9!important;
+}
+html[data-vibez-theme="dark"] .purchase-page .ticket-choice-list{
+ overflow:hidden;padding:4px;
+}
+html[data-vibez-theme="dark"] .purchase-page .ticket-choice-check{
+ accent-color:#a83c40;
+}
+html[data-vibez-theme="dark"] .purchase-page .ticket-choice-copy strong,
+html[data-vibez-theme="dark"] .purchase-page .summary-total strong{color:#fff!important}
+html[data-vibez-theme="dark"] .purchase-page .summary-event,
+html[data-vibez-theme="dark"] .purchase-page .summary-line{color:#d7cec8!important}
+html[data-vibez-theme="dark"] .purchase-page .quantity-control button{
+ background:linear-gradient(150deg,#302b29,#1b1918)!important;border:1px solid #594b47!important;color:#fff!important;
+ border-radius:10px!important;box-shadow:0 2px 0 #080808!important;
+}
+html[data-vibez-theme="dark"] .attendee-shell .attendee-layout{gap:22px}
+html[data-vibez-theme="dark"] .attendee-shell .attendee-profile-card,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-qr-panel,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-stat-grid>div,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-empty-state,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-notice{
+ background:linear-gradient(150deg,#282524,#181716)!important;color:#eee7e1!important;
+ border:1px solid #49413e!important;border-radius:17px!important;
+ box-shadow:0 4px 0 #090909,0 11px 20px #0008,inset 0 1px #ffffff12!important;
+}
+html[data-vibez-theme="dark"] .attendee-shell .attendee-upcoming-image,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-ticket-detail-image,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-list-thumb{
+ display:block;transform:none!important;filter:none!important;object-fit:cover;
+}
+html[data-vibez-theme="dark"] .attendee-shell .attendee-upcoming-body,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-ticket-detail-content,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-list-info{color:#eee7e1!important}
+html[data-vibez-theme="dark"] .attendee-shell .attendee-upcoming-footer{border-color:#49413e!important}
+html[data-vibez-theme="dark"] .attendee-shell .attendee-confirmed,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-verified{
+ background:#25201e!important;color:#d78b8d!important;border:1px solid #754044!important;border-radius:999px!important;
+}
+html[data-vibez-theme="dark"] .attendee-shell .attendee-signout,
+html[data-vibez-theme="dark"] .attendee-shell .attendee-help{
+ background:#211d1c!important;color:#e9dfd9!important;border:1px solid #514643!important;border-radius:12px!important;
+}
+html[data-vibez-theme="dark"] .attendee-shell .attendee-stat-grid strong{color:#fff!important}
+html[data-vibez-theme="dark"] .ad-admin-page .ad-admin-notice,
+html[data-vibez-theme="dark"] .ad-admin-page .ad-admin-error{
+ background:#281c1c!important;color:#e9c8c6!important;border:1px solid #6b383b!important;border-radius:12px!important;
+}
+html[data-vibez-theme="dark"] .ad-admin-page .ad-admin-campaign-meta,
+html[data-vibez-theme="dark"] .ad-admin-page .ad-admin-campaign-head{color:#e9e1dc!important}
+html[data-vibez-theme="dark"] img{image-rendering:auto}
