@@ -3674,3 +3674,91 @@ html[data-vibez-theme="dark"] .light-site .sales-tabs button.active {
   background:linear-gradient(145deg,#a879df,#673a98)!important;
   border-color:#9a70c4!important;color:#fff!important;
 }
+
+
+/* Dark appearance: final control and typography cleanup.
+   Keep the premium violet identity, but remove bright white button faces,
+   pale inset strokes and text halos that read as glare on OLED screens. */
+html[data-vibez-theme="dark"] .light-site button,
+html[data-vibez-theme="dark"] .light-site .light-event-bottom a,
+html[data-vibez-theme="dark"] .light-site .feature-cta,
+html[data-vibez-theme="dark"] .light-site .hero-search button,
+html[data-vibez-theme="dark"] .light-site .newsletter-band button,
+html[data-vibez-theme="dark"] .light-site .create-event-btn,
+html[data-vibez-theme="dark"] .light-site .portrait-ad-heading>a,
+html[data-vibez-theme="dark"] .light-site .load-more-events,
+html[data-vibez-theme="dark"] .light-site .organiser-card button {
+  background:linear-gradient(180deg,#76509d 0%,#5a397d 100%)!important;
+  border:1px solid #80609d!important;
+  color:#f7efff!important;
+  -webkit-text-fill-color:#f7efff!important;
+  text-shadow:none!important;
+  -webkit-text-stroke:0!important;
+  box-shadow:0 2px 0 #30203f,0 5px 12px #0006!important;
+  filter:none!important;
+}
+html[data-vibez-theme="dark"] .light-site button svg,
+html[data-vibez-theme="dark"] .light-site a svg {
+  filter:none!important;
+  -webkit-filter:none!important;
+  text-shadow:none!important;
+}
+html[data-vibez-theme="dark"] .light-site .sales-tabs button,
+html[data-vibez-theme="dark"] .light-site .sales-rail-actions button,
+html[data-vibez-theme="dark"] .light-site .rail-heading-actions button,
+html[data-vibez-theme="dark"] .light-site .category-filters button,
+html[data-vibez-theme="dark"] .light-site .host-follow-btn,
+html[data-vibez-theme="dark"] .light-site .icon-search,
+html[data-vibez-theme="dark"] .light-site .login-link {
+  background:linear-gradient(180deg,#24202d 0%,#191620 100%)!important;
+  border:1px solid #40364d!important;
+  color:#d9cbe8!important;
+  -webkit-text-fill-color:#d9cbe8!important;
+  box-shadow:0 2px 0 #09070d,0 5px 10px #0005!important;
+}
+html[data-vibez-theme="dark"] .light-site .sales-tabs button.active,
+html[data-vibez-theme="dark"] .light-site .category-filters button.filter-active,
+html[data-vibez-theme="dark"] .light-site .host-follow-btn.is-following {
+  background:linear-gradient(180deg,#9a72c2 0%,#704a96 100%)!important;
+  border-color:#a17bc5!important;
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  box-shadow:0 2px 0 #3d2852,0 5px 12px #0006!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-bottom,
+html[data-vibez-theme="dark"] .light-site .sales-event-info,
+html[data-vibez-theme="dark"] .light-site .recent-booking-copy {
+  border-color:#332b3d!important;
+  box-shadow:none!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-card,
+html[data-vibez-theme="dark"] .light-site .sales-event-card,
+html[data-vibez-theme="dark"] .light-site .recent-booking-card,
+html[data-vibez-theme="dark"] .light-site .ticket-type-card,
+html[data-vibez-theme="dark"] .light-site .organiser-card {
+  border-color:#332a3e!important;
+  box-shadow:0 3px 0 #08070c,0 10px 20px #0007!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-card *,
+html[data-vibez-theme="dark"] .light-site .sales-event-card *,
+html[data-vibez-theme="dark"] .light-site .recent-booking-card *,
+html[data-vibez-theme="dark"] .light-site .sales-heading *,
+html[data-vibez-theme="dark"] .light-site .recent-bookings-heading *,
+html[data-vibez-theme="dark"] .light-site .host-spotlight-heading *,
+html[data-vibez-theme="dark"] .light-site .organiser-light h2,
+html[data-vibez-theme="dark"] .light-site .newsletter-band h2,
+html[data-vibez-theme="dark"] .light-site .tv-light-copy h2 {
+  text-shadow:none!important;
+  -webkit-text-stroke:0!important;
+  filter:none!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-bottom a:hover,
+html[data-vibez-theme="dark"] .light-site button:hover {
+  filter:brightness(1.05)!important;
+  box-shadow:0 3px 0 #30203f,0 7px 13px #0007!important;
+}
+html[data-vibez-theme="dark"] .light-site :is(button,a,input,select):focus-visible {
+  outline:2px solid #9a72c2!important;
+  outline-offset:2px!important;
+  box-shadow:0 0 0 3px #9a72c222!important;
+}
