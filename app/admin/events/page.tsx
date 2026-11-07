@@ -119,7 +119,7 @@ export default function EventAdminPage() {
             <div className="ad-admin-section-title"><div><span className="ad-admin-kicker">FIRST TICKET TYPE</span><h2>Ticket inventory</h2></div></div>
             <div className="ad-admin-form-grid">
               <label>Ticket name<input required value={form.ticketName} onChange={e => setForm({ ...form, ticketName: e.target.value })}/></label>
-              <label>Price (NGN)<input required type="number" min="0" max="100000000" step="1" value={form.ticketPrice} onChange={e => setForm({ ...form, ticketPrice: e.target.value })}/></label>
+              <label>Price (NGN)<input required type="number" min="0" max="21474836" step="1" value={form.ticketPrice} onChange={e => setForm({ ...form, ticketPrice: e.target.value })}/></label>
               <label>Quantity<input required type="number" min="1" max="1000000" step="1" value={form.ticketQuantity} onChange={e => setForm({ ...form, ticketQuantity: e.target.value })}/></label>
             </div>
             <p className="ad-admin-preview-body">New events are created as PENDING REVIEW. This form does not publish the event or open ticket sales.</p>
