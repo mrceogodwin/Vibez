@@ -49,6 +49,11 @@ export default function EventAdminPage() {
     e.preventDefault(); setError(""); setNotice("");
     if (!form.organizerId) { setError("Select an approved organiser first."); return; }
     if (!form.startsAt || new Date(form.startsAt) <= new Date()) { setError("Choose a future event start date and time."); return; }
+    if (form.endsAt && new Date(form.endsAt) <= new Date(form.startsAt)) { setError("The event end date must be later than its start date."); return; }
+    if (ticketDrafts.length < 1 || ticketDrafts.length > 10 || ticketDrafts.some(ticket => !ticket.name.trim() || !Number.isSafeInteger(Number(ticket.priceNaira)) || Number(ticket.priceNaira) < 0 || Number(ticket.priceNaira) > 21474836 || !Number.isSafeInteger(Number(ticket.quantity)) || Number(ticket.quantity) < 1 || Number(ticket.quantity) > 1000000)) {
+      setError("Add between 1 and 10 valid ticket types. Each needs a name, whole-naira price and quantity between 1 and 1,000,000.");
+      return;
+    }
     setCreating(true);
     try {
       const response = await fetch("/api/admin/events", {
