@@ -3567,3 +3567,110 @@ html[data-vibez-theme="dark"] .light-site .account-avatar svg{
 @media(prefers-reduced-motion:reduce){
   html[data-vibez-theme="dark"] .light-site .live-now-track-inner{animation:none!important}
 }
+
+
+/* DARK SKIN FINISH — remove leftover light-mode white highlights and text halos. */
+html[data-vibez-theme="dark"] .light-site .hero-left h1,
+html[data-vibez-theme="dark"] .light-site .light-section-heading h2,
+html[data-vibez-theme="dark"] .light-site .home-categories-heading h2,
+html[data-vibez-theme="dark"] .light-site .portrait-ad-heading h2,
+html[data-vibez-theme="dark"] .light-site .host-spotlight-heading h2,
+html[data-vibez-theme="dark"] .light-site .organiser-light h2,
+html[data-vibez-theme="dark"] .light-site .newsletter-band h2,
+html[data-vibez-theme="dark"] .light-site .tv-light-copy h2,
+html[data-vibez-theme="dark"] .light-site .ad-banner-text h2,
+html[data-vibez-theme="dark"] .light-site .sales-heading h2,
+html[data-vibez-theme="dark"] .light-site .recent-bookings-heading h2 {
+  text-shadow:none!important;
+  -webkit-text-stroke:0!important;
+}
+html[data-vibez-theme="dark"] .light-site .hero-left h1 em,
+html[data-vibez-theme="dark"] .light-site .light-section-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .home-categories-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .portrait-ad-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .host-spotlight-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .sales-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .recent-bookings-heading h2 em {
+  color:#c49af2!important;text-shadow:none!important;
+}
+html[data-vibez-theme="dark"] .light-site .hero-search button,
+html[data-vibez-theme="dark"] .light-site .light-event-bottom a,
+html[data-vibez-theme="dark"] .light-site .newsletter-band button,
+html[data-vibez-theme="dark"] .light-site .create-event-btn,
+html[data-vibez-theme="dark"] .light-site .portrait-ad-heading>a,
+html[data-vibez-theme="dark"] .light-site .load-more-events,
+html[data-vibez-theme="dark"] .light-site .feature-cta,
+html[data-vibez-theme="dark"] .light-site .organiser-card button {
+  background:linear-gradient(145deg,#a879df 0%,#8250bd 58%,#673a98 100%)!important;
+  color:#fff!important;
+  border:1px solid #9a70c4!important;
+  text-shadow:none!important;
+  box-shadow:0 3px 0 #38214f,0 7px 14px #0007!important;
+  outline:0!important;
+}
+html[data-vibez-theme="dark"] .light-site .hero-search button:hover,
+html[data-vibez-theme="dark"] .light-site .light-event-bottom a:hover,
+html[data-vibez-theme="dark"] .light-site .newsletter-band button:hover,
+html[data-vibez-theme="dark"] .light-site .portrait-ad-heading>a:hover,
+html[data-vibez-theme="dark"] .light-site .load-more-events:hover {
+  box-shadow:0 4px 0 #38214f,0 9px 17px #0008!important;
+  filter:brightness(1.06)!important;
+}
+html[data-vibez-theme="dark"] .light-site .feature-cta {
+  background:linear-gradient(145deg,#a879df,#673a98)!important;
+  color:#fff!important;border-color:#9a70c4!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-bottom a svg,
+html[data-vibez-theme="dark"] .light-site .hero-search button svg,
+html[data-vibez-theme="dark"] .light-site .newsletter-band button svg,
+html[data-vibez-theme="dark"] .light-site .portrait-ad-heading>a svg {
+  color:currentColor!important;stroke:currentColor!important;
+}
+html[data-vibez-theme="dark"] .light-site .hero-search,
+html[data-vibez-theme="dark"] .light-site .newsletter-band form>div,
+html[data-vibez-theme="dark"] .light-site .icon-search,
+html[data-vibez-theme="dark"] .light-site .login-link,
+html[data-vibez-theme="dark"] .light-site .category-filters button,
+html[data-vibez-theme="dark"] .light-site .sales-tabs button,
+html[data-vibez-theme="dark"] .light-site .sales-rail-actions button,
+html[data-vibez-theme="dark"] .light-site .rail-heading-actions button {
+  box-shadow:0 3px 0 #08070d,0 7px 13px #0006!important;
+  border-color:#40334e!important;
+}
+html[data-vibez-theme="dark"] .light-site .newsletter-band form>div {
+  background:#100d16!important;border-color:#40334e!important;
+}
+html[data-vibez-theme="dark"] .light-site .newsletter-band input {
+  background:transparent!important;color:#f4eff9!important;
+}
+html[data-vibez-theme="dark"] .light-site .newsletter-band input::placeholder {
+  color:#8f859b!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-card,
+html[data-vibez-theme="dark"] .light-site .sales-event-card,
+html[data-vibez-theme="dark"] .light-site .recent-booking-card,
+html[data-vibez-theme="dark"] .light-site .organiser-card,
+html[data-vibez-theme="dark"] .light-site .ticket-type-card,
+html[data-vibez-theme="dark"] .light-site .ad-banner,
+html[data-vibez-theme="dark"] .light-site .ad-slot,
+html[data-vibez-theme="dark"] .light-site .newsletter-band,
+html[data-vibez-theme="dark"] .light-site .host-spotlight {
+  box-shadow:0 4px 0 #08070c,0 12px 24px #0007!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-card *,
+html[data-vibez-theme="dark"] .light-site .sales-event-card *,
+html[data-vibez-theme="dark"] .light-site .recent-booking-card * {
+  text-shadow:none!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-bottom {
+  border-color:#393044!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-bottom a,
+html[data-vibez-theme="dark"] .light-site .light-event-bottom a:hover {
+  color:#fff!important;
+}
+html[data-vibez-theme="dark"] .light-site .category-filters button.filter-active,
+html[data-vibez-theme="dark"] .light-site .sales-tabs button.active {
+  background:linear-gradient(145deg,#a879df,#673a98)!important;
+  border-color:#9a70c4!important;color:#fff!important;
+}
