@@ -3784,3 +3784,178 @@ html[data-vibez-theme="dark"] .light-site :is(button,a,input,select):focus-visib
 .ad-admin-create>button:disabled{opacity:.55;cursor:wait}
 .ad-admin-empty a{color:#7650a9;font-weight:700;text-decoration:underline}
 @media(max-width:700px){.ad-admin-form-grid{grid-template-columns:1fr}.ad-admin-create{padding:17px}.ad-admin-create>button[type=submit]{width:100%}}
+
+
+/* VIBEZ CHARCOAL / MUTED BLOOD-RED APP SKIN */
+html[data-vibez-theme="dark"] .light-site{
+  --ink:#f2eee9;--muted:#aaa39e;--line:#373331;--purple:#a83c40;
+  background:#111110!important;color:#f2eee9!important;
+  background-image:radial-gradient(ellipse at 50% -15%,#29201f 0%,#141312 48%,#10100f 100%)!important;
+}
+html[data-vibez-theme="dark"] body{background:#10100f!important}
+html[data-vibez-theme="dark"] .light-site .light-header{
+  min-height:82px;height:82px;padding:0 4.5%;
+  background:rgba(18,17,16,.94)!important;border-bottom:1px solid #37302e!important;
+  box-shadow:0 8px 24px #0005;backdrop-filter:blur(18px);
+}
+html[data-vibez-theme="dark"] .light-site .light-brand{color:#f4f0eb!important}
+html[data-vibez-theme="dark"] .light-site .brand-crown,
+html[data-vibez-theme="dark"] .light-site .brand-crown svg{color:#a83c40!important;stroke:#a83c40!important}
+html[data-vibez-theme="dark"] .light-site .light-nav{color:#b9b1ab!important}
+html[data-vibez-theme="dark"] .light-site .light-nav a:hover,
+html[data-vibez-theme="dark"] .light-site .light-nav .nav-current{color:#d45a5e!important}
+html[data-vibez-theme="dark"] .light-site .icon-search,
+html[data-vibez-theme="dark"] .light-site .login-link,
+html[data-vibez-theme="dark"] .light-site .mobile-menu{
+  background:linear-gradient(155deg,#292625,#171615)!important;border:1px solid #514846!important;
+  color:#f3eeea!important;box-shadow:0 3px 0 #090909,0 8px 16px #0008,inset 0 1px #ffffff12!important;
+}
+html[data-vibez-theme="dark"] .light-site .create-event-btn,
+html[data-vibez-theme="dark"] .light-site .hero-search button,
+html[data-vibez-theme="dark"] .light-site .light-event-bottom a,
+html[data-vibez-theme="dark"] .light-site .load-more-events,
+html[data-vibez-theme="dark"] .light-site .feature-cta,
+html[data-vibez-theme="dark"] .light-site .newsletter-band button,
+html[data-vibez-theme="dark"] .light-site .portrait-ad-heading>a{
+  background:linear-gradient(160deg,#a83c40,#74272b)!important;border:1px solid #bd5559!important;
+  color:#fff!important;box-shadow:0 3px 0 #48191c,0 8px 15px #0008,inset 0 1px #ffffff25!important;
+}
+html[data-vibez-theme="dark"] .light-site .live-now-strip{
+  background:linear-gradient(100deg,#211817,#181514)!important;border-color:#49302f!important;
+  color:#e9dfda!important;box-shadow:0 4px 0 #090909,0 9px 18px #0006!important;
+}
+html[data-vibez-theme="dark"] .light-site .live-now-label{
+  background:linear-gradient(160deg,#a83c40,#702428)!important;color:#fff!important;
+  box-shadow:0 3px 0 #48191c,0 7px 13px #0008!important;
+}
+html[data-vibez-theme="dark"] .light-site .live-now-label i{background:#f7e9e4!important;box-shadow:0 0 0 4px #ffffff20!important}
+html[data-vibez-theme="dark"] .light-site .live-now-strip>a,
+html[data-vibez-theme="dark"] .light-site .live-now-track-inner b{color:#d76a6d!important}
+html[data-vibez-theme="dark"] .light-site .light-hero,
+html[data-vibez-theme="dark"] .light-site .host-spotlight,
+html[data-vibez-theme="dark"] .light-site .category-strip,
+html[data-vibez-theme="dark"] .light-site .top-sales-section,
+html[data-vibez-theme="dark"] .light-site .light-section,
+html[data-vibez-theme="dark"] .light-site .category-ticket-section,
+html[data-vibez-theme="dark"] .light-site .ticket-types-home,
+html[data-vibez-theme="dark"] .light-site .organiser-light,
+html[data-vibez-theme="dark"] .light-site .recent-bookings-section{
+  background:transparent!important;color:#f2eee9!important;
+}
+html[data-vibez-theme="dark"] .light-site .hero-left h1,
+html[data-vibez-theme="dark"] .light-site .light-section-heading h2,
+html[data-vibez-theme="dark"] .light-site .home-categories-heading h2,
+html[data-vibez-theme="dark"] .light-site .portrait-ad-heading h2,
+html[data-vibez-theme="dark"] .light-site .host-spotlight-heading h2,
+html[data-vibez-theme="dark"] .light-site .organiser-light h2,
+html[data-vibez-theme="dark"] .light-site .newsletter-band h2,
+html[data-vibez-theme="dark"] .light-site .tv-light-copy h2,
+html[data-vibez-theme="dark"] .light-site .sales-heading h2,
+html[data-vibez-theme="dark"] .light-site .recent-bookings-heading h2{color:#f5f0ea!important;text-shadow:none!important}
+html[data-vibez-theme="dark"] .light-site .hero-left h1 em,
+html[data-vibez-theme="dark"] .light-site .light-section-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .home-categories-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .host-spotlight-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .sales-heading h2 em,
+html[data-vibez-theme="dark"] .light-site .recent-bookings-heading h2 em{color:#bd4a4e!important}
+html[data-vibez-theme="dark"] .light-site .hero-left>p,
+html[data-vibez-theme="dark"] .light-site .host-spotlight-heading p,
+html[data-vibez-theme="dark"] .light-site .hero-stats span,
+html[data-vibez-theme="dark"] .light-site .light-eyebrow{color:#a9a19b!important}
+html[data-vibez-theme="dark"] .light-site .hero-search,
+html[data-vibez-theme="dark"] .light-site .event-inline-search,
+html[data-vibez-theme="dark"] .light-site .city-select{
+  background:linear-gradient(150deg,#242221,#191817)!important;border:1px solid #4a4441!important;
+  box-shadow:0 4px 0 #090909,0 12px 22px #0008,inset 0 1px #ffffff12!important;
+}
+html[data-vibez-theme="dark"] .light-site .hero-search input,
+html[data-vibez-theme="dark"] .light-site .event-inline-search input,
+html[data-vibez-theme="dark"] .light-site .city-select select{background:transparent!important;color:#f4efea!important}
+html[data-vibez-theme="dark"] .light-site input::placeholder{color:#918985!important}
+html[data-vibez-theme="dark"] .light-site .category-tile,
+html[data-vibez-theme="dark"] .light-site .ticket-type-card,
+html[data-vibez-theme="dark"] .light-site .organiser-card,
+html[data-vibez-theme="dark"] .light-site .sales-event-card,
+html[data-vibez-theme="dark"] .light-site .recent-booking-card{
+  background:linear-gradient(155deg,#292625 0%,#1b1a19 68%,#171615 100%)!important;
+  border:1px solid #49413e!important;border-radius:18px!important;
+  box-shadow:0 4px 0 #090909,0 13px 22px #0009,inset 0 1px #ffffff13!important;
+}
+html[data-vibez-theme="dark"] .light-site .category-tile b,
+html[data-vibez-theme="dark"] .light-site .ticket-type-card>b{
+  background:linear-gradient(150deg,#492628,#24191a)!important;color:#d56a6d!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-card{
+  background:linear-gradient(155deg,#292625,#191817)!important;color:#f4efea!important;
+  border:1px solid #4b4441!important;border-radius:18px!important;
+  box-shadow:0 5px 0 #090909,0 14px 24px #0009,inset 0 1px #ffffff16!important;
+  transform:none!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-image,
+html[data-vibez-theme="dark"] .light-site .sales-event-image,
+html[data-vibez-theme="dark"] .light-site .recent-booking-image{
+  transform:none!important;filter:none!important;display:block!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-event-meta,
+html[data-vibez-theme="dark"] .light-site .light-event-detail,
+html[data-vibez-theme="dark"] .light-site .light-event-card h3,
+html[data-vibez-theme="dark"] .light-site .light-event-bottom strong{color:#eee7e1!important}
+html[data-vibez-theme="dark"] .light-site .light-event-bottom{border-color:#49403d!important}
+html[data-vibez-theme="dark"] .light-site .host-avatar{border:2px solid #292322!important;outline:1px solid #a8474b!important;box-shadow:0 4px 0 #090909,0 9px 17px #0009!important}
+html[data-vibez-theme="dark"] .light-site .host-follow-btn,
+html[data-vibez-theme="dark"] .light-site .organiser-card button{
+  background:linear-gradient(150deg,#292625,#191817)!important;border:1px solid #8f3b3f!important;color:#f2e9e5!important;
+  box-shadow:0 3px 0 #090909,0 7px 13px #0008!important;
+}
+html[data-vibez-theme="dark"] .light-site .host-follow-btn.is-following{background:#70272b!important;color:#fff!important}
+html[data-vibez-theme="dark"] .light-site .ad-banner,
+html[data-vibez-theme="dark"] .light-site .ad-slot,
+html[data-vibez-theme="dark"] .light-site .newsletter-band,
+html[data-vibez-theme="dark"] .light-site .vibez-tv-light{
+  background:linear-gradient(145deg,#282321,#171615)!important;border:1px solid #49403d!important;color:#f4efea!important;
+  box-shadow:0 5px 0 #090909,0 14px 25px #0009!important;
+}
+html[data-vibez-theme="dark"] .light-site .light-footer{background:#0c0c0b!important;color:#e8e1db!important;border-top:1px solid #37302e!important}
+html[data-vibez-theme="dark"] .light-site .light-footer a,
+html[data-vibez-theme="dark"] .light-site .light-footer p{color:#b5aca6!important}
+html[data-vibez-theme="dark"] .light-site .category-filters button,
+html[data-vibez-theme="dark"] .light-site .sales-tabs button,
+html[data-vibez-theme="dark"] .light-site .sales-rail-actions button,
+html[data-vibez-theme="dark"] .light-site .rail-heading-actions button{
+  background:linear-gradient(150deg,#292625,#191817)!important;border:1px solid #49413e!important;color:#e9e2dc!important;
+  box-shadow:0 3px 0 #090909,0 7px 13px #0008!important;
+}
+html[data-vibez-theme="dark"] .light-site .category-filters button.filter-active,
+html[data-vibez-theme="dark"] .light-site .sales-tabs button.active{
+  background:linear-gradient(150deg,#a83c40,#70272b)!important;border-color:#bd5559!important;color:#fff!important;
+}
+html[data-vibez-theme="dark"] .light-site .mobile-bottom-dock{
+  position:fixed;z-index:60;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));
+  min-height:68px;padding:7px 8px;display:none;align-items:center;justify-content:space-around;gap:3px;
+  border:1px solid #514846;border-radius:22px;
+  background:linear-gradient(150deg,rgba(45,42,40,.97),rgba(20,19,18,.98))!important;
+  box-shadow:0 5px 0 #080808,0 13px 28px #000b,inset 0 1px #ffffff20!important;
+  backdrop-filter:blur(20px);
+}
+html[data-vibez-theme="dark"] .light-site .dock-item{
+  min-width:0;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  color:#bcb4ae!important;font-size:9px;font-weight:600;line-height:1.1;
+}
+html[data-vibez-theme="dark"] .light-site .dock-item svg{color:#c8bfba!important}
+html[data-vibez-theme="dark"] .light-site .dock-item.dock-active{color:#e2a2a3!important}
+html[data-vibez-theme="dark"] .light-site .dock-item.dock-active svg{color:#c44d52!important;filter:drop-shadow(0 0 7px #b53c4380)}
+@media(max-width:760px){
+  html[data-vibez-theme="dark"] .light-site .light-header{height:76px;min-height:76px;padding:0 14px}
+  html[data-vibez-theme="dark"] .light-site .light-nav,
+  html[data-vibez-theme="dark"] .light-site .create-event-btn{display:none!important}
+  html[data-vibez-theme="dark"] .light-site .mobile-menu{display:grid!important;place-items:center;width:40px;height:40px;border-radius:50%}
+  html[data-vibez-theme="dark"] .light-site .account-avatar{width:39px;height:39px}
+  html[data-vibez-theme="dark"] .light-site .light-brand{font-size:23px}
+  html[data-vibez-theme="dark"] .light-site .light-header-actions{gap:9px}
+  html[data-vibez-theme="dark"] .light-site .login-link{padding:10px 13px}
+  html[data-vibez-theme="dark"] .light-site .mobile-bottom-dock{display:flex}
+  html[data-vibez-theme="dark"] .light-site{padding-bottom:105px}
+}
+@media(min-width:761px){
+  .light-site .mobile-bottom-dock{display:none!important}
+}
