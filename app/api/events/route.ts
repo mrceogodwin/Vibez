@@ -28,11 +28,10 @@ export async function GET(request: Request) {
       ticketTypes: {
         some: {
           isActive: true,
-          sold: { lt: 2147483647 },
           quantity: { gt: 0 },
           AND: [
-            { salesStart: null },
-            { salesEnd: null },
+            { OR: [{ salesStart: null }, { salesStart: { lte: now } }] },
+            { OR: [{ salesEnd: null }, { salesEnd: { gt: now } }] },
           ],
         },
       },
