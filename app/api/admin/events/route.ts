@@ -19,15 +19,16 @@ export async function POST(request:Request){
   const ticketTypes=Array.isArray(b.ticketTypes)?b.ticketTypes.slice(0,10):[];
   if(!organizerId||!title||!slug||!description||!category||!city||!venue||Number.isNaN(startsAt.getTime()))return NextResponse.json({error:"Organizer, title, slug, description, category, city, venue and valid start date are required."},{status:400});
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))return NextResponse.json({error:"Use a URL-friendly slug with lowercase letters, numbers and hyphens."},{status:400});
+  if(startsAt<=new Date())return NextResponse.json({error:"Event start date must be in the future."},{status:400});
   if(endsAt&&(!Number.isFinite(endsAt.getTime())||endsAt<=startsAt))return NextResponse.json({error:"End date must be later than the start date."},{status:400});
   if(!ticketTypes.length)return NextResponse.json({error:"Add at least one ticket type before submitting an event for review."},{status:400});
   const parsed=ticketTypes.map((t:Record<string,unknown>)=>({name:clean(t.name,80),description:clean(t.description,300),priceNaira:Number(t.priceNaira),quantity:Number(t.quantity)}));
-  if(parsed.some(t=>!t.name||!Number.isSafeInteger(t.priceNaira)||t.priceNaira<0||t.priceNaira>100000000||!Number.isSafeInteger(t.quantity)||t.quantity<1||t.quantity>1000000))return NextResponse.json({error:"Each ticket needs a name, valid non-negative whole-naira price and quantity above zero."},{status:400});
+  if(parsed.some(t=>!t.name||!Number.isSafeInteger(t.priceNaira)||t.priceNaira<0||t.priceNaira>21474836||!Number.isSafeInteger(t.quantity)||t.quantity<1||t.quantity>1000000))return NextResponse.json({error:"Each ticket needs a name, valid non-negative whole-naira price and quantity above zero."},{status:400});
   const organizer=await prisma.user.findUnique({where:{id:organizerId},include:{organizerProfile:true}});
   if(!organizer||organizer.role!==UserRole.ORGANIZER||organizer.organizerProfile?.verificationStatus!=="APPROVED")return NextResponse.json({error:"Events can only be created for an approved organiser account."},{status:409});
   const event=await prisma.event.create({data:{slug,title,summary:summary||null,description,category,city,venue,address:address||null,startsAt,endsAt,coverImage:coverImage||null,status:EventStatus.PENDING_REVIEW,organizerId,ticketTypes:{create:parsed.map(t=>({name:t.name,description:t.description||null,priceKobo:t.priceNaira*100,quantity:t.quantity}))}},include:{ticketTypes:true,organizer:{select:{id:true,email:true}}}});
   return NextResponse.json({event,message:"Event submitted for review. It is not public and ticket sales are not open."},{status:201});
- }catch{return NextResponse.json({error:"Event could not be created. Check for a duplicate slug and valid organiser."},{status:500});}
+ }catch(error){if(typeof error==="object"&&error!==null&&"code" in error&&error.code==="P2002")return NextResponse.json({error:"That event URL slug is already in use. Choose a different slug."},{status:409});return NextResponse.json({error:"Event could not be created. Check the database connection and submitted details."},{status:500});}
 }
 export async function PATCH(request:Request){
  if(!authorised(request))return NextResponse.json({error:"Unauthorised."},{status:401});
