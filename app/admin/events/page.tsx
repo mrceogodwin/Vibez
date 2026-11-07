@@ -101,7 +101,7 @@ export default function EventAdminPage() {
 
         <section className="ad-admin-campaigns">
           <div className="ad-admin-section-title"><div><span className="ad-admin-kicker">EVENT SETUP</span><h2>Create an event</h2></div><span>{organizers.length} approved organiser{organizers.length === 1 ? "" : "s"}</span></div>
-          {organizers.length === 0 ? <div className="ad-admin-empty"><ShieldCheck size={24}/><strong>No approved organiser accounts yet.</strong><span>Review organiser applications and complete account verification before creating events.</span><Link href="/admin/organisers">Open organiser review</Link></div> : <form onSubmit={createEvent} className="ad-admin-access" style={{ maxWidth: "none", marginBottom: 24 }}>
+          {organizers.length === 0 ? <div className="ad-admin-empty"><ShieldCheck size={24}/><strong>No approved organiser accounts yet.</strong><span>Review organiser applications and complete account verification before creating events.</span><Link href="/admin/organisers">Open organiser review</Link></div> : <form onSubmit={createEvent} className="ad-admin-access ad-admin-create">
             <label>Approved organiser<select required value={form.organizerId} onChange={e => setForm({ ...form, organizerId: e.target.value })}><option value="">Choose organiser</option>{organizers.map(o => <option key={o.id} value={o.id}>{o.organizerProfile?.businessName || o.name || o.email} — {o.email}</option>)}</select></label>
             <div className="ad-admin-form-grid">
               <label>Event title<input required maxLength={140} value={form.title} onChange={e => setForm({ ...form, title: e.target.value, slug: form.slug || slugify(e.target.value) })} placeholder="e.g. Lagos Soundscape"/></label>
