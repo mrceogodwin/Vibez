@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import MobileAppDock from "@/components/MobileAppDock";
 
 export const viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
 
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" data-vibez-theme="dark" suppressHydrationWarning><body>{children}</body></html>;
+  return <html lang="en" data-vibez-theme="dark" suppressHydrationWarning><body>{children}<MobileAppDock /></body></html>;
 }
