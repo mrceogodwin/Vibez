@@ -3762,3 +3762,11 @@ html[data-vibez-theme="dark"] .light-site :is(button,a,input,select):focus-visib
   outline-offset:2px!important;
   box-shadow:0 0 0 3px #9a72c222!important;
 }
+
+/* Organiser onboarding hardening */
+.organiser-honeypot{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
+.organiser-page .organiser-trust{display:flex;align-items:center;gap:9px;margin-top:20px;color:#777986;font-size:11px;line-height:1.6}
+.organiser-page .advertiser-form label{min-width:0}
+.organiser-page .advertiser-form input,.organiser-page .advertiser-form select,.organiser-page .advertiser-form textarea{box-sizing:border-box;max-width:100%}
+.organiser-page .advertiser-form button:disabled{opacity:.6;cursor:wait}
+@media(max-width:650px){.organiser-page .advertiser-form-submit{align-items:stretch;flex-direction:column}.organiser-page .advertiser-form-submit button{width:100%;justify-content:center}}
