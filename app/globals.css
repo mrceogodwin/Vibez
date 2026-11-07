@@ -4513,3 +4513,166 @@ html[data-vibez-theme="dark"] .mobile-bottom-dock .dock-item svg{width:24px;heig
 /* Six primary discovery shortcuts, as in the mobile reference */
 html[data-vibez-theme="dark"] .category-strip{grid-template-columns:repeat(6,minmax(105px,1fr))}
 @media(max-width:760px){html[data-vibez-theme="dark"] .category-strip{grid-template-columns:repeat(6,100px)}}
+
+
+/* VIBEZ unified experience: ticket detail, wallet and operations */
+.purchase-page{
+  background:#111010!important;color:#f3eee9!important;
+  padding-bottom:calc(96px + env(safe-area-inset-bottom));
+}
+.purchase-header{
+  background:rgba(22,20,20,.96)!important;color:#f5efea!important;
+  border-bottom:1px solid #3a3231!important;
+  box-shadow:0 7px 22px #0008!important;backdrop-filter:blur(18px);
+}
+.purchase-brand{color:#f7f0e9!important}
+.purchase-brand>span{color:#c94348!important}
+.purchase-header nav{color:#c2b9b3!important}
+.purchase-back{color:#eee6df!important}
+.purchase-hero{
+  min-height:390px;padding:48px 7%;
+  background-position:center!important;
+  border-bottom:1px solid #3a302f;
+  box-shadow:inset 0 -100px 100px -75px #111010;
+}
+.purchase-kicker{color:#e16a6c!important}
+.purchase-meta span{color:#eee5df!important}
+.purchase-layout{max-width:1500px;padding:42px 7% 65px;gap:34px}
+.purchase-section-title>span{
+  background:linear-gradient(145deg,#3a3030,#211b1b)!important;color:#ef7778!important;
+  box-shadow:0 3px 0 #090808,0 7px 14px #0008,inset 0 1px #ffffff1a!important;
+}
+.purchase-section-title h2{color:#f5eee8}
+.purchase-section-title p{color:#b6aaa5}
+.purchase-facts>div,.ticket-choice,.quantity-panel,.order-summary{
+  background:linear-gradient(145deg,#282322,#191616)!important;
+  border:1px solid #49403e!important;border-radius:15px!important;
+  color:#f2ebe5!important;
+  box-shadow:0 4px 0 #090808,0 10px 22px #0008,inset 0 1px #ffffff14!important;
+}
+.purchase-facts svg{color:#dc5559!important}
+.purchase-facts span,.purchase-facts small,.ticket-choice-copy small{color:#b6aaa5!important}
+.ticket-choice.selected{
+  border-color:#b94b4e!important;
+  background:linear-gradient(145deg,#352122,#211718)!important;
+  box-shadow:0 4px 0 #0b0808,0 10px 22px #0009,inset 0 0 0 1px #743538!important;
+}
+.ticket-choice-check{border-color:#655452!important}
+.selected .ticket-choice-check{background:#b9363c!important;border-color:#c44c50!important}
+.ticket-choice>b,.ticket-choice-copy strong{color:#f6eee9}
+.quantity-panel{background:#211b1a!important}
+.quantity-control button{background:#352827!important;color:#fff!important;border-color:#654345!important}
+.details-toggle{color:#eee6df!important;border-color:#463b39!important}
+.ticket-information{background:#211b1a!important;color:#c7bbb5!important;border-color:#463b39!important}
+.order-summary{position:sticky;top:96px}
+.summary-top h2,.summary-event strong,.summary-line strong,.summary-total strong{color:#f7eee8!important}
+.summary-event,.summary-line,.summary-total{border-color:#463b39!important;color:#c7bbb5!important}
+.summary-thumb{border-radius:9px}
+.continue-checkout{background:linear-gradient(145deg,#c43d43,#821f25)!important;color:#fff!important;border:1px solid #d35b60!important;box-shadow:0 4px 0 #4a1519,0 9px 18px #0009!important}
+.checkout-explainer,.secure-points{color:#b6aaa5!important}
+.purchase-footer{border-color:#403635!important;color:#b9afaa!important}
+.attendee-shell{
+  --a-ink:#f3eee9;--a-muted:#b8ada7;--a-line:#403837;--a-lilac:#302626;
+  background:#111010!important;color:var(--a-ink)!important;
+  padding-bottom:calc(105px + env(safe-area-inset-bottom));
+}
+.attendee-topbar,.attendee-sidebar{
+  background:#1b1818!important;border-color:#403837!important;color:#f4ede7!important;
+  box-shadow:0 5px 18px #0005;
+}
+.attendee-back,.attendee-top-actions>button{color:#e9dfd8!important}
+.attendee-wordmark{color:#fff!important}
+.attendee-wordmark small,.attendee-nav-label,.attendee-kicker{color:#c0aaa5!important}
+.attendee-avatar{background:linear-gradient(145deg,#3a2929,#211919)!important;color:#f4dedd!important;border-color:#694143!important}
+.attendee-sidebar nav button{color:#c7bbb5!important}
+.attendee-sidebar nav button.active{background:linear-gradient(145deg,#472527,#2b1b1c)!important;color:#fff!important;box-shadow:inset 0 1px #ffffff18,0 3px 0 #100b0b}
+.attendee-sidebar nav button b{background:#241d1d!important;color:#f2e9e3!important;border-color:#544343!important}
+.attendee-help,.attendee-welcome,.attendee-stat-grid article,.attendee-upcoming-card,
+.attendee-saved-card,.attendee-empty-state,.attendee-ticket-detail-card,.attendee-ticket-list>article{
+  background:linear-gradient(145deg,#282322,#191616)!important;
+  color:#f3ece6!important;border:1px solid #49403e!important;border-radius:16px!important;
+  box-shadow:0 4px 0 #090808,0 10px 22px #0008,inset 0 1px #ffffff12!important;
+}
+.attendee-welcome h1 em{color:#e05a5e!important}
+.attendee-stat-grid article>span,.attendee-stat-grid article>small,
+.attendee-upcoming-body p,.attendee-saved-card p,.attendee-empty-state p{color:#b8ada7!important}
+.attendee-stat-grid article>strong,.attendee-upcoming-body h3,.attendee-saved-card h3{color:#fff!important}
+.attendee-section-head h2,.attendee-page-heading h1{color:#f6eee8!important}
+.attendee-section-head button,.attendee-upcoming-footer button,.attendee-empty-state button{color:#ee7779!important}
+.attendee-notice{background:#2b2020!important;color:#f4dedd!important;border-color:#714143!important}
+.attendee-footer{border-color:#403837!important;color:#b8ada7!important}
+.attendee-qr-panel{background:#201a1a!important;border-color:#4a3c3c!important}
+.attendee-qr-placeholder{background:#fff!important;color:#201a1a!important}
+.attendee-mobile-heading{color:#f4ede7!important}
+.attendee-mobile-heading button{color:#f4ede7!important}
+.ad-admin-page{
+  background:#111010!important;color:#f3eee9!important;
+  padding-bottom:calc(105px + env(safe-area-inset-bottom));
+}
+.ad-admin-top{background:#1b1818!important;border-color:#403837!important;color:#f4ede7!important}
+.ad-admin-brand{color:#fff!important}
+.ad-admin-brand small{color:#b9aaa5!important}
+.ad-admin-back{color:#d0c4be!important}
+.ad-admin-kicker{color:#e16a6c!important}
+.ad-admin-heading h1,.ad-admin-section-title h2{color:#f6eee8!important}
+.ad-admin-heading h1 em{color:#e05a5e!important}
+.ad-admin-heading p{color:#b8ada7!important}
+.ad-admin-secure,.ad-admin-toolbar>span{color:#e3a5a3!important}
+.ad-admin-access,.ad-admin-stats article,.ad-admin-campaign,.ad-admin-inventory-grid article,.ad-admin-empty{
+  background:linear-gradient(145deg,#282322,#191616)!important;
+  color:#f3ece6!important;border:1px solid #49403e!important;border-radius:15px!important;
+  box-shadow:0 4px 0 #090808,0 10px 22px #0008,inset 0 1px #ffffff12!important;
+}
+.ad-admin-access h2,.ad-admin-stats article>strong,.ad-admin-campaign h3{color:#fff!important}
+.ad-admin-access p,.ad-admin-stats article>small,.ad-admin-stats article>span,.ad-admin-campaign p{color:#b8ada7!important}
+.ad-admin-access-icon{background:#432426!important;color:#ef7778!important}
+.ad-admin-access input,.ad-admin-edit-grid input,.ad-admin-edit-grid select,.ad-admin-campaigns select,
+.ad-admin-access select,.ad-admin-access textarea{
+  background:#171313!important;color:#f3ece6!important;border-color:#574746!important;
+}
+.ad-admin-access button,.ad-admin-campaign-foot>button{
+  background:linear-gradient(145deg,#c43d43,#821f25)!important;color:#fff!important;
+  box-shadow:0 3px 0 #4a1519!important;
+}
+.ad-admin-toolbar button{background:#282322!important;color:#eee6df!important;border-color:#514543!important}
+.ad-admin-notice{background:#1e3027!important;color:#bce8ca!important}
+.ad-admin-campaign-meta,.ad-admin-footer{color:#b8ada7!important}
+.ad-admin-campaign-meta a,.ad-admin-empty a,.ad-admin-section-title>a{color:#ed7779!important}
+.ad-admin-footer{border-color:#403837!important}
+@media(max-width:760px){
+  .purchase-header{height:66px;padding:0 5%}
+  .purchase-header nav{display:none}
+  .purchase-layout{grid-template-columns:1fr;padding:28px 5% 48px;gap:25px}
+  .purchase-hero{min-height:330px;padding:32px 5%;background-position:center!important}
+  .purchase-hero h1{font-size:clamp(34px,10vw,48px);letter-spacing:-1.8px}
+  .purchase-facts,.ticket-choice-list,.quantity-panel{margin-left:0}
+  .purchase-facts{gap:9px}
+  .order-summary{position:static}
+  .attendee-topbar{height:68px;padding:0 4%;grid-template-columns:1fr auto}
+  .attendee-back{font-size:0}
+  .attendee-wordmark{display:none}
+  .attendee-layout{display:block;min-height:calc(100vh - 68px)}
+  .attendee-sidebar{display:none;position:fixed;z-index:90;top:68px;bottom:0;left:0;width:min(82vw,310px);overflow:auto;box-shadow:15px 0 40px #0009}
+  .attendee-sidebar.is-open{display:flex}
+  .attendee-main{padding:23px 5% 28px}
+  .attendee-welcome{padding:23px;min-height:160px}
+  .attendee-welcome-mark{display:none}
+  .attendee-stat-grid{grid-template-columns:1fr 1fr}
+  .attendee-upcoming-grid{grid-template-columns:1fr}
+  .attendee-saved-grid{grid-template-columns:1fr}
+  .ad-admin-top{height:auto;min-height:66px;padding:13px 5%;align-items:flex-start;gap:12px;flex-direction:column}
+  .ad-admin-back{width:100%;overflow-x:auto;white-space:nowrap;padding-bottom:3px}
+  .ad-admin-wrap{width:90%;padding:28px 0}
+  .ad-admin-heading{align-items:flex-start;flex-direction:column}
+  .ad-admin-stats{grid-template-columns:1fr 1fr}
+  .ad-admin-toolbar{align-items:flex-start;flex-direction:column}
+  .ad-admin-toolbar>div{width:100%;flex-wrap:wrap}
+  .ad-admin-access{padding:18px;flex-direction:column}
+  .ad-admin-access form{flex-direction:column}
+  .ad-admin-section-title{align-items:flex-start;flex-direction:column}
+  .ad-admin-campaign-head{gap:12px;align-items:flex-start;flex-direction:column}
+  .mobile-bottom-dock{display:flex!important}
+}
+@media(min-width:761px){
+  .purchase-page,.attendee-shell,.ad-admin-page{padding-bottom:0}
+}
