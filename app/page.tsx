@@ -3,7 +3,7 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import AdPlacementBanner from "@/components/AdPlacementBanner";
-import { ArrowRight, ArrowUpRight, Play, House, Plus, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, UserRound, House, Tv, Plus, Flame, TrendingUp, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness, Sun, Moon, Monitor } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Play, ChevronLeft, ChevronRight, CalendarDays, CheckCircle2, ChevronDown, Crown, MapPin, Menu, Search, Ticket, X, UserRound, House, Tv, Plus, Flame, TrendingUp, Music2, PartyPopper, Drama, Clapperboard, Gamepad2, Dumbbell, Palette, BriefcaseBusiness, Sun, Moon, Monitor } from "lucide-react";
 
 const events = [
   { slug:"mainland-block-party",name:"The Mainland Block Party",category:"Concerts",city:"Lagos",date:"22 Nov 2026",dateISO:"2026-11-22",time:"6:00 PM",host:"LiveSpot Events",price:"₦8,000",image:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1000&q=85",tag:"Vibez pick",sold:12480 },
@@ -180,5 +180,12 @@ export default function Home() {
     </nav>
 
     <footer className="light-footer"><div className="footer-brand-col"><Link className="light-brand" href="/"><span className="brand-crown"><Crown size={17}/></span><span>VIBEZ</span><small>EVENTS · TICKETS · EXPERIENCES</small></Link><p>Nigeria’s home for discovering events, buying tickets and staying connected to the experiences you love.</p><div className="social-links"><a href="#instagram">ig</a><a href="#tiktok">tk</a><a href="#youtube" aria-label="YouTube">yt</a><a href="#x">𝕏</a></div></div><div className="footer-col"><strong>Explore</strong><a href="#events">Events</a><a href="#discover">Discover</a><a href="/organiser">Organisers</a><a href="/tv">Vibez TV</a></div><div className="footer-col"><strong>For organisers</strong><a href="/organiser">Create an event</a><a href="/pricing">Pricing</a><a href="/organiser-guide">Organiser guide</a><a href="/support">Support</a></div><div className="footer-col"><strong>Company</strong><a href="/about">About Vibez</a><a href="/contact">Contact</a><a href="/privacy">Privacy policy</a><a href="/terms">Terms of service</a></div><div className="footer-bottom"><span>© 2026 Vibez. All rights reserved.</span><span>Made for the moments that matter. <b>NG</b></span><strong className="powered-by">Powered by Cookit Technologies Ltd.</strong></div></footer>
+    <nav className="vibez-bottom-dock" aria-label="Main app navigation">
+      <Link href="/" className="dock-item dock-active"><House size={21}/><span>Home</span></Link>
+      <Link href="/events" className="dock-item"><Ticket size={21}/><span>Events</span></Link>
+      <Link href="/tv" className="dock-item"><Play size={21}/><span>Vibez TV</span></Link>
+      <Link href="/organiser" className="dock-item"><Plus size={22}/><span>Create</span></Link>
+      <Link href="/signin" className="dock-item"><UserRound size={21}/><span>Account</span></Link>
+    </nav>
   </main>;
 }
