@@ -22,7 +22,7 @@ export async function POST(request:Request){
   if(startsAt<=new Date())return NextResponse.json({error:"Event start date must be in the future."},{status:400});
   if(endsAt&&(!Number.isFinite(endsAt.getTime())||endsAt<=startsAt))return NextResponse.json({error:"End date must be later than the start date."},{status:400});
   if(!ticketTypes.length)return NextResponse.json({error:"Add at least one ticket type before submitting an event for review."},{status:400});
-  const parsed=ticketTypes.map((t:Record<string,unknown>)=>({name:clean(t.name,80),description:clean(t.description,300),priceNaira:Number(t.priceNaira),quantity:Number(t.quantity)}));
+  const parsed: {name:string;description:string;priceNaira:number;quantity:number}[]=ticketTypes.map((t:Record<string,unknown>)=>({name:clean(t.name,80),description:clean(t.description,300),priceNaira:Number(t.priceNaira),quantity:Number(t.quantity)}));
   if(parsed.some(t=>!t.name||!Number.isSafeInteger(t.priceNaira)||t.priceNaira<0||t.priceNaira>21474836||!Number.isSafeInteger(t.quantity)||t.quantity<1||t.quantity>1000000))return NextResponse.json({error:"Each ticket needs a name, valid non-negative whole-naira price and quantity above zero."},{status:400});
   const organizer=await prisma.user.findUnique({where:{id:organizerId},include:{organizerProfile:true}});
   if(!organizer||organizer.role!==UserRole.ORGANIZER||organizer.organizerProfile?.verificationStatus!=="APPROVED")return NextResponse.json({error:"Events can only be created for an approved organiser account."},{status:409});
