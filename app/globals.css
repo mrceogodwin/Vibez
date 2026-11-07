@@ -4509,3 +4509,7 @@ html[data-vibez-theme="dark"] .mobile-bottom-dock .dock-item svg{width:24px;heig
  html[data-vibez-theme="dark"] .hero-carousel{min-height:205px}
  html[data-vibez-theme="dark"] .event-spotlight-slider,html[data-vibez-theme="dark"] .event-spotlight-slide{min-height:205px}
 }
+
+/* Six primary discovery shortcuts, as in the mobile reference */
+html[data-vibez-theme="dark"] .category-strip{grid-template-columns:repeat(6,minmax(105px,1fr))}
+@media(max-width:760px){html[data-vibez-theme="dark"] .category-strip{grid-template-columns:repeat(6,100px)}}
