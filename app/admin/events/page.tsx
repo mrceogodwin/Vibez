@@ -7,6 +7,7 @@ import { ArrowLeft, BadgeCheck, CalendarDays, KeyRound, MapPin, Plus, RefreshCw,
 type Organizer = { id: string; name: string | null; email: string; organizerProfile: { businessName: string } | null };
 type TicketItem = { id: string; name: string; priceKobo: number; quantity: number; sold: number; isActive: boolean };
 type EventItem = { id: string; title: string; slug: string; category: string; city: string; venue: string; startsAt: string; status: string; createdAt: string; organizer: { id: string; name: string | null; email: string; organizerProfile: { businessName: string; verificationStatus: string } | null }; ticketTypes: TicketItem[] };
+type TicketDraft = { name: string; priceNaira: string; quantity: string };
 type EventForm = { organizerId: string; title: string; slug: string; summary: string; description: string; category: string; city: string; venue: string; address: string; startsAt: string; endsAt: string; coverImage: string; ticketName: string; ticketPrice: string; ticketQuantity: string };
 const emptyForm: EventForm = { organizerId: "", title: "", slug: "", summary: "", description: "", category: "", city: "", venue: "", address: "", startsAt: "", endsAt: "", coverImage: "", ticketName: "General Admission", ticketPrice: "0", ticketQuantity: "100" };
 const statuses = ["DRAFT", "PENDING_REVIEW", "PUBLISHED", "REJECTED", "CANCELLED", "COMPLETED", "ARCHIVED"];
@@ -24,6 +25,7 @@ export default function EventAdminPage() {
   const [notice, setNotice] = useState("");
   const [filter, setFilter] = useState("ALL");
   const [form, setForm] = useState<EventForm>(emptyForm);
+  const [ticketDrafts, setTicketDrafts] = useState<TicketDraft[]>([{ name: "General Admission", priceNaira: "0", quantity: "100" }]);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("vibez-admin-key");
@@ -57,13 +59,14 @@ export default function EventAdminPage() {
           description: form.description, category: form.category, city: form.city, venue: form.venue,
           address: form.address, startsAt: new Date(form.startsAt).toISOString(),
           endsAt: form.endsAt ? new Date(form.endsAt).toISOString() : null, coverImage: form.coverImage,
-          ticketTypes: [{ name: form.ticketName, priceNaira: Number(form.ticketPrice), quantity: Number(form.ticketQuantity) }]
+          ticketTypes: ticketDrafts.map(ticket => ({ name: ticket.name.trim(), priceNaira: Number(ticket.priceNaira), quantity: Number(ticket.quantity) }))
         })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not create event.");
       setNotice(data.message || "Event created and submitted for review.");
       setForm(emptyForm);
+      setTicketDrafts([{ name: "General Admission", priceNaira: "0", quantity: "100" }]);
       await load();
     } catch (e) { setError(e instanceof Error ? e.message : "Event creation failed."); }
     finally { setCreating(false); }
@@ -116,12 +119,14 @@ export default function EventAdminPage() {
               <label>Short summary<input maxLength={280} value={form.summary} onChange={e => setForm({ ...form, summary: e.target.value })} placeholder="A short event description"/></label>
             </div>
             <label>Full description<textarea required rows={4} maxLength={10000} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Describe the event, programme and attendee experience."/></label>
-            <div className="ad-admin-section-title"><div><span className="ad-admin-kicker">FIRST TICKET TYPE</span><h2>Ticket inventory</h2></div></div>
-            <div className="ad-admin-form-grid">
-              <label>Ticket name<input required value={form.ticketName} onChange={e => setForm({ ...form, ticketName: e.target.value })}/></label>
-              <label>Price (NGN)<input required type="number" min="0" max="21474836" step="1" value={form.ticketPrice} onChange={e => setForm({ ...form, ticketPrice: e.target.value })}/></label>
-              <label>Quantity<input required type="number" min="1" max="1000000" step="1" value={form.ticketQuantity} onChange={e => setForm({ ...form, ticketQuantity: e.target.value })}/></label>
-            </div>
+            <div className="ad-admin-section-title"><div><span className="ad-admin-kicker">TICKET INVENTORY</span><h2>Ticket categories</h2></div><span>{ticketDrafts.length}/10 types</span></div>
+            {ticketDrafts.map((ticket, index) => <div className="ad-admin-form-grid" key={index}>
+              <label>Ticket name<input required maxLength={80} value={ticket.name} onChange={e => setTicketDrafts(old => old.map((item, i) => i === index ? { ...item, name: e.target.value } : item))} placeholder="General, VIP, VVIP…"/></label>
+              <label>Price (NGN)<input required type="number" min="0" max="21474836" step="1" value={ticket.priceNaira} onChange={e => setTicketDrafts(old => old.map((item, i) => i === index ? { ...item, priceNaira: e.target.value } : item))}/></label>
+              <label>Quantity<input required type="number" min="1" max="1000000" step="1" value={ticket.quantity} onChange={e => setTicketDrafts(old => old.map((item, i) => i === index ? { ...item, quantity: e.target.value } : item))}/></label>
+              {ticketDrafts.length > 1 && <button type="button" className="ad-admin-logout" onClick={() => setTicketDrafts(old => old.filter((_, i) => i !== index))}>Remove ticket type</button>}
+            </div>)}
+            <button type="button" disabled={ticketDrafts.length >= 10} onClick={() => setTicketDrafts(old => [...old, { name: "", priceNaira: "0", quantity: "50" }])}><Plus size={15}/> Add ticket type</button>
             <p className="ad-admin-preview-body">New events are created as PENDING REVIEW. This form does not publish the event or open ticket sales.</p>
             <button type="submit" disabled={creating}>{creating ? "Creating event…" : <><Plus size={15}/> Create event for review</>}</button>
           </form>}
