@@ -2938,3 +2938,225 @@ body>main.light-site>.light-header,body>main.light-site>.premium-ticker,body>mai
     width: calc(100% - 28px) !important; max-width: calc(100% - 28px) !important;
   }
 }
+
+
+/* VIBEZ MIDNIGHT LUXE — opt-in dark skin, shared by the homepage and drawer. */
+:root[data-vibez-theme="dark"] body { background:#08090c; color:#f4f3f7; color-scheme:dark; }
+:root[data-vibez-theme="dark"] .light-site{
+  --ink:#f4f3f7;--muted:#9b9ba8;--line:#292a34;--purple:#b58aff;
+  background:
+    radial-gradient(ellipse at 82% 5%,rgba(112,65,168,.13),transparent 34%),
+    radial-gradient(ellipse at 8% 34%,rgba(75,53,111,.10),transparent 32%),
+    #08090c!important;
+  color:#f4f3f7!important;
+}
+:root[data-vibez-theme="dark"] .light-site .light-header{
+  background:rgba(10,10,15,.88)!important;border-bottom:1px solid rgba(255,255,255,.09)!important;
+  box-shadow:0 10px 35px rgba(0,0,0,.22)!important;
+}
+:root[data-vibez-theme="dark"] .light-site .light-brand{color:#fbf9ff!important}
+:root[data-vibez-theme="dark"] .light-site .brand-crown{color:#c49aff!important}
+:root[data-vibez-theme="dark"] .light-site .light-nav{color:#aaa6b5!important}
+:root[data-vibez-theme="dark"] .light-site .light-nav a:hover,
+:root[data-vibez-theme="dark"] .light-site .light-nav .nav-current{color:#d0adff!important}
+:root[data-vibez-theme="dark"] .light-site .icon-search,
+:root[data-vibez-theme="dark"] .light-site .login-link{border-color:#34313d!important;background:linear-gradient(145deg,#1c1a23,#111117)!important;color:#f4f0fa!important;box-shadow:inset 0 1px rgba(255,255,255,.06),0 4px 12px #0005!important}
+:root[data-vibez-theme="dark"] .light-site .create-event-btn{background:linear-gradient(135deg,#c39aff,#8754dc)!important;color:#100b18!important;box-shadow:0 4px 0 #57358c,0 10px 22px #8d5be333!important}
+:root[data-vibez-theme="dark"] .light-site .mobile-menu{color:#f6f2fb!important}
+:root[data-vibez-theme="dark"] .light-site .live-now-strip{
+  background:linear-gradient(100deg,#17121f,#21162f 52%,#121019)!important;color:#f8f3ff!important;
+  border-block:1px solid #ffffff12!important;
+}
+:root[data-vibez-theme="dark"] .light-site .live-now-strip a{color:#d7b7ff!important}
+:root[data-vibez-theme="dark"] .light-site .light-hero{
+  background:radial-gradient(ellipse at 82% 18%,rgba(126,75,185,.19),transparent 38%),linear-gradient(115deg,#0b0b10,#111019 58%,#0c0b11)!important;
+}
+:root[data-vibez-theme="dark"] .light-site .light-eyebrow,
+:root[data-vibez-theme="dark"] .light-site .hero-left>p,
+:root[data-vibez-theme="dark"] .light-site .hero-stats span{color:#aaa6b5!important}
+:root[data-vibez-theme="dark"] .light-site .hero-left h1{color:#fbf9ff!important}
+:root[data-vibez-theme="dark"] .light-site .hero-left h1 em,
+:root[data-vibez-theme="dark"] .light-site .light-section-heading h2 em,
+:root[data-vibez-theme="dark"] .light-site .newsletter-band h2 em,
+:root[data-vibez-theme="dark"] .light-site .tv-light-copy h2 em,
+:root[data-vibez-theme="dark"] .light-site .ad-banner-text h2 em,
+:root[data-vibez-theme="dark"] .light-site .host-spotlight-heading h2 em{color:#c39aff!important}
+:root[data-vibez-theme="dark"] .light-site .hero-search{
+  background:linear-gradient(145deg,#1d1b25,#121118)!important;border:1px solid #3b3547!important;
+  box-shadow:0 12px 32px #0006,inset 0 1px #ffffff0c!important;
+}
+:root[data-vibez-theme="dark"] .light-site .hero-search input{background:transparent!important;color:#f7f3fc!important}
+:root[data-vibez-theme="dark"] .light-site .hero-search input::placeholder{color:#817c8b!important}
+:root[data-vibez-theme="dark"] .light-site .hero-search svg{color:#c2a1eb!important}
+:root[data-vibez-theme="dark"] .light-site .hero-search button{
+  background:linear-gradient(135deg,#c39aff,#9462dc)!important;color:#130d1b!important;
+  box-shadow:0 3px 0 #634094,0 7px 16px #8c5bd433!important;
+}
+:root[data-vibez-theme="dark"] .light-site .host-spotlight{
+  background:linear-gradient(115deg,#111019,#171321 55%,#100f16)!important;
+  border-block:1px solid #ffffff12!important;
+}
+:root[data-vibez-theme="dark"] .light-site .host-spotlight-heading h2{color:#f7f3fc!important}
+:root[data-vibez-theme="dark"] .light-site .host-spotlight-heading p,
+:root[data-vibez-theme="dark"] .light-site .host-avatar-item small{color:#a39dac!important}
+:root[data-vibez-theme="dark"] .light-site .host-avatar{border-color:#211a2b!important;outline-color:#74529a!important;box-shadow:0 5px 0 #08070b,0 12px 22px #0008!important}
+:root[data-vibez-theme="dark"] .light-site .host-avatar-item strong{color:#f2edf8!important}
+:root[data-vibez-theme="dark"] .light-site .host-follow-btn{background:#211a2b!important;border-color:#4c3a61!important;color:#e8d9fa!important}
+:root[data-vibez-theme="dark"] .light-site .hero-stats strong{color:#f3eff8!important}
+:root[data-vibez-theme="dark"] .light-site .home-categories{
+  background:linear-gradient(180deg,#0b0b10,#101018)!important;
+}
+:root[data-vibez-theme="dark"] .light-site .home-categories-heading h2,
+:root[data-vibez-theme="dark"] .light-site .portrait-ad-heading h2{color:#f6f2fa!important}
+:root[data-vibez-theme="dark"] .light-site .home-categories-heading>span,
+:root[data-vibez-theme="dark"] .light-site .portrait-ad-heading p{color:#a5a0ae!important}
+:root[data-vibez-theme="dark"] .light-site .home-categories .category-tile{
+  border-color:#383044!important;box-shadow:0 4px 0 #08070c,0 10px 20px #0007,inset 0 1px #ffffff12!important;
+}
+:root[data-vibez-theme="dark"] .light-site .home-categories .category-tile b{background:#ffffff18!important;box-shadow:inset 0 1px #ffffff18,0 3px 8px #0005!important}
+:root[data-vibez-theme="dark"] .light-site .ad-slot{
+  border-color:#393044!important;background:radial-gradient(ellipse at 88% 10%,#56377855,transparent 42%),linear-gradient(110deg,#1b1624,#14121a 65%,#21182b)!important;
+  box-shadow:0 5px 0 #08070c,0 15px 30px #0006,inset 0 1px #ffffff10!important;color:#f6f1fb!important;
+}
+:root[data-vibez-theme="dark"] .light-site .ad-top-copy span,
+:root[data-vibez-theme="dark"] .light-site .ad-top-action>span,
+:root[data-vibez-theme="dark"] .light-site .sponsored-kicker{color:#c39aff!important}
+:root[data-vibez-theme="dark"] .light-site .ad-top-copy small{color:#aaa3b4!important}
+:root[data-vibez-theme="dark"] .light-site .ad-top-action a,
+:root[data-vibez-theme="dark"] .light-site .ad-banner-text>a{color:#e0caff!important;border-color:#8864b2!important}
+:root[data-vibez-theme="dark"] .light-site .light-section,
+:root[data-vibez-theme="dark"] .light-site .organiser-light{background:#0b0b10!important}
+:root[data-vibez-theme="dark"] .light-site .light-section-heading h2,
+:root[data-vibez-theme="dark"] .light-site .organiser-light h2{color:#f7f4fa!important}
+:root[data-vibez-theme="dark"] .light-site .light-section-heading>a,
+:root[data-vibez-theme="dark"] .light-site .rail-heading-actions>a{color:#c4b4d7!important}
+:root[data-vibez-theme="dark"] .light-site .rail-heading-actions button{
+  border-color:#393344!important;background:linear-gradient(145deg,#292333,#17151d)!important;
+  color:#f5effb!important;box-shadow:0 3px 0 #09080d,0 7px 13px #0008!important;
+}
+:root[data-vibez-theme="dark"] .light-site .category-filters button,
+:root[data-vibez-theme="dark"] .light-site .city-select{
+  background:#17151e!important;border-color:#383341!important;color:#c8c1d1!important;
+}
+:root[data-vibez-theme="dark"] .light-site .category-filters button.filter-active{
+  background:linear-gradient(135deg,#bd91f4,#8654d4)!important;border-color:#b78be9!important;color:#130d1b!important;
+}
+:root[data-vibez-theme="dark"] .light-site .city-select select{color:#f0eaf7!important}
+:root[data-vibez-theme="dark"] .light-site .city-select select option{background:#17151e!important;color:#fff!important}
+:root[data-vibez-theme="dark"] .light-site .light-event-card{
+  background:linear-gradient(155deg,#1c1a23,#121118)!important;border-color:#34303c!important;
+  box-shadow:0 5px 0 #07070a,0 14px 28px #0008,inset 0 1px #ffffff0a!important;
+}
+:root[data-vibez-theme="dark"] .light-site .event-tag{background:#211a2b!important;color:#f3eaff!important;border:1px solid #ffffff1a!important}
+:root[data-vibez-theme="dark"] .light-site .light-event-meta,
+:root[data-vibez-theme="dark"] .light-site .light-event-detail{color:#a8a1b1!important}
+:root[data-vibez-theme="dark"] .light-site .light-event-card h3,
+:root[data-vibez-theme="dark"] .light-site .light-event-bottom strong{color:#f6f2fa!important}
+:root[data-vibez-theme="dark"] .light-site .light-event-bottom a{color:#d0adff!important}
+:root[data-vibez-theme="dark"] .light-site .category-ticket-section{background:transparent!important}
+:root[data-vibez-theme="dark"] .light-site .ticket-types-home{
+  background:linear-gradient(180deg,#0d0c12,#14111a)!important;
+}
+:root[data-vibez-theme="dark"] .light-site .ticket-type-card{
+  border-color:#3a3345!important;background:linear-gradient(145deg,#211a2b,#15131b)!important;
+  box-shadow:0 4px 0 #08070b,0 11px 22px #0007,inset 0 1px #ffffff12!important;color:#f5effb!important;
+}
+:root[data-vibez-theme="dark"] .light-site .ticket-type-tag{color:#c49aff!important}
+:root[data-vibez-theme="dark"] .light-site .ticket-type-card>small{color:#aaa2b2!important}
+:root[data-vibez-theme="dark"] .light-site .ticket-type-link{color:#d8baff!important}
+:root[data-vibez-theme="dark"] .light-site .portrait-ad-section{
+  background:linear-gradient(180deg,#0b0b10,#111019)!important;
+}
+:root[data-vibez-theme="dark"] .light-site .portrait-ad-card{
+  border:1px solid #ffffff26!important;box-shadow:0 5px 0 #07070a,0 14px 26px #0009,inset 0 1px #ffffff35!important;
+}
+:root[data-vibez-theme="dark"] .light-site .portrait-ad-footnote{color:#9993a3!important}
+:root[data-vibez-theme="dark"] .light-site .ad-banner{
+  border-color:#40324f!important;
+  background:radial-gradient(ellipse at 84% 15%,#7547a866,transparent 42%),linear-gradient(125deg,#241a31,#17141e 60%,#2a1c38)!important;
+  box-shadow:0 5px 0 #08070b,0 17px 35px #0008,inset 0 1px #ffffff18!important;
+}
+:root[data-vibez-theme="dark"] .light-site .ad-banner-text h2{color:#f8f3fc!important}
+:root[data-vibez-theme="dark"] .light-site .ad-banner-text p{color:#c1b8ca!important}
+:root[data-vibez-theme="dark"] .light-site .ad-banner-art{
+  border-color:#ffffff45!important;background:linear-gradient(135deg,#74509a,#38224f 55%,#9a70c4)!important;
+  box-shadow:0 5px 0 #261a34,0 14px 25px #0007,inset 0 2px 4px #ffffff55!important;
+}
+:root[data-vibez-theme="dark"] .light-site .organiser-grid .organiser-card{
+  background:linear-gradient(145deg,#1d1a24,#121118)!important;border-color:#37313f!important;color:#f5effb!important;
+  box-shadow:0 4px 0 #08070b,0 12px 22px #0007,inset 0 1px #ffffff0a!important;
+}
+:root[data-vibez-theme="dark"] .light-site .organiser-card p,
+:root[data-vibez-theme="dark"] .light-site .organiser-card small{color:#aaa2b2!important}
+:root[data-vibez-theme="dark"] .light-site .organiser-card button{background:#241b30!important;border-color:#4c3a60!important;color:#e9d8ff!important}
+:root[data-vibez-theme="dark"] .light-site .newsletter-band{
+  background:radial-gradient(ellipse at 90% 10%,#70459a66,transparent 42%),linear-gradient(120deg,#21172b,#15121c)!important;
+  border:1px solid #443454!important;box-shadow:0 5px 0 #08070b,0 15px 30px #0008,inset 0 1px #ffffff13!important;
+}
+:root[data-vibez-theme="dark"] .light-site .newsletter-band h2{color:#f8f4fc!important}
+:root[data-vibez-theme="dark"] .light-site .newsletter-band p{color:#c0b7c9!important}
+:root[data-vibez-theme="dark"] .light-site .newsletter-band input{background:#100e15!important;border-color:#51405f!important;color:#fff!important}
+:root[data-vibez-theme="dark"] .light-site .newsletter-band button{background:linear-gradient(135deg,#c39aff,#8754dc)!important;color:#120c1a!important}
+:root[data-vibez-theme="dark"] .light-site .vibez-tv-light{
+  background:linear-gradient(120deg,#14111a,#0b0b10)!important;color:#f6f2fa!important;
+}
+:root[data-vibez-theme="dark"] .light-site .tv-light-copy h2{color:#f8f4fc!important}
+:root[data-vibez-theme="dark"] .light-site .tv-light-copy p{color:#b5adbd!important}
+:root[data-vibez-theme="dark"] .light-site .light-footer{
+  background:#07070b!important;border-top:1px solid #292431!important;color:#eee8f5!important;
+}
+:root[data-vibez-theme="dark"] .light-site .light-footer p,
+:root[data-vibez-theme="dark"] .light-site .light-footer small,
+:root[data-vibez-theme="dark"] .light-site .light-footer a{color:#a9a1b1!important}
+:root[data-vibez-theme="dark"] .light-site .light-footer .light-brand{color:#f7f2fb!important}
+:root[data-vibez-theme="dark"] .light-site .light-footer .brand-crown{color:#c39aff!important}
+
+/* Premium dark drawer: smoked glass, graphite panels and tactile selected state. */
+:root[data-vibez-theme="dark"] .drawer-backdrop{background:rgba(2,2,5,.72)!important;backdrop-filter:blur(10px)!important}
+:root[data-vibez-theme="dark"] .vibez-drawer{
+  background:radial-gradient(ellipse at 90% 0%,rgba(139,86,193,.16),transparent 36%),linear-gradient(155deg,#17141e,#0d0c12 68%,#17121f)!important;
+  color:#f4eff9!important;border-color:#393044!important;
+  box-shadow:-22px 0 70px rgba(0,0,0,.65),inset 1px 0 rgba(255,255,255,.06)!important;
+}
+:root[data-vibez-theme="dark"] .vibez-drawer .light-brand{color:#fbf8ff!important}
+:root[data-vibez-theme="dark"] .vibez-drawer .light-brand .brand-crown{color:#c49aff!important}
+:root[data-vibez-theme="dark"] .vibez-drawer .light-brand small{color:#a59aaa!important}
+:root[data-vibez-theme="dark"] .drawer-top{border-color:#ffffff18!important}
+:root[data-vibez-theme="dark"] .drawer-close{
+  background:linear-gradient(145deg,#292333,#17141e)!important;border-color:#44394f!important;
+  color:#f7f1fc!important;box-shadow:0 4px 0 #09080d,inset 0 1px #ffffff12!important;
+}
+:root[data-vibez-theme="dark"] .drawer-account{
+  background:linear-gradient(145deg,#272031,#17141e)!important;border-color:#44374f!important;
+  color:#f5effb!important;box-shadow:0 6px 18px #0005,inset 0 1px #ffffff0c!important;
+}
+:root[data-vibez-theme="dark"] .drawer-account small{color:#aaa1b2!important}
+:root[data-vibez-theme="dark"] .drawer-avatar{background:#3a2850!important;color:#d8baff!important}
+:root[data-vibez-theme="dark"] .drawer-links a{border-color:#ffffff15!important;color:#f0eaf6!important}
+:root[data-vibez-theme="dark"] .drawer-links a>span{background:#2a2036!important;color:#c8a5f3!important}
+:root[data-vibez-theme="dark"] .drawer-links a>svg{color:#aa8bc9!important}
+:root[data-vibez-theme="dark"] .drawer-appearance{
+  background:linear-gradient(145deg,#211b2a,#15121b)!important;border-color:#44374f!important;
+  box-shadow:0 6px 20px #0005,inset 0 1px #ffffff0d!important;
+}
+:root[data-vibez-theme="dark"] .drawer-appearance>div:first-child>span{color:#b28bdc!important}
+:root[data-vibez-theme="dark"] .drawer-appearance>div:first-child>strong{color:#fbf7ff!important}
+:root[data-vibez-theme="dark"] .appearance-options button{
+  background:linear-gradient(145deg,#292333,#191620)!important;border-color:#403648!important;
+  color:#b7adbf!important;box-shadow:0 3px 0 #0b090f,inset 0 1px #ffffff0a!important;
+}
+:root[data-vibez-theme="dark"] .appearance-options button.selected{
+  background:linear-gradient(145deg,#c69df6,#8e5bd1)!important;border-color:#d6b8fb!important;
+  color:#160d20!important;box-shadow:0 4px 0 #57347f,0 8px 18px #9562d644,inset 0 1px #ffffff8c!important;
+}
+:root[data-vibez-theme="dark"] .drawer-foot>span{color:#91879c!important}
+:root[data-vibez-theme="dark"] .drawer-foot a{color:#caa6f4!important;border-color:#ffffff18!important}
+:root[data-vibez-theme="dark"] .light-site .light-footer .footer-brand-col .light-brand{color:#f7f2fb!important}
+:root[data-vibez-theme="dark"] .light-site .light-footer .footer-brand-col .light-brand small{color:#a9a1b1!important}
+@media(prefers-reduced-motion:no-preference){
+  :root[data-vibez-theme="dark"] .light-site .light-event-card,
+  :root[data-vibez-theme="dark"] .light-site .ticket-type-card,
+  :root[data-vibez-theme="dark"] .light-site .portrait-ad-card{transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease!important}
+  :root[data-vibez-theme="dark"] .light-site .light-event-card:hover,
+  :root[data-vibez-theme="dark"] .light-site .ticket-type-card:hover{transform:translateY(-4px)!important;border-color:#745294!important}
+}
