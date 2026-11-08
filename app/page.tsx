@@ -80,39 +80,19 @@ export default function Home() {
     <section className="live-now-strip" aria-label="Live now events"><span className="live-now-label"><i/> LIVE</span><div className="live-now-track"><div className="live-now-track-inner"><span>Discover events happening right now</span><b>•</b><span>Get your tickets while the moment is live</span><b>•</b><span>Discover events happening right now</span><b>•</b><span>Get your tickets while the moment is live</span></div></div><Link href="/events?status=live">Explore live events <ArrowRight size={15}/></Link></section>
 
 
-    <section className="light-hero" id="discover">
-      <div className="hero-left"><span className="light-eyebrow">EVENTS · TICKETS · EXPERIENCES</span><h1>Find your next<br/><em>Vibez.</em></h1><p>Discover concerts, parties, festivals, shows and unique experiences across Nigeria.</p>
-        <form className="hero-search" id="event-search" onSubmit={e=>{e.preventDefault();document.getElementById("events")?.scrollIntoView({behavior:"smooth"});}}>
-          <Search size={19}/><input aria-label="Search events, artists or locations" placeholder="Search events, artists, or locations..." value={query} onChange={e=>setQuery(e.target.value)}/><button type="submit">Search</button>
-        </form>
-
-
-
+    <section className="light-hero reference-hero" id="discover">
+      <div className="hero-left reference-hero-copy">
+        <h1>Find your next<br/><em>Vibez.</em></h1>
+        <p>Discover concerts, parties, festivals, shows and unique experiences across Nigeria.</p>
       </div>
-      <section className="hero-carousel flagship-event-spotlight" aria-label="Featured event spotlight">
-        <div className="event-spotlight-slider">
-          <div className="event-spotlight-slide" onTouchStart={e=>{spotlightTouchStart.current=e.touches[0]?.clientX??null}} onTouchEnd={e=>{if(spotlightTouchStart.current===null)return;const delta=e.changedTouches[0].clientX-spotlightTouchStart.current;spotlightTouchStart.current=null;if(Math.abs(delta)>45)setSpotlightIndex(i=>(i+(delta<0?1:events.length-1))%events.length)}} style={{backgroundImage:"linear-gradient(180deg,rgba(12,7,22,.12) 0%,rgba(12,7,22,.12) 35%,rgba(12,7,22,.92) 100%),url("+events[spotlightIndex%events.length].image+")"}}>
-            <span className="spotlight-feature-tag" role="img" aria-label="Featured event crown"><Crown size={19}/></span>
-            <div className="spotlight-feature-copy">
-              <span>VIBEZ SPOTLIGHT · {String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
-              <h3>{events[spotlightIndex%events.length].name}</h3>
-              <div className="spotlight-event-facts">
-                <span><CalendarDays size={14}/> {events[spotlightIndex%events.length].date}</span>
-                <span><span className="spotlight-fact-dot"/> {events[spotlightIndex%events.length].time}</span>
-                <span><MapPin size={14}/> {events[spotlightIndex%events.length].city}</span>
-              </div>
-              <span className="spotlight-host-line">Hosted by <strong>{events[spotlightIndex%events.length].host}</strong></span>
-              <span className="spotlight-price-line">Tickets from <strong>{events[spotlightIndex%events.length].price}</strong></span>
-              <Link className="spotlight-outline-cta" href={"/events/"+events[spotlightIndex%events.length].slug}>Explore event <ArrowUpRight size={16}/></Link>
-            </div>
-            <div className="spotlight-feature-controls">
-              <button type="button" aria-label="Previous event spotlight" onClick={()=>setSpotlightIndex(i=>(i+events.length-1)%events.length)}><ChevronLeft size={18}/></button>
-              <span>{String((spotlightIndex%events.length)+1).padStart(2,"0")} / {String(events.length).padStart(2,"0")}</span>
-              <button type="button" aria-label="Next event spotlight" onClick={()=>setSpotlightIndex(i=>(i+1)%events.length)}><ChevronRight size={18}/></button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="reference-hero-visual" role="img" aria-label="Artist enjoying a live music experience">
+        <span className="reference-hero-crown" aria-hidden="true"><Crown size={92}/></span>
+        <div className="reference-hero-glow"/>
+        <div className="reference-hero-person"/>
+      </div>
+      <form className="hero-search reference-hero-search" id="event-search" onSubmit={e=>{e.preventDefault();document.getElementById("events")?.scrollIntoView({behavior:"smooth"});}}>
+        <Search size={21}/><input aria-label="Search events, artists or locations" placeholder="Search events, artists, or locations..." value={query} onChange={e=>setQuery(e.target.value)}/><button type="submit">Search</button>
+      </form>
     </section>
 
     <section className="category-strip" aria-label="Event categories">{[{name:"Concerts",Icon:Music2,tone:"lilac"},{name:"Parties",Icon:PartyPopper,tone:"pink"},{name:"Festivals",Icon:Drama,tone:"peach"},{name:"Shows",Icon:Clapperboard,tone:"blue"},{name:"Gaming",Icon:Gamepad2,tone:"lilac"},{name:"More",Icon:Plus,tone:"green"}].map(item=><a className={"category-tile "+item.tone} href="#events" key={item.name} onClick={()=>setCategory(item.name.toLowerCase().includes("concert")?"Concerts":item.name.toLowerCase().includes("parties")?"Nightlife":item.name.toLowerCase().includes("festival")?"Festivals":item.name.toLowerCase().includes("shows")?"Comedy":"All events")}><b><item.Icon size={20} strokeWidth={1.9}/></b><span>{item.name}</span></a>)}</section>
