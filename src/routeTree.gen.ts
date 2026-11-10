@@ -12,28 +12,42 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as ActivityRouteImport } from './routes/activity'
+import { Route as AdsRouteImport } from './routes/ads'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as ControlRouteImport } from './routes/control'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as OrganiseRouteImport } from './routes/organise'
 import { Route as OrganiserRouteImport } from './routes/organiser'
 import { Route as PersonaliseRouteImport } from './routes/personalise'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PromoteRouteImport } from './routes/promote'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ResetRouteImport } from './routes/reset'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TvRouteImport } from './routes/tv'
 import { Route as VerifyRouteImport } from './routes/verify'
+import { Route as UsernameIndexRouteImport } from './routes/$username/index'
+import { Route as UsernameSlugRouteImport } from './routes/$username/$slug'
 import { Route as ArtistsIndexRouteImport } from './routes/artists/index'
 import { Route as ArtistsSlugRouteImport } from './routes/artists/$slug'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout/return'
 import { Route as CuratorsIndexRouteImport } from './routes/curators/index'
 import { Route as CuratorsSlugRouteImport } from './routes/curators/$slug'
 import { Route as EventsIndexRouteImport } from './routes/events/index'
 import { Route as EventsSlugRouteImport } from './routes/events/$slug'
+import { Route as LegalDocRouteImport } from './routes/legal/$doc'
 import { Route as MusicIndexRouteImport } from './routes/music/index'
 import { Route as MusicSlugRouteImport } from './routes/music/$slug'
+import { Route as TicketsIndexRouteImport } from './routes/tickets/index'
+import { Route as TicketsCodeRouteImport } from './routes/tickets/$code'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiPaystackWebhookRouteImport } from './routes/api/paystack/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -48,6 +62,21 @@ const AccountRoute = AccountRouteImport.update({
 const ActivityRoute = ActivityRouteImport.update({
   id: '/activity',
   path: '/activity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdsRoute = AdsRouteImport.update({
+  id: '/ads',
+  path: '/ads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ControlRoute = ControlRouteImport.update({
+  id: '/control',
+  path: '/control',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreateRoute = CreateRouteImport.update({
@@ -68,6 +97,11 @@ const HomeRoute = HomeRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrganiseRoute = OrganiseRouteImport.update({
+  id: '/organise',
+  path: '/organise',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrganiserRoute = OrganiserRouteImport.update({
@@ -100,6 +134,21 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetRoute = ResetRouteImport.update({
+  id: '/reset',
+  path: '/reset',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -115,6 +164,16 @@ const VerifyRoute = VerifyRouteImport.update({
   path: '/verify',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsernameIndexRoute = UsernameIndexRouteImport.update({
+  id: '/$username/',
+  path: '/$username/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsernameSlugRoute = UsernameSlugRouteImport.update({
+  id: '/$username/$slug',
+  path: '/$username/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArtistsIndexRoute = ArtistsIndexRouteImport.update({
   id: '/artists/',
   path: '/artists/',
@@ -123,6 +182,11 @@ const ArtistsIndexRoute = ArtistsIndexRouteImport.update({
 const ArtistsSlugRoute = ArtistsSlugRouteImport.update({
   id: '/artists/$slug',
   path: '/artists/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/checkout/return',
+  path: '/checkout/return',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CuratorsIndexRoute = CuratorsIndexRouteImport.update({
@@ -145,6 +209,11 @@ const EventsSlugRoute = EventsSlugRouteImport.update({
   path: '/events/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalDocRoute = LegalDocRouteImport.update({
+  id: '/legal/$doc',
+  path: '/legal/$doc',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MusicIndexRoute = MusicIndexRouteImport.update({
   id: '/music/',
   path: '/music/',
@@ -155,9 +224,24 @@ const MusicSlugRoute = MusicSlugRouteImport.update({
   path: '/music/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TicketsIndexRoute = TicketsIndexRouteImport.update({
+  id: '/tickets/',
+  path: '/tickets/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TicketsCodeRoute = TicketsCodeRouteImport.update({
+  id: '/tickets/$code',
+  path: '/tickets/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaystackWebhookRoute = ApiPaystackWebhookRouteImport.update({
+  id: '/api/paystack/webhook',
+  path: '/api/paystack/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -165,83 +249,125 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/activity': typeof ActivityRoute
+  '/ads': typeof AdsRoute
+  '/community': typeof CommunityRoute
+  '/control': typeof ControlRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/organise': typeof OrganiseRoute
   '/organiser': typeof OrganiserRoute
   '/personalise': typeof PersonaliseRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/promote': typeof PromoteRoute
   '/register': typeof RegisterRoute
+  '/reset': typeof ResetRoute
+  '/settings': typeof SettingsRoute
+  '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tv': typeof TvRoute
   '/verify': typeof VerifyRoute
+  '/$username/$slug': typeof UsernameSlugRoute
   '/artists/$slug': typeof ArtistsSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/curators/$slug': typeof CuratorsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/music/$slug': typeof MusicSlugRoute
+  '/tickets/$code': typeof TicketsCodeRoute
+  '/$username/': typeof UsernameIndexRoute
   '/artists/': typeof ArtistsIndexRoute
   '/curators/': typeof CuratorsIndexRoute
   '/events/': typeof EventsIndexRoute
   '/music/': typeof MusicIndexRoute
+  '/tickets/': typeof TicketsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/activity': typeof ActivityRoute
+  '/ads': typeof AdsRoute
+  '/community': typeof CommunityRoute
+  '/control': typeof ControlRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/organise': typeof OrganiseRoute
   '/organiser': typeof OrganiserRoute
   '/personalise': typeof PersonaliseRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/promote': typeof PromoteRoute
   '/register': typeof RegisterRoute
+  '/reset': typeof ResetRoute
+  '/settings': typeof SettingsRoute
+  '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tv': typeof TvRoute
   '/verify': typeof VerifyRoute
+  '/$username/$slug': typeof UsernameSlugRoute
   '/artists/$slug': typeof ArtistsSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/curators/$slug': typeof CuratorsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/music/$slug': typeof MusicSlugRoute
+  '/tickets/$code': typeof TicketsCodeRoute
+  '/$username': typeof UsernameIndexRoute
   '/artists': typeof ArtistsIndexRoute
   '/curators': typeof CuratorsIndexRoute
   '/events': typeof EventsIndexRoute
   '/music': typeof MusicIndexRoute
+  '/tickets': typeof TicketsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/activity': typeof ActivityRoute
+  '/ads': typeof AdsRoute
+  '/community': typeof CommunityRoute
+  '/control': typeof ControlRoute
   '/create': typeof CreateRoute
   '/discover': typeof DiscoverRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/organise': typeof OrganiseRoute
   '/organiser': typeof OrganiserRoute
   '/personalise': typeof PersonaliseRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/promote': typeof PromoteRoute
   '/register': typeof RegisterRoute
+  '/reset': typeof ResetRoute
+  '/settings': typeof SettingsRoute
+  '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tv': typeof TvRoute
   '/verify': typeof VerifyRoute
+  '/$username/$slug': typeof UsernameSlugRoute
   '/artists/$slug': typeof ArtistsSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/curators/$slug': typeof CuratorsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/music/$slug': typeof MusicSlugRoute
+  '/tickets/$code': typeof TicketsCodeRoute
+  '/$username/': typeof UsernameIndexRoute
   '/artists/': typeof ArtistsIndexRoute
   '/curators/': typeof CuratorsIndexRoute
   '/events/': typeof EventsIndexRoute
   '/music/': typeof MusicIndexRoute
+  '/tickets/': typeof TicketsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/paystack/webhook': typeof ApiPaystackWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -249,110 +375,166 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/activity'
+    | '/ads'
+    | '/community'
+    | '/control'
     | '/create'
     | '/discover'
     | '/home'
     | '/login'
+    | '/organise'
     | '/organiser'
     | '/personalise'
     | '/privacy'
     | '/profile'
     | '/promote'
     | '/register'
+    | '/reset'
+    | '/settings'
+    | '/studio'
     | '/terms'
     | '/tv'
     | '/verify'
+    | '/$username/$slug'
     | '/artists/$slug'
+    | '/checkout/return'
     | '/curators/$slug'
     | '/events/$slug'
+    | '/legal/$doc'
     | '/music/$slug'
+    | '/tickets/$code'
+    | '/$username/'
     | '/artists/'
     | '/curators/'
     | '/events/'
     | '/music/'
+    | '/tickets/'
     | '/api/auth/$'
+    | '/api/paystack/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/account'
     | '/activity'
+    | '/ads'
+    | '/community'
+    | '/control'
     | '/create'
     | '/discover'
     | '/home'
     | '/login'
+    | '/organise'
     | '/organiser'
     | '/personalise'
     | '/privacy'
     | '/profile'
     | '/promote'
     | '/register'
+    | '/reset'
+    | '/settings'
+    | '/studio'
     | '/terms'
     | '/tv'
     | '/verify'
+    | '/$username/$slug'
     | '/artists/$slug'
+    | '/checkout/return'
     | '/curators/$slug'
     | '/events/$slug'
+    | '/legal/$doc'
     | '/music/$slug'
+    | '/tickets/$code'
+    | '/$username'
     | '/artists'
     | '/curators'
     | '/events'
     | '/music'
+    | '/tickets'
     | '/api/auth/$'
+    | '/api/paystack/webhook'
   id:
     | '__root__'
     | '/'
     | '/account'
     | '/activity'
+    | '/ads'
+    | '/community'
+    | '/control'
     | '/create'
     | '/discover'
     | '/home'
     | '/login'
+    | '/organise'
     | '/organiser'
     | '/personalise'
     | '/privacy'
     | '/profile'
     | '/promote'
     | '/register'
+    | '/reset'
+    | '/settings'
+    | '/studio'
     | '/terms'
     | '/tv'
     | '/verify'
+    | '/$username/$slug'
     | '/artists/$slug'
+    | '/checkout/return'
     | '/curators/$slug'
     | '/events/$slug'
+    | '/legal/$doc'
     | '/music/$slug'
+    | '/tickets/$code'
+    | '/$username/'
     | '/artists/'
     | '/curators/'
     | '/events/'
     | '/music/'
+    | '/tickets/'
     | '/api/auth/$'
+    | '/api/paystack/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   ActivityRoute: typeof ActivityRoute
+  AdsRoute: typeof AdsRoute
+  CommunityRoute: typeof CommunityRoute
+  ControlRoute: typeof ControlRoute
   CreateRoute: typeof CreateRoute
   DiscoverRoute: typeof DiscoverRoute
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
+  OrganiseRoute: typeof OrganiseRoute
   OrganiserRoute: typeof OrganiserRoute
   PersonaliseRoute: typeof PersonaliseRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   PromoteRoute: typeof PromoteRoute
   RegisterRoute: typeof RegisterRoute
+  ResetRoute: typeof ResetRoute
+  SettingsRoute: typeof SettingsRoute
+  StudioRoute: typeof StudioRoute
   TermsRoute: typeof TermsRoute
   TvRoute: typeof TvRoute
   VerifyRoute: typeof VerifyRoute
+  UsernameSlugRoute: typeof UsernameSlugRoute
   ArtistsSlugRoute: typeof ArtistsSlugRoute
+  CheckoutReturnRoute: typeof CheckoutReturnRoute
   CuratorsSlugRoute: typeof CuratorsSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
+  LegalDocRoute: typeof LegalDocRoute
   MusicSlugRoute: typeof MusicSlugRoute
+  TicketsCodeRoute: typeof TicketsCodeRoute
+  UsernameIndexRoute: typeof UsernameIndexRoute
   ArtistsIndexRoute: typeof ArtistsIndexRoute
   CuratorsIndexRoute: typeof CuratorsIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
   MusicIndexRoute: typeof MusicIndexRoute
+  TicketsIndexRoute: typeof TicketsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiPaystackWebhookRoute: typeof ApiPaystackWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -376,6 +558,27 @@ declare module '@tanstack/react-router' {
       path: '/activity'
       fullPath: '/activity'
       preLoaderRoute: typeof ActivityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ads': {
+      id: '/ads'
+      path: '/ads'
+      fullPath: '/ads'
+      preLoaderRoute: typeof AdsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/control': {
+      id: '/control'
+      path: '/control'
+      fullPath: '/control'
+      preLoaderRoute: typeof ControlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/create': {
@@ -404,6 +607,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/organise': {
+      id: '/organise'
+      path: '/organise'
+      fullPath: '/organise'
+      preLoaderRoute: typeof OrganiseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/organiser': {
@@ -448,6 +658,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset': {
+      id: '/reset'
+      path: '/reset'
+      fullPath: '/reset'
+      preLoaderRoute: typeof ResetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -469,6 +700,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$username/': {
+      id: '/$username/'
+      path: '/$username'
+      fullPath: '/$username/'
+      preLoaderRoute: typeof UsernameIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$username/$slug': {
+      id: '/$username/$slug'
+      path: '/$username/$slug'
+      fullPath: '/$username/$slug'
+      preLoaderRoute: typeof UsernameSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/artists/': {
       id: '/artists/'
       path: '/artists'
@@ -481,6 +726,13 @@ declare module '@tanstack/react-router' {
       path: '/artists/$slug'
       fullPath: '/artists/$slug'
       preLoaderRoute: typeof ArtistsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/checkout/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/curators/': {
@@ -511,6 +763,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/$doc': {
+      id: '/legal/$doc'
+      path: '/legal/$doc'
+      fullPath: '/legal/$doc'
+      preLoaderRoute: typeof LegalDocRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/music/': {
       id: '/music/'
       path: '/music'
@@ -525,11 +784,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MusicSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tickets/': {
+      id: '/tickets/'
+      path: '/tickets'
+      fullPath: '/tickets/'
+      preLoaderRoute: typeof TicketsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tickets/$code': {
+      id: '/tickets/$code'
+      path: '/tickets/$code'
+      fullPath: '/tickets/$code'
+      preLoaderRoute: typeof TicketsCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/paystack/webhook': {
+      id: '/api/paystack/webhook'
+      path: '/api/paystack/webhook'
+      fullPath: '/api/paystack/webhook'
+      preLoaderRoute: typeof ApiPaystackWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -539,28 +819,42 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   ActivityRoute: ActivityRoute,
+  AdsRoute: AdsRoute,
+  CommunityRoute: CommunityRoute,
+  ControlRoute: ControlRoute,
   CreateRoute: CreateRoute,
   DiscoverRoute: DiscoverRoute,
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
+  OrganiseRoute: OrganiseRoute,
   OrganiserRoute: OrganiserRoute,
   PersonaliseRoute: PersonaliseRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   PromoteRoute: PromoteRoute,
   RegisterRoute: RegisterRoute,
+  ResetRoute: ResetRoute,
+  SettingsRoute: SettingsRoute,
+  StudioRoute: StudioRoute,
   TermsRoute: TermsRoute,
   TvRoute: TvRoute,
   VerifyRoute: VerifyRoute,
+  UsernameSlugRoute: UsernameSlugRoute,
   ArtistsSlugRoute: ArtistsSlugRoute,
+  CheckoutReturnRoute: CheckoutReturnRoute,
   CuratorsSlugRoute: CuratorsSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
+  LegalDocRoute: LegalDocRoute,
   MusicSlugRoute: MusicSlugRoute,
+  TicketsCodeRoute: TicketsCodeRoute,
+  UsernameIndexRoute: UsernameIndexRoute,
   ArtistsIndexRoute: ArtistsIndexRoute,
   CuratorsIndexRoute: CuratorsIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
   MusicIndexRoute: MusicIndexRoute,
+  TicketsIndexRoute: TicketsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiPaystackWebhookRoute: ApiPaystackWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

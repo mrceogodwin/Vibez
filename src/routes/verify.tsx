@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { confirmVerification, sendVerification } from "@/lib/platform.functions";
 
 export const Route = createFileRoute("/verify")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -15,7 +16,20 @@ function VerifyPage() {
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [seconds, setSeconds] = useState(59);
   const [error, setError] = useState("");
+  const [devCode, setDevCode] = useState("");
   const inputs = useRef<Array<HTMLInputElement | null>>([]);
+
+  useEffect(() => {
+    if (!email) return;
+    sendVerification({ data: { email } })
+      .then((result) => {
+        if (!result.delivered) {
+          setDevCode(result.devCode);
+          setError(result.reason);
+        }
+      })
+      .catch((err) => setError(err instanceof Error ? err.message : "Could not send a code."));
+  }, [email]);
 
   useEffect(() => {
     if (seconds <= 0) return;
@@ -41,11 +55,23 @@ function VerifyPage() {
   }
 
   function submit() {
-    if (digits.join("").length < 6) {
+    const code = digits.join("");
+    if (code.length < 6) {
       setError("Enter the 6-digit code.");
       return;
     }
-    void navigate({ to: "/personalise" });
+    confirmVerification({ data: { email, code } })
+      .then(() => navigate({ to: "/personalise" }))
+      .catch((err) => setError(err instanceof Error ? err.message : "That code was not accepted."));
+  }
+
+  function resend() {
+    setSeconds(59);
+    sendVerification({ data: { email } })
+      .then((result) => {
+        if (!result.delivered) setDevCode(result.devCode);
+      })
+      .catch((err) => setError(err instanceof Error ? err.message : "Could not resend."));
   }
 
   return (
@@ -90,6 +116,7 @@ function VerifyPage() {
               />
             ))}
           </div>
+          {devCode ? <p className="note">Email delivery is not configured. Use this one-time code: <strong>{devCode}</strong></p> : null}
           {error ? <p className="ob-error">{error}</p> : null}
           <button type="button" className="ob-primary" style={{ width: "100%", marginTop: 18 }} onClick={submit}>
             Verify Email
@@ -99,7 +126,7 @@ function VerifyPage() {
             {seconds > 0 ? (
               <strong>Resend in {seconds}s</strong>
             ) : (
-              <button type="button" onClick={() => setSeconds(59)}>
+              <button type="button" onClick={resend}>
                 Resend
               </button>
             )}

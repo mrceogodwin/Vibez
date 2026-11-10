@@ -18,13 +18,13 @@ export const Route = createFileRoute("/")({
 
 const slides = [
   {
-    title: "Music. Events. Promotion. All in One Place.",
-    body: "Discover events, find new music, promote your sound, run ads and grow with vibez.ng.",
+    title: "Your World of Music, Events & Entertainment.",
+    body: "Discover music, follow your favourite artists, explore events and experience entertainment in one place.",
     photo: "/media/onboard-tickets.jpg",
     alt: "Artist in sunglasses at a blue-lit show",
   },
   {
-    title: "Your sound deserves to be heard.",
+    title: "Your Sound Deserves to Be Heard.",
     body: "Promote your music, reach entertainment communities, secure music placements and grow your audience with Vibez.",
     photo: "/media/onboard-sound.jpg",
     alt: "Artist in headphones and a blue hoodie",
