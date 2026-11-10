@@ -113,6 +113,13 @@ function ProfilePage() {
           <ChevronRight className="chev" size={16} />
         </Link>
       </section>
+      <div className="workspace" aria-label="Workspaces">
+        <Link to="/home" className="is-on"><strong>Fan</strong><span>Discover</span></Link>
+        {profile.roles.includes("artist") ? <Link to="/studio"><strong>Artist</strong><span>Studio</span></Link> : null}
+        {profile.roles.includes("organiser") ? <Link to="/organise"><strong>Organiser</strong><span>{bundle.organiser?.status ?? "Apply"}</span></Link> : null}
+        {profile.roles.includes("advertiser") ? <Link to="/ads"><strong>Advertiser</strong><span>Campaigns</span></Link> : null}
+        {profile.roles.includes("community") ? <Link to="/community"><strong>Community</strong><span>Push</span></Link> : null}
+      </div>
       <section className="group">
         <h3>Workspaces</h3>
         {profile.roles.includes("artist") ? <Link to="/studio" className="rowlink"><span className="ico"><Megaphone size={16} /></span><span>Artist studio</span><ChevronRight className="chev" size={16} /></Link> : null}

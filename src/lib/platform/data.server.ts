@@ -454,7 +454,7 @@ export async function loadArtist(rawUsername: string) {
            (select count(*)::int from music_releases m where m.artist_id = artist_profiles.id and m.status = 'published') as releases
     from artist_profiles where username = ${username} and status = 'published'
   `;
-  if (!artists[0]) return { artist: null, releases: [], events: [], redirect: redirected[0]?.new_path ?? null };
+  if (!artists[0]) return { artist: null, releases: [], events: [], videos: [], posts: [], redirect: redirected[0]?.new_path ?? null };
   const releases = await sql<ReleaseRow>`
     select r.id, r.slug, r.title, r.artwork_url, r.genre, r.description, r.release_date,
            r.duration_seconds, r.preview_url, r.links, r.is_sample, r.lyrics,
@@ -464,7 +464,25 @@ export async function loadArtist(rawUsername: string) {
     where r.artist_id = ${artists[0].id} and r.status = 'published'
     order by r.release_date desc nulls last
   `;
-  return { artist: mapArtist(artists[0]), releases: releases.map(mapRelease), redirect: null };
+  const videos = await sql<{ id: string; title: string; thumbnail_url: string; watch_url: string; is_sample: boolean }>`
+    select id, title, thumbnail_url, watch_url, is_sample from artist_videos where artist_id = ${artists[0].id} order by created_at desc
+  `;
+  const posts = await sql<{ id: string; body: string; image_url: string | null; is_sample: boolean; created_at: string | Date }>`
+    select id, body, image_url, is_sample, created_at from artist_posts where artist_id = ${artists[0].id} order by created_at desc
+  `;
+  const events = await sql<{ slug: string; title: string; city: string; cover: string; starts_at: string | Date; is_sample: boolean }>`
+    select slug, title, city, cover, starts_at, is_sample from events
+    where status = 'PUBLISHED' and artist_username = ${username}
+    order by starts_at asc
+  `;
+  return {
+    artist: mapArtist(artists[0]),
+    releases: releases.map(mapRelease),
+    videos: videos.map((row) => ({ id: row.id, title: row.title, thumbnail: row.thumbnail_url, watchUrl: row.watch_url, sample: Boolean(row.is_sample) })),
+    posts: posts.map((row) => ({ id: row.id, body: row.body, image: row.image_url, sample: Boolean(row.is_sample), createdAt: iso(row.created_at) })),
+    events: events.map((row) => ({ slug: row.slug, title: row.title, city: row.city, cover: row.cover, start: iso(row.starts_at), sample: Boolean(row.is_sample) })),
+    redirect: null,
+  };
 }
 
 export async function loadSong(rawUsername: string, slug: string) {
@@ -719,6 +737,44 @@ export async function profileBundle(userId: string, email?: string | null) {
     unread: Number(unread[0]?.count ?? 0),
     integrations: integrations(),
   };
+}
+
+export async function setAppearance(userId: string, appearance: "light" | "dark") {
+  await ensureProfile(userId);
+  const sql = await getSql();
+  await sql`update profiles set appearance = ${appearance}, updated_at = now() where user_id = ${userId}`;
+  return appearance;
+}
+
+export async function listPlaylists(userId: string) {
+  const sql = await getSql();
+  const rows = await sql<{ id: string; name: string; count: number }>`
+    select p.id, p.name, (select count(*)::int from playlist_tracks t where t.playlist_id = p.id) as count
+    from playlists p where p.user_id = ${userId} order by p.created_at desc
+  `;
+  return rows.map((row) => ({ id: row.id, name: row.name, count: Number(row.count) || 0 }));
+}
+
+export async function createPlaylist(userId: string, name: string) {
+  await requireActive(userId);
+  const trimmed = name.trim().slice(0, 60);
+  if (trimmed.length < 2) throw new Error("Name the playlist.");
+  const sql = await getSql();
+  const id = rid("pl");
+  await sql`insert into playlists (id, user_id, name) values (${id}, ${userId}, ${trimmed})`;
+  return { id, name: trimmed, count: 0 };
+}
+
+export async function addToPlaylist(userId: string, playlistId: string, releaseId: string) {
+  await requireActive(userId);
+  const sql = await getSql();
+  const owned = await sql`select id from playlists where id = ${playlistId} and user_id = ${userId}`;
+  if (!owned.length) throw new Error("That playlist is not yours.");
+  await sql`
+    insert into playlist_tracks (playlist_id, release_id) values (${playlistId}, ${releaseId})
+    on conflict do nothing
+  `;
+  return { ok: true as const };
 }
 
 export async function setNotifications(userId: string, input: PublicProfile["notifications"]) {
@@ -1567,6 +1623,14 @@ export async function organiserHome(userId: string) {
     })),
     ticketsSold: Number(sales[0]?.count ?? 0),
     ticketRevenueKobo: Number(sales[0]?.amount ?? 0),
+    series: (await sql<{ title: string; tickets: number }>`
+      select e.title,
+        (select count(*)::int from tickets t
+          join orders o on o.id = t.order_id and o.status = 'paid'
+          where t.event_slug = e.slug) as tickets
+      from events e where e.organiser_user_id = ${userId}
+      order by e.created_at desc
+    `).map((row) => ({ title: row.title, tickets: Number(row.tickets) || 0 })),
   };
 }
 
@@ -1645,6 +1709,10 @@ export async function controlOverview(userId: string, email?: string | null) {
       email: row.email ?? "",
     })),
     settings: settings.map((row) => ({ key: row.key, value: JSON.stringify(row.value_json) })),
+    staff: (await sql<{ user_id: string; role: string }>`select user_id, role from staff order by created_at desc limit 20`).map((row) => ({ userId: row.user_id, role: row.role })),
+    audit: (await sql<{ action: string; target: string; detail: string; created_at: string | Date }>`
+      select action, target, detail, created_at from audit_log order by created_at desc limit 12
+    `).map((row) => ({ action: row.action, target: row.target, detail: row.detail, createdAt: iso(row.created_at) })),
   };
 }
 

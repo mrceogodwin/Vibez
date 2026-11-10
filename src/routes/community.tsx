@@ -51,6 +51,7 @@ function CommunityPage() {
       </section>
       <form className="panel" onSubmit={(event) => void push(event)}>
         <h2>Campaign</h2>
+        <div className="wizard" aria-hidden="true"><i className="is-on" /><i className={title ? "is-on" : undefined} /><i className={picked.length ? "is-on" : undefined} /></div>
         <label className="field">Title<input value={title} onChange={(event) => setTitle(event.target.value)} required /></label>
         <label className="field">Listening link<input value={listeningUrl} onChange={(event) => setListeningUrl(event.target.value)} required /></label>
         <label className="field">Note<textarea value={note} onChange={(event) => setNote(event.target.value)} /></label>

@@ -36,6 +36,8 @@ function StudioPage() {
       {data?.username ? <p className="note">Your public page is /@{data.username}</p> : <p className="note">Set a username on your profile to publish /@username.</p>}
       <form className="panel" onSubmit={(event) => void onSubmit(event)}>
         <h2>Submit music</h2>
+        <div className="wizard" aria-hidden="true"><i className="is-on" /><i className={form.title ? "is-on" : undefined} /><i className={form.listeningUrl ? "is-on" : undefined} /></div>
+        <p className="note">Release, then listening link, then an optional placement. Payment never approves the music.</p>
         <label className="field">Artist name<input value={form.artistName} onChange={(event) => setForm({ ...form, artistName: event.target.value })} required /></label>
         <label className="field">Title<input value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} required /></label>
         <label className="field">Genre<input value={form.genre} onChange={(event) => setForm({ ...form, genre: event.target.value })} /></label>

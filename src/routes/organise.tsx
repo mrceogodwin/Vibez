@@ -34,7 +34,25 @@ function OrganiserPage() {
         </div>
       ) : null}
       <p className="note">Sales figures count paid orders only. Sample catalogue events are not included.</p>
-      <Link className="btn" to="/create">Create event</Link>
+      {data && data.series.some((item) => item.tickets > 0) ? (
+        <section className="panel">
+          <h2>Tickets by event</h2>
+          {data.series.map((item) => (
+            <div key={item.title} style={{ marginTop: 8 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}><span>{item.title}</span><strong>{item.tickets}</strong></div>
+              <div style={{ height: 8, background: "#eef1ff", borderRadius: 99 }}>
+                <div style={{ width: `${Math.max(8, (item.tickets / Math.max(...data.series.map((row) => row.tickets), 1)) * 100)}%`, height: "100%", background: "#1016c9", borderRadius: 99 }} />
+              </div>
+            </div>
+          ))}
+        </section>
+      ) : (
+        <div className="empty">
+          <h2>No paid tickets yet</h2>
+          <p>The sales chart uses confirmed orders only. It stays empty until a real purchase lands.</p>
+          <Link className="btn" to="/create">List an event</Link>
+        </div>
+      )}
       <section>
         {data?.events.map((event) => (
           <article key={event.slug} className="panel"><strong>{event.title}</strong><p>{event.status} · {event.city}</p></article>

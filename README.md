@@ -40,6 +40,8 @@ Migration `0003_platform.sql` inserts sample artists, releases, communities and 
 
 The Control Room can hide sample artists, approve events, music, ads and communities, and change the ticket fee in basis points (`ticket_fee_bps`, 500 means 5%).
 
+Onboarding photographs and their licences are listed in `public/media/CREDITS.md`.
+
 ## Routes
 
 - `/` onboarding, `/register`, `/login`, `/verify`, `/personalise`, `/reset`

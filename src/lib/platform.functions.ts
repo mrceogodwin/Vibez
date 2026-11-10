@@ -128,6 +128,37 @@ export const guardLogin = createServerFn({ method: "POST" })
     return { ok: true as const };
   });
 
+export const saveAppearance = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
+  .validator((input: { appearance: "light" | "dark" }) => input)
+  .handler(async ({ data, context }) => {
+    const api = await platform();
+    return api.setAppearance(context.userId, data.appearance);
+  });
+
+export const loadPlaylists = createServerFn({ method: "GET" })
+  .middleware([authMiddleware])
+  .handler(async ({ context }) => {
+    const api = await platform();
+    return api.listPlaylists(context.userId);
+  });
+
+export const makePlaylist = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
+  .validator((input: { name: string }) => input)
+  .handler(async ({ data, context }) => {
+    const api = await platform();
+    return api.createPlaylist(context.userId, data.name);
+  });
+
+export const saveToPlaylist = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
+  .validator((input: { playlistId: string; releaseId: string }) => input)
+  .handler(async ({ data, context }) => {
+    const api = await platform();
+    return api.addToPlaylist(context.userId, data.playlistId, data.releaseId);
+  });
+
 export const saveNotificationPrefs = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .validator((input: { email: boolean; releases: boolean; events: boolean; campaigns: boolean }) => input)
