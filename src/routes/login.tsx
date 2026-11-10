@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { authClient, authEnabled, signIn } from "@/lib/auth/client";
+import { authClient, authEnabled, signIn, GROK_PROVIDERS } from "@/lib/auth/client";
+import { guardLogin } from "@/lib/platform.functions";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -23,6 +24,13 @@ function LoginPage() {
       return;
     }
     setPending(true);
+    try {
+      await guardLogin({ data: { email: email.trim() } });
+    } catch (err) {
+      setPending(false);
+      setError(err instanceof Error ? err.message : "Too many attempts.");
+      return;
+    }
     const result = await authClient.signIn.email({
       email: email.trim(),
       password,
@@ -71,13 +79,20 @@ function LoginPage() {
             {pending ? "Checking…" : "Log In"}
           </button>
           <div className="ob-or">or continue with</div>
-          <button
-            type="button"
-            className="ob-google"
-            onClick={() => void signIn("google", { callbackURL: "/home" })}
-          >
-            Continue with Google
-          </button>
+          {authEnabled ? (
+            <button
+              type="button"
+              className="ob-google"
+              onClick={() => void signIn(GROK_PROVIDERS.find((item) => item.idp === "google")?.providerId ?? "grok-google", { callbackURL: "/home" })}
+            >
+              Continue with Google
+            </button>
+          ) : (
+            <p className="note">Google sign-in is not configured in this build.</p>
+          )}
+          <p className="ob-switch">
+            <Link to="/reset">Forgot password?</Link>
+          </p>
           <p className="ob-switch">
             New to Vibez? <Link to="/register">Create Account</Link>
           </p>

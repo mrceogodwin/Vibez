@@ -1,128 +1,68 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo } from "react";
-import { EventCard } from "@/components/vibez/event-card";
-import { Shell } from "@/components/vibez/shell";
-import { categories, cities, isLive, matchesQuery } from "@/lib/catalogue";
-import { loadCatalogue } from "@/lib/vibez.functions";
-
-type EventSearch = {
-  q?: string;
-  category?: string;
-  city?: string;
-  status?: string;
-};
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { MapPin, Search } from "lucide-react";
+import { useMemo, useState } from "react";
+import { AppFrame } from "@/components/vibez/frame";
+import { Media, Sample } from "@/components/vibez/media";
+import { naira } from "@/lib/catalogue";
+import { loadEventsPage } from "@/lib/platform.functions";
 
 export const Route = createFileRoute("/events/")({
-  validateSearch: (search: Record<string, unknown>): EventSearch => ({
-    q: typeof search.q === "string" && search.q ? search.q : undefined,
-    category: typeof search.category === "string" && search.category ? search.category : undefined,
-    city: typeof search.city === "string" && search.city ? search.city : undefined,
-    status: search.status === "live" ? "live" : undefined,
-  }),
-  loader: () => loadCatalogue(),
+  loader: () => loadEventsPage(),
   component: EventsPage,
 });
 
 function EventsPage() {
-  const search = Route.useSearch();
-  const { events, curators } = Route.useLoaderData();
-  const navigate = useNavigate();
-
-  function update(next: EventSearch) {
-    const merged = { ...search, ...next };
-    void navigate({
-      to: "/events",
-      search: {
-        q: merged.q || undefined,
-        category: merged.category || undefined,
-        city: merged.city || undefined,
-        status: merged.status || undefined,
-      },
-      replace: true,
-    });
-  }
-
-  const list = useMemo(() => {
-    return events.filter((event) => {
-      if (search.category && event.category !== search.category) return false;
-      if (search.city && event.city !== search.city) return false;
-      if (search.status === "live" && !isLive(event)) return false;
-      if (search.q && !matchesQuery(event, search.q, curators)) return false;
-      return true;
-    });
-  }, [search, events, curators]);
+  const { events } = Route.useLoaderData();
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [city, setCity] = useState("All");
+  const categories = ["All", ...Array.from(new Set(events.map((event) => event.category)))];
+  const cities = ["All", ...Array.from(new Set(events.map((event) => event.city)))];
+  const list = useMemo(() => events.filter((event) => {
+    if (category !== "All" && event.category !== category) return false;
+    if (city !== "All" && event.city !== city) return false;
+    const q = query.trim().toLowerCase();
+    if (!q) return true;
+    return `${event.title} ${event.city} ${event.venue}`.toLowerCase().includes(q);
+  }), [events, category, city, query]);
 
   return (
-    <Shell>
-      <h1 className="vz-page-title">{search.status === "live" ? "Live now" : "Events"}</h1>
-      <p className="vz-sub">
-        {list.length} {list.length === 1 ? "listing" : "listings"}
-        {search.city ? ` in ${search.city}` : " across Nigeria"}
-      </p>
-      <form
-        className="vz-panel"
-        style={{ padding: 10 }}
-        onSubmit={(event) => event.preventDefault()}
-      >
-        <input
-          className="vz-searchbox"
-          value={search.q ?? ""}
-          placeholder="Search events, artists, or locations..."
-          aria-label="Search events"
-          onChange={(event) => update({ q: event.target.value })}
-        />
+    <AppFrame>
+      <h1 style={{ margin: "8px 0 4px", fontSize: 32 }}>Events</h1>
+      <p style={{ margin: 0, color: "#69738a" }}>Sample listings stay labelled and are not on sale.</p>
+      <form className="app-search" style={{ marginTop: 12 }} onSubmit={(event) => event.preventDefault()}>
+        <Search size={18} />
+        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search events or cities" aria-label="Search events" />
       </form>
-      <div className="vz-chips" role="toolbar" aria-label="Category">
-        <button type="button" className={!search.category ? "vz-chip is-on" : "vz-chip"} onClick={() => update({ category: undefined })}>
-          All
-        </button>
-        {categories.map((category) => (
-          <button
-            key={category}
-            type="button"
-            className={search.category === category ? "vz-chip is-on" : "vz-chip"}
-            onClick={() => update({ category })}
-          >
-            {category}
-          </button>
+      <div className="app-chips" aria-label="Category">
+        {categories.map((item) => (
+          <button key={item} type="button" className={category === item ? "app-chip is-on" : "app-chip"} onClick={() => setCategory(item)}>{item}</button>
         ))}
       </div>
-      <div className="vz-chips" role="toolbar" aria-label="City">
-        <button type="button" className={!search.city ? "vz-chip is-on" : "vz-chip"} onClick={() => update({ city: undefined })}>
-          All cities
-        </button>
-        {cities.map((city) => (
-          <button
-            key={city}
-            type="button"
-            className={search.city === city ? "vz-chip is-on" : "vz-chip"}
-            onClick={() => update({ city })}
-          >
-            {city}
-          </button>
+      <div className="app-chips" aria-label="City">
+        {cities.map((item) => (
+          <button key={item} type="button" className={city === item ? "app-chip is-on" : "app-chip"} onClick={() => setCity(item)}>{item}</button>
         ))}
-        <button
-          type="button"
-          className={search.status === "live" ? "vz-chip is-on" : "vz-chip"}
-          onClick={() => update({ status: search.status === "live" ? undefined : "live" })}
-        >
-          Live
-        </button>
       </div>
       {list.length === 0 ? (
-        <div className="vz-empty">
-          <p>Nothing in the catalogue matches that.</p>
-          <button type="button" className="vz-btn" onClick={() => update({ q: undefined, category: undefined, city: undefined, status: undefined })}>
-            Clear filters
-          </button>
-        </div>
+        <div className="empty"><h2>No events in that filter</h2><p>Try another city or category.</p></div>
       ) : (
-        <div className="vz-grid">
+        <div style={{ display: "grid", gap: 12 }} className="home-split">
           {list.map((event) => (
-            <EventCard key={event.slug} event={event} />
+            <Link key={event.slug} to="/events/$slug" params={{ slug: event.slug }} className="event-card">
+              <span style={{ position: "relative", display: "block" }}>
+                <Media src={event.cover} alt="" />
+                {event.sample ? <span className="badge-abs"><Sample on /></span> : null}
+              </span>
+              <div className="body">
+                <strong>{event.title}</strong>
+                <p><MapPin size={14} /> {event.venue}, {event.city}</p>
+                <div className="foot"><span className="price">From {naira(event.fromKobo)}</span><span className="btn small">Get tickets</span></div>
+              </div>
+            </Link>
           ))}
         </div>
       )}
-    </Shell>
+    </AppFrame>
   );
 }

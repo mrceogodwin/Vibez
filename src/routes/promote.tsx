@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Dock } from "@/components/vibez/dock";
+import { AppFrame } from "@/components/vibez/frame";
 
 export const Route = createFileRoute("/promote")({
   component: PromotePage,
@@ -7,17 +7,15 @@ export const Route = createFileRoute("/promote")({
 
 function PromotePage() {
   return (
-    <main className="fd-light">
-      <div className="fd">
-        <h1>Promote</h1>
-        <p className="fd-sub">Music placements, community push and ads are the next commercial products. Nothing here takes payment yet.</p>
-        <div className="fd-menu">
-          <Link to="/music">Music placements</Link>
-          <Link to="/create">List an event</Link>
-          <Link to="/events">Event tickets</Link>
-        </div>
-        <Dock tone="light" />
+    <AppFrame>
+      <h1>Promote</h1>
+      <p className="note">Placements, community push and ads each have their own review. Nothing here is charged until Paystack is configured and a campaign is approved.</p>
+      <div className="group">
+        <Link className="rowlink" to="/studio">Music placements</Link>
+        <Link className="rowlink" to="/community">Community push</Link>
+        <Link className="rowlink" to="/ads">Advertising</Link>
+        <Link className="rowlink" to="/create">List an event</Link>
       </div>
-    </main>
+    </AppFrame>
   );
 }

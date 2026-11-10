@@ -1,113 +1,83 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { Shell } from "@/components/vibez/shell";
+import { AppFrame } from "@/components/vibez/frame";
 import { categories, cities } from "@/lib/catalogue";
-import { refCode, usePrefs } from "@/lib/prefs";
+import { becomeOrganiser, submitEvent } from "@/lib/platform.functions";
 
 export const Route = createFileRoute("/create")({
-  component: CreatePage,
+  component: CreateEventPage,
 });
 
-function CreatePage() {
-  const addDraft = usePrefs((state) => state.addDraft);
-  const [savedId, setSavedId] = useState<string | null>(null);
+function CreateEventPage() {
+  const [message, setMessage] = useState("");
+  const [slug, setSlug] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<string>(categories[0]);
-  const [city, setCity] = useState<string>(cities[0]);
+  const [city, setCity] = useState(cities[0]);
   const [venue, setVenue] = useState("");
-  const [when, setWhen] = useState("");
+  const [address, setAddress] = useState("");
+  const [start, setStart] = useState("");
   const [description, setDescription] = useState("");
   const [ticketName, setTicketName] = useState("Regular");
-  const [priceNaira, setPriceNaira] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("0");
+  const [quantity, setQuantity] = useState("100");
 
-  function submit(event: FormEvent) {
+  async function onSubmit(event: FormEvent) {
     event.preventDefault();
-    const id = refCode();
-    addDraft({
-      id,
-      title: title.trim(),
-      category,
-      city,
-      venue: venue.trim(),
-      when,
-      description: description.trim(),
-      ticketName: ticketName.trim(),
-      priceNaira,
-      quantity,
-    });
-    setSavedId(id);
+    setMessage("");
+    try {
+      const result = await submitEvent({
+        data: {
+          title, category, city, venue, address, start, end: start, description,
+          cover: "", ageNote: "", refundPolicy: "Refunds follow the policy on this event after it is approved.",
+          tickets: [{ name: ticketName, priceNaira: Number(price), quantity: Number(quantity), detail: "Entry" }],
+        },
+      });
+      setSlug(result.slug);
+    } catch (error) {
+      const text = error instanceof Error ? error.message : "Could not submit.";
+      setMessage(text);
+    }
   }
 
   return (
-    <Shell>
-      <h1 className="vz-page-title">Create event</h1>
-      <p className="vz-sub">Drafts stay on this device. They are not added to the public catalogue.</p>
-      {savedId ? (
-        <section className="vz-panel">
-          <h2>Draft {savedId}</h2>
-          <p className="vz-prose">
-            {title} in {city} is saved on this device only. It will not appear under Featured Events.
-          </p>
-          <Link to="/account" className="vz-btn">
-            See it on Account
-          </Link>
-        </section>
+    <AppFrame>
+      <h1 style={{ marginTop: 8 }}>List an event</h1>
+      <p className="note">Drafts are saved on the server as pending. They are not public until the Control Room approves them. Sample catalogue events are separate and not for sale.</p>
+      {slug ? (
+        <div className="empty">
+          <h2>Submitted for review</h2>
+          <p>Reference {slug}. It will not appear on Home until it is approved.</p>
+          <Link className="btn" to="/organise">Organiser home</Link>
+        </div>
       ) : (
-        <form className="vz-panel" onSubmit={submit}>
-          <label className="vz-field">
-            Event title
-            <input value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <form className="panel" onSubmit={(event) => void onSubmit(event)}>
+          <label className="field">Title<input value={title} onChange={(event) => setTitle(event.target.value)} required /></label>
+          <label className="field">Category
+            <select value={category} onChange={(event) => setCategory(event.target.value)}>{categories.map((item) => <option key={item}>{item}</option>)}</select>
           </label>
-          <div className="vz-row-2">
-            <label className="vz-field">
-              Category
-              <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                {categories.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
-            </label>
-            <label className="vz-field">
-              City
-              <select value={city} onChange={(e) => setCity(e.target.value)}>
-                {cities.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <label className="vz-field">
-            Venue
-            <input value={venue} onChange={(e) => setVenue(e.target.value)} required />
+          <label className="field">City
+            <select value={city} onChange={(event) => setCity(event.target.value)}>{cities.map((item) => <option key={item}>{item}</option>)}</select>
           </label>
-          <label className="vz-field">
-            Starts
-            <input type="datetime-local" value={when} onChange={(e) => setWhen(e.target.value)} required />
-          </label>
-          <label className="vz-field">
-            Description
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
-          </label>
-          <div className="vz-row-2">
-            <label className="vz-field">
-              Ticket name
-              <input value={ticketName} onChange={(e) => setTicketName(e.target.value)} required />
-            </label>
-            <label className="vz-field">
-              Price (₦)
-              <input inputMode="numeric" value={priceNaira} onChange={(e) => setPriceNaira(e.target.value)} required />
-            </label>
-          </div>
-          <label className="vz-field">
-            Quantity
-            <input inputMode="numeric" value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
-          </label>
-          <button className="vz-btn" type="submit">
-            Save draft
+          <label className="field">Venue<input value={venue} onChange={(event) => setVenue(event.target.value)} required /></label>
+          <label className="field">Address<input value={address} onChange={(event) => setAddress(event.target.value)} required /></label>
+          <label className="field">Starts<input type="datetime-local" value={start} onChange={(event) => setStart(event.target.value)} required /></label>
+          <label className="field">Description<textarea value={description} onChange={(event) => setDescription(event.target.value)} required /></label>
+          <label className="field">Ticket name<input value={ticketName} onChange={(event) => setTicketName(event.target.value)} required /></label>
+          <label className="field">Price in naira (0 for free)<input inputMode="numeric" value={price} onChange={(event) => setPrice(event.target.value)} required /></label>
+          <label className="field">Quantity<input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(event.target.value)} required /></label>
+          {message ? <p className="warn">{message}</p> : null}
+          <button className="btn" type="submit" style={{ width: "100%", marginTop: 12 }}>Submit for approval</button>
+          <button
+            className="btn ghost"
+            type="button"
+            style={{ width: "100%", marginTop: 8 }}
+            onClick={() => void becomeOrganiser({ data: { displayName: "Organiser" } }).then(() => setMessage("Organiser application sent.")).catch((error) => setMessage(error instanceof Error ? error.message : "Could not apply."))}
+          >
+            Apply as organiser
           </button>
         </form>
       )}
-    </Shell>
+    </AppFrame>
   );
 }

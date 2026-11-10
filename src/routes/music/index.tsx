@@ -1,91 +1,50 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Ellipsis, LayoutGrid, Music, Play } from "lucide-react";
-import { useMemo, useState } from "react";
-import { Dock } from "@/components/vibez/dock";
-import { artists, playlists, tracks } from "@/lib/feed";
+import { useState } from "react";
+import { AppFrame } from "@/components/vibez/frame";
+import { Media, Sample } from "@/components/vibez/media";
+import { loadHome } from "@/lib/platform.functions";
 
 export const Route = createFileRoute("/music/")({
-  component: MusicPage,
+  loader: () => loadHome(),
+  component: MusicHome,
 });
 
-const genres = ["All", "Afrobeats", "Hip-Hop", "Amapiano", "R&B"] as const;
-
-function MusicPage() {
-  const [genre, setGenre] = useState<(typeof genres)[number]>("All");
-  const songs = useMemo(
-    () => (genre === "All" || genre === "Afrobeats" ? tracks : []),
-    [genre],
-  );
-
+function MusicHome() {
+  const data = Route.useLoaderData();
+  const [genre, setGenre] = useState("All");
+  const genres = ["All", ...data.genres];
+  const songs = data.releases.filter((item) => genre === "All" || item.genre === genre);
   return (
-    <main className="fd-light">
-      <div className="fd">
-        <header className="fd-top">
-          <img src="/brand/vibez-mark-blue.png" alt="Vibez" />
-        </header>
-        <div className="fd-pagehead">
-          <Link to="/home" aria-label="Back"><ArrowLeft size={20} /></Link>
-          <div>
-            <h1>Music</h1>
-            <p>Discover new releases, trending songs, playlists and more.</p>
-          </div>
-        </div>
-        <section className="fd-hero">
-          <img src="/media/hero-artist.jpg" alt="" />
-          <div>
-            <h1>New Releases</h1>
-            <p>The latest drops from your favourite artists.</p>
-            <Link to="/music/$slug" params={{ slug: "higher" }}><Play size={14} fill="currentColor" /> Listen Now</Link>
-          </div>
-        </section>
-        <div className="fd-chips">
-          {genres.map((item) => (
-            <button key={item} type="button" className={genre === item ? "is-on" : undefined} onClick={() => setGenre(item)}>
-              {item === "All" ? <LayoutGrid size={14} /> : item === "Afrobeats" ? <Music size={14} /> : null}
-              {item}
-            </button>
+    <AppFrame>
+      <h1 style={{ margin: "8px 0 4px" }}>Music</h1>
+      <p style={{ margin: 0, color: "#69738a" }}>New releases and sample shelves. Playback needs a licensed preview URL.</p>
+      <div className="app-chips">
+        {genres.map((item) => (
+          <button key={item} type="button" className={genre === item ? "app-chip is-on" : "app-chip"} onClick={() => setGenre(item)}>{item}</button>
+        ))}
+      </div>
+      {songs.length === 0 ? <div className="empty"><h2>No {genre} releases yet</h2><p>Approved submissions show up here.</p></div> : (
+        <div style={{ display: "grid", gap: 8 }}>
+          {songs.map((track) => (
+            <Link key={track.id} to="/$username/$slug" params={{ username: `@${track.artist.username}`, slug: track.slug }} className="rowlink" style={{ background: "#fff", borderRadius: 16 }}>
+              <span className="media" style={{ width: 56, height: 56, borderRadius: 12 }}><img className="is-in" src={track.artwork} alt="" /></span>
+              <span>{track.title}<small>{track.artist.name} · {track.genre}</small></span>
+              <Sample on={track.sample} />
+            </Link>
           ))}
         </div>
-        <section>
-          <div className="fd-rowhead"><h2>Trending Songs</h2><span>See All</span></div>
-          {songs.length === 0 ? <p className="fd-empty">No {genre} releases are listed yet.</p> : (
-            <div className="fd-songs">
-              {songs.slice(0, 3).map((track) => (
-                <Link key={track.slug} to="/music/$slug" params={{ slug: track.slug }}>
-                  <span className="art"><img src={track.image} alt="" /><Play size={12} /></span>
-                  <span><strong>{track.title}</strong><em>{track.artist}</em></span>
-                  <em className="time">{track.duration}</em>
-                  <Ellipsis size={16} />
-                </Link>
-              ))}
-            </div>
-          )}
-        </section>
-        <section>
-          <div className="fd-rowhead"><h2>Featured Playlists</h2><span>See All</span></div>
-          <div className="fd-rail">
-            {playlists.map((list) => (
-              <article key={list.slug} className="fd-play">
-                <img src={list.image} alt="" />
-                <strong>{list.title}</strong>
-                <em>{list.count}</em>
-              </article>
-            ))}
-          </div>
-        </section>
-        <section>
-          <div className="fd-rowhead"><h2>Top Artists</h2><Link to="/artists">See All</Link></div>
-          <div className="fd-rail">
-            {artists.map((artist) => (
-              <Link key={artist.slug} to="/artists/$slug" params={{ slug: artist.slug }} className="fd-artist">
-                <span><img src={artist.image} alt="" /></span>
-                {artist.name}
-              </Link>
-            ))}
-          </div>
-        </section>
-        <Dock tone="light" />
-      </div>
-    </main>
+      )}
+      <section>
+        <div className="app-row"><h2>Artists</h2><Link to="/artists">See all</Link></div>
+        <div className="app-rail">
+          {data.artists.map((artist) => (
+            <Link key={artist.id} className="person" to="/$username" params={{ username: `@${artist.username}` }}>
+              <Media src={artist.avatar} alt={artist.name} />
+              <span>{artist.name}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </AppFrame>
   );
 }

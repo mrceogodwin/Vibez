@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Check, MapPin, Megaphone, Mic, Music, Ticket, Users } from "lucide-react";
 import { useState } from "react";
 import { genres, places } from "@/lib/feed";
+import { savePersonalisation } from "@/lib/platform.functions";
 
 export const Route = createFileRoute("/personalise")({
   component: PersonalisePage,
@@ -25,11 +26,16 @@ function PersonalisePage() {
     set(list.includes(id) ? list.filter((item) => item !== id) : [...list, id]);
   }
 
-  function finish() {
-    if (picked.length === 0) return;
-    window.localStorage.setItem("vibez.roles", JSON.stringify(picked));
-    window.localStorage.setItem("vibez.genres", JSON.stringify(liked));
+  async function finish(skip = false) {
+    const roles = skip ? ["fan"] : picked;
+    if (roles.length === 0) return;
+    const [city, state] = place.split(",").map((part) => part.trim());
+    window.localStorage.setItem("vibez.roles", JSON.stringify(roles));
+    window.localStorage.setItem("vibez.genres", JSON.stringify(skip ? [] : liked));
     window.localStorage.setItem("vibez.city", place);
+    await savePersonalisation({
+      data: { roles, genres: skip ? [] : liked, city: city || place, state: state || "", country: "Nigeria" },
+    }).catch(() => undefined);
     void navigate({ to: "/home" });
   }
 
@@ -79,8 +85,11 @@ function PersonalisePage() {
               ))}
             </select>
           </label>
-          <button type="button" className="ob-primary" style={{ width: "100%", marginTop: 18 }} onClick={finish}>
+          <button type="button" className="ob-primary" style={{ width: "100%", marginTop: 18 }} onClick={() => void finish(false)}>
             Continue <ArrowRight size={16} />
+          </button>
+          <button type="button" className="ob-ghost" style={{ width: "100%", marginTop: 10 }} onClick={() => void finish(true)}>
+            Skip for now
           </button>
         </section>
       </div>

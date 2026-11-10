@@ -35,6 +35,8 @@ export interface Sql {
     text: string,
     params?: unknown[],
   ): Promise<T[]>;
+  /** One connection, BEGIN/COMMIT. Nested calls reuse the same transaction. */
+  transaction<T>(fn: (tx: Sql) => Promise<T>): Promise<T>;
 }
 
 /**
@@ -70,7 +72,7 @@ const identity = (v: string) => v;
 type Run = <T>(text: string, params: unknown[]) => Promise<T[]>;
 
 /** Wrap a query runner in the tagged-template + `.query()` `Sql` surface. */
-function toSql(run: Run): Sql {
+function toSql(run: Run, transaction: Sql["transaction"]): Sql {
   const sql = (async <T = Record<string, unknown>>(
     strings: TemplateStringsArray,
     ...values: unknown[]
@@ -82,6 +84,7 @@ function toSql(run: Run): Sql {
   }) as unknown as Sql;
   sql.query = <T = Record<string, unknown>>(text: string, params: unknown[] = []) =>
     run<T>(text, params);
+  sql.transaction = transaction;
   return sql;
 }
 
@@ -94,10 +97,32 @@ function createNeonSql(): Promise<Sql> {
     types.setTypeParser(OID_DATE, identity);
     types.setTypeParser(OID_INTERVAL, identity);
     const pool = new Pool({ connectionString: databaseUrl });
+    const transaction: Sql["transaction"] = async (fn) => {
+      const client = await pool.connect();
+      const tx = toSql(async <T>(text: string, params: unknown[]) => {
+        const res = await client.query(text, params);
+        return res.rows as T[];
+      }, async (inner) => inner(tx));
+      try {
+        await client.query("BEGIN");
+        const result = await fn(tx);
+        await client.query("COMMIT");
+        return result;
+      } catch (err) {
+        try {
+          await client.query("ROLLBACK");
+        } catch {
+          /* keep the original error */
+        }
+        throw err;
+      } finally {
+        client.release();
+      }
+    };
     return toSql(async <T>(text: string, params: unknown[]) => {
       const res = await pool.query(text, params);
       return res.rows as T[];
-    });
+    }, transaction);
   })().catch((err) => {
     globalRef.__pgSqlPromise__ = undefined;
     throw err;
@@ -161,10 +186,19 @@ async function createPgliteSql(): Promise<Sql> {
   globalRef.__pgliteMigrateChain__ = pass;
   await pass;
 
+  const transaction: Sql["transaction"] = async (fn) =>
+    pg.transaction(async (pgTx) => {
+      const tx = toSql(async <T>(text: string, params: unknown[]) => {
+        const result = await pgTx.query<T>(text, params);
+        return result.rows;
+      }, async (inner) => inner(tx));
+      return fn(tx);
+    });
+
   return toSql(async <T>(text: string, params: unknown[]) => {
     const result = await pg.query<T>(text, params);
     return result.rows;
-  });
+  }, transaction);
 }
 
 let sqlPromise: Promise<Sql> | null = null;

@@ -1,115 +1,202 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bell, Calendar, Flame, MapPin, Megaphone, Music, Play, Search, SlidersHorizontal, Ticket } from "lucide-react";
+import { Calendar, Flame, MapPin, Megaphone, Music, Play, Search, Ticket } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Dock } from "@/components/vibez/dock";
-import { useCurrentUser } from "@/lib/auth/use-current-user";
-import { spotlight, tracks } from "@/lib/feed";
+import { AppFrame } from "@/components/vibez/frame";
+import { Media, Sample } from "@/components/vibez/media";
+import { naira } from "@/lib/catalogue";
+import { loadHome } from "@/lib/platform.functions";
+import { usePlayer, type Playable } from "@/lib/player-store";
 
 export const Route = createFileRoute("/home")({
+  loader: () => loadHome(),
   component: HomePage,
 });
 
-const tabs = ["For You", "Promotions"] as const;
+const chips = [
+  { id: "for-you", label: "For You" },
+  { id: "music", label: "Music" },
+  { id: "artists", label: "Artists" },
+  { id: "events", label: "Events" },
+  { id: "promotions", label: "Promotions" },
+] as const;
 
 function HomePage() {
-  const user = useCurrentUser();
-  const [tab, setTab] = useState<(typeof tabs)[number]>("For You");
+  const data = Route.useLoaderData();
+  const [chip, setChip] = useState<(typeof chips)[number]["id"]>("for-you");
   const [query, setQuery] = useState("");
-  const shown = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return tracks;
-    return tracks.filter((track) => `${track.title} ${track.artist}`.toLowerCase().includes(q));
-  }, [query]);
-  const initial = (user?.displayName || user?.primaryEmail || "V").charAt(0).toUpperCase();
+  const q = query.trim().toLowerCase();
+  const releases = useMemo(
+    () => data.releases.filter((item) => !q || `${item.title} ${item.artist.name}`.toLowerCase().includes(q)),
+    [data.releases, q],
+  );
+  const artists = useMemo(
+    () => data.artists.filter((item) => !q || item.name.toLowerCase().includes(q)),
+    [data.artists, q],
+  );
+  const events = useMemo(
+    () => data.events.filter((item) => !q || `${item.title} ${item.city}`.toLowerCase().includes(q)),
+    [data.events, q],
+  );
+  const show = (id: (typeof chips)[number]["id"]) => chip === "for-you" || chip === id;
 
   return (
-    <main className="fd-light">
-      <div className="fd">
-        <header className="fd-top">
-          <img src="/brand/vibez-mark-blue.png" alt="Vibez" />
-          <div className="fd-tools">
-            <Link to="/activity" aria-label="Activity">
-              <Bell size={20} />
-            </Link>
-            <Link to="/profile" className="fd-avatar" aria-label="Profile">{initial}</Link>
-          </div>
-        </header>
-        <div className="fd-searchrow">
-          <div className="fd-search is-light">
-            <Search size={16} />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search music, artists, events, shows..." />
-          </div>
-          <Link to="/discover" className="fd-filter" aria-label="Filters"><SlidersHorizontal size={16} /></Link>
-        </div>
-        <div className="fd-tabs">
-          <button type="button" className={tab === "For You" ? "is-on" : undefined} onClick={() => setTab("For You")}>For You</button>
-          <Link to="/music">Music</Link>
-          <Link to="/artists">Artists</Link>
-          <Link to="/events">Events</Link>
-          <button type="button" className={tab === "Promotions" ? "is-on" : undefined} onClick={() => setTab("Promotions")}>Promotions</button>
-        </div>
-        {tab === "For You" ? (
-          <section className="fd-hero">
-            <img src="/media/hero-artist.jpg" alt="" />
-            <div>
-              <h1>New Music Out Now</h1>
-              <p>Listen, share and support the hottest releases on Vibez.</p>
-              <Link to="/music/$slug" params={{ slug: tracks[0].slug }}>
-                <Play size={14} fill="currentColor" /> Listen Now
-              </Link>
+    <AppFrame>
+      <form className="app-search" role="search" onSubmit={(event) => event.preventDefault()}>
+        <Search size={18} />
+        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search music, artists, events" aria-label="Search" />
+      </form>
+      <div className="app-chips" role="tablist" aria-label="Home sections">
+        {chips.map((item) => (
+          <button key={item.id} type="button" className={chip === item.id ? "app-chip is-on" : "app-chip"} onClick={() => setChip(item.id)}>
+            {item.label}
+          </button>
+        ))}
+      </div>
+      <div className="home-split">
+        <div>
+          {show("music") && data.hero ? (
+            <section className="app-hero">
+              <Media src={data.hero.image} alt="" />
+              <div className="copy">
+                {data.hero.sponsored ? <em className="pill">Sponsored</em> : null}{" "}
+                <Sample on={data.hero.sample} />
+                <h1>{data.hero.title}</h1>
+                <p>{data.hero.subtitle}</p>
+                <Link className="btn small" to="/$username/$slug" params={songParams(data.hero.href)}>
+                  <Play size={14} fill="currentColor" /> Listen now
+                </Link>
+              </div>
+            </section>
+          ) : null}
+          {chip === "for-you" || chip === "promotions" ? (
+            <div className="app-actions">
+              <Link className="app-action app-press" to="/studio"><span><Music size={20} /></span><em>Placements</em></Link>
+              <Link className="app-action app-press" to="/studio"><span><Megaphone size={20} /></span><em>Promote</em></Link>
+              <Link className="app-action app-press" to="/events"><span><Ticket size={20} /></span><em>Tickets</em></Link>
+              <Link className="app-action app-press" to="/create"><span><Calendar size={20} /></span><em>New event</em></Link>
+              <Link className="app-action app-press" to="/ads"><span><Flame size={20} /></span><em>Advertise</em></Link>
             </div>
-          </section>
-        ) : null}
-        {tab === "For You" || tab === "Promotions" ? (
-          <div className="fd-actions">
-            <Link to="/promote"><span className="c1"><Music size={18} /></span>Music Placements</Link>
-            <Link to="/promote"><span className="c2"><Megaphone size={18} /></span>Promote Music</Link>
-            <Link to="/events"><span className="c3"><Ticket size={18} /></span>Event Tickets</Link>
-            <Link to="/create"><span className="c4"><Calendar size={18} /></span>List an Event</Link>
-            <Link to="/promote"><span className="c5"><Flame size={18} /></span>Run an Ad Campaign</Link>
-          </div>
-        ) : null}
-        {tab === "For You" ? (
-          <section>
-            <div className="fd-rowhead">
-              <h2>Trending Music</h2>
-              <Link to="/discover">See All</Link>
-            </div>
-            {shown.length === 0 ? <p className="fd-empty">Nothing matches that search.</p> : (
-              <div className="fd-rail">
-                {shown.map((track) => (
-                  <Link key={track.slug} to="/music/$slug" params={{ slug: track.slug }} className="fd-track">
-                    <span className="art"><img src={track.image} alt="" /><Play size={14} /></span>
-                    <strong>{track.title}</strong>
-                    <em>{track.artist}</em>
+          ) : null}
+          {show("music") ? (
+            <section>
+              <div className="app-row"><h2>Trending music</h2><Link to="/music">See all</Link></div>
+              {releases.length === 0 ? <p className="note">Nothing matches that search.</p> : (
+                <div className="app-rail">
+                  {releases.map((track) => <TrackCard key={track.id} track={track} queue={releases} />)}
+                </div>
+              )}
+            </section>
+          ) : null}
+          {show("artists") ? (
+            <section>
+              <div className="app-row"><h2>Artists</h2><Link to="/artists">See all</Link></div>
+              <div className="app-rail">
+                {artists.map((artist) => (
+                  <Link key={artist.id} to="/$username" params={{ username: `@${artist.username}` }} className="person">
+                    <Media src={artist.avatar} alt={artist.name} />
+                    <span>{artist.name}</span>
                   </Link>
                 ))}
               </div>
-            )}
-          </section>
-        ) : null}
-        {tab === "For You" ? (
-          <section>
-            <div className="fd-rowhead">
-              <h2>Upcoming Events</h2>
-              <Link to="/events">See All</Link>
-            </div>
-            <article className="fd-event is-light">
-              <img src={spotlight.image} alt="" />
-              <div>
-                <strong>{spotlight.title}</strong>
-                <p><Calendar size={13} /> {spotlight.when}</p>
-                <p><MapPin size={13} /> {spotlight.city}</p>
-                <div>
-                  <span>{spotlight.tag}</span>
-                  <Link to="/events">Get Tickets</Link>
-                </div>
+            </section>
+          ) : null}
+        </div>
+        <div>
+          {show("events") ? (
+            <section>
+              <div className="app-row"><h2>Upcoming events</h2><Link to="/events">See all</Link></div>
+              <div style={{ display: "grid", gap: 12 }}>
+                {events.slice(0, 3).map((event) => (
+                  <Link key={event.slug} to="/events/$slug" params={{ slug: event.slug }} className="event-card app-press">
+                    <span style={{ position: "relative", display: "block" }}>
+                      <Media src={event.cover} alt="" />
+                      {event.sample ? <span className="badge-abs"><Sample on /></span> : null}
+                    </span>
+                    <div className="body">
+                      <strong>{event.title}</strong>
+                      <p><Calendar size={14} /> {event.start ? new Date(event.start).toLocaleDateString("en-NG", { weekday: "short", month: "short", day: "numeric" }) : ""}</p>
+                      <p><MapPin size={14} /> {event.city}</p>
+                      <div className="foot">
+                        <span className="price">From {naira(event.fromKobo)}</span>
+                        <span className="btn small">Get tickets</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
-            </article>
-          </section>
-        ) : null}
-        <Dock tone="light" />
+            </section>
+          ) : null}
+          {show("promotions") ? (
+            <section>
+              <div className="app-row"><h2>Promotions</h2><Link to="/ads">Inventory</Link></div>
+              {data.promotions.length === 0 ? (
+                <div className="empty">
+                  <div className="mark"><Megaphone /></div>
+                  <h2>No live campaigns</h2>
+                  <p>Sponsored cards appear here only after a campaign is approved and active. Sample artists are labelled separately.</p>
+                </div>
+              ) : data.promotions.map((item) => (
+                <article key={item.id} className="panel">
+                  <em className="pill">Sponsored</em>
+                  <h2>{item.headline || item.name}</h2>
+                  <p>{item.body}</p>
+                </article>
+              ))}
+            </section>
+          ) : null}
+        </div>
       </div>
-    </main>
+    </AppFrame>
   );
+}
+
+function songParams(href: string) {
+  const match = href.match(/^\/@([^/]+)\/([^/]+)/);
+  if (!match) return { username: "@mudino", slug: "montana" };
+  return { username: `@${match[1]}`, slug: match[2] };
+}
+
+export function TrackCard({ track, queue }: { track: PlayableSource; queue: PlayableSource[] }) {
+  const play = usePlayer((state) => state.play);
+  const playable = toPlayable(track);
+  return (
+    <Link
+      to="/$username/$slug"
+      params={{ username: `@${track.artist.username}`, slug: track.slug }}
+      className="track-card app-press"
+      onClick={() => play(playable, queue.map(toPlayable))}
+    >
+      <span style={{ position: "relative", display: "block" }}>
+        <Media src={track.artwork} alt={`${track.title} artwork`} />
+        {track.sample ? <span className="badge-abs"><Sample on /></span> : null}
+      </span>
+      <strong>{track.title}</strong>
+      <em>{track.artist.name}</em>
+    </Link>
+  );
+}
+
+type PlayableSource = {
+  id: string;
+  title: string;
+  artwork: string;
+  slug: string;
+  previewUrl: string | null;
+  durationSeconds: number | null;
+  sample: boolean;
+  artist: { username: string; name: string };
+};
+
+function toPlayable(track: PlayableSource): Playable {
+  return {
+    id: track.id,
+    title: track.title,
+    artist: track.artist.name,
+    artwork: track.artwork,
+    username: track.artist.username,
+    slug: track.slug,
+    previewUrl: track.previewUrl,
+    durationSeconds: track.durationSeconds,
+    sample: track.sample,
+  };
 }

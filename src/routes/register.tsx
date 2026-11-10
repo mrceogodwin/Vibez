@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Check, Eye, EyeOff, Lock, Mail, Megaphone, Music, Ticket, User, Users } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { authClient, authEnabled, signIn } from "@/lib/auth/client";
+import { authClient, authEnabled, signIn, GROK_PROVIDERS } from "@/lib/auth/client";
+import { savePersonalisation, sendVerification } from "@/lib/platform.functions";
 
 export const Route = createFileRoute("/register")({
   component: RegisterPage,
@@ -53,6 +54,7 @@ function RegisterPage() {
       return;
     }
     window.localStorage.setItem("vibez.roles", JSON.stringify(picked));
+    await savePersonalisation({ data: { roles: picked, genres: [], city: "" } }).catch(() => undefined);
     void navigate({ to: "/verify", search: { email: email.trim() } });
   }
 
@@ -115,14 +117,19 @@ function RegisterPage() {
               {show ? <Eye size={18} /> : <EyeOff size={18} />}
             </button>
           </label>
+          <p className="ob-legal">By creating an account you agree to the <Link to="/legal/$doc" params={{ doc: "terms" }}>Terms</Link> and <Link to="/legal/$doc" params={{ doc: "privacy" }}>Privacy Policy</Link>.</p>
           {error ? <p className="ob-error">{error}</p> : null}
           <button className="ob-primary" type="submit" disabled={pending} style={{ width: "100%", marginTop: 16 }}>
             {pending ? "Creating…" : "Create Account"}
           </button>
           <div className="ob-or">or continue with</div>
-          <button type="button" className="ob-google" onClick={() => void signIn("google", { callbackURL: "/personalise" })}>
-            <GoogleMark /> Continue with Google
-          </button>
+          {authEnabled ? (
+            <button type="button" className="ob-google" onClick={() => void signIn(GROK_PROVIDERS.find((item) => item.idp === "google")?.providerId ?? "grok-google", { callbackURL: "/personalise" })}>
+              <GoogleMark /> Continue with Google
+            </button>
+          ) : (
+            <p className="note">Google sign-in is not configured in this build.</p>
+          )}
           <p className="ob-switch">
             Already have an account? <Link to="/login">Log In</Link>
           </p>
