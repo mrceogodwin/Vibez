@@ -103,7 +103,7 @@ function SongPage() {
           <button type="button" className="ghost" aria-label="Repeat" onClick={cycleRepeat}><Repeat color={repeat === "off" ? "currentColor" : "#1016c9"} /></button>
         </div>
         {!release.previewUrl ? (
-          <p className="note">No licensed preview is attached to this release, so Vibez is not playing the recording. {release.sample ? "This is sample catalogue data." : ""}</p>
+          <p className="note">No preview for this song yet.</p>
         ) : null}
         {release.links.length ? (
           <div className="group">

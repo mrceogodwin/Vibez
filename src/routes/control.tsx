@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { RealChart, Stat } from "@/components/vibez/board";
 import { AppFrame } from "@/components/vibez/frame";
 import { naira } from "@/lib/catalogue";
 import { loadControl, runControl } from "@/lib/platform.functions";
@@ -15,7 +16,7 @@ function ControlPage() {
   const [section, setSection] = useState("Overview");
 
   function refresh() {
-    loadControl().then(setData).catch((error) => setMessage(error instanceof Error ? error.message : "Sign in required."));
+    loadControl().then(setData).catch(() => setMessage("sign-in"));
   }
   useEffect(() => { refresh(); }, []);
 
@@ -29,13 +30,24 @@ function ControlPage() {
     }
   }
 
-  if (!data) return <AppFrame><p className="note">{message || "Loading Control Room…"}</p></AppFrame>;
+  if (!data && message === "sign-in") {
+    return (
+      <AppFrame>
+        <div className="board">
+          <p className="board-kicker">Team</p>
+          <h1>Control Room</h1>
+          <div className="empty"><h2>Team only</h2><p>Sign in with a Vibez team account.</p><Link className="btn" to="/login">Log in</Link></div>
+        </div>
+      </AppFrame>
+    );
+  }
+  if (!data) return <AppFrame><div className="skel" style={{ height: 220, marginTop: 16 }} /></AppFrame>;
   if (!data.allowed) {
     return (
       <AppFrame>
         <div className="empty">
-          <h2>Control Room is locked</h2>
-          <p>Set VIBEZ_ADMIN_EMAILS to a comma-separated list of admin emails. This account is not on that list.</p>
+          <h2>Team only</h2>
+          <p>This space is for the Vibez team.</p>
         </div>
       </AppFrame>
     );
@@ -50,7 +62,6 @@ function ControlPage() {
           <button key={item} type="button" className={section === item ? "is-on" : undefined} onClick={() => setSection(item)}>{item}</button>
         ))}
       </div>
-      {data.previewAdmin ? <p className="note">Local preview admin, because sign-in is off and there is no production database. This access is not used when the app is deployed with auth on.</p> : null}
       {section === "Overview" || section === "Finance" ? (
         <>
           <div className="stats">
@@ -63,7 +74,21 @@ function ControlPage() {
             <div><strong>{m.advertisers}</strong><span>Advertisers</span></div>
             <div><strong>{naira(m.paymentKobo)}</strong><span>Confirmed payments</span></div>
           </div>
-          <p className="note">{m.sampleArtists} sample artist profiles can be hidden. Published events exclude samples: {m.publishedEvents}. Communities excluding samples: {m.communities}.</p>
+          <div className="hero-stats" style={{ marginTop: 12 }}>
+            <Stat label="Accounts" value={String(m.users)} />
+            <Stat label="Artists" value={String(m.artists)} />
+            <Stat label="Tickets" value={String(m.ticketsIssued)} />
+          </div>
+          <RealChart
+            data={[
+              { name: "Accounts", value: m.users },
+              { name: "Artists", value: m.artists },
+              { name: "Events", value: m.publishedEvents },
+              { name: "Tickets", value: m.ticketsIssued },
+            ]}
+            empty="Counts appear as people join and tickets sell."
+          />
+          <p className="note">{m.sampleArtists} sample profiles. {m.publishedEvents} live events. {m.communities} communities.</p>
         </>
       ) : null}
       {message ? <p className="warn">{message}</p> : null}
@@ -94,7 +119,7 @@ function ControlPage() {
       </section> : null}
       {section === "Staff" ? <section>
         <h2>Staff</h2>
-        {data.staff.length === 0 ? <p className="note">No staff records yet. Emails in VIBEZ_ADMIN_EMAILS become super admins when they sign in.</p> : data.staff.map((person) => (
+        {data.staff.length === 0 ? <p className="note">No teammates yet.</p> : data.staff.map((person) => (
           <article key={person.userId} className="panel"><strong>{person.role}</strong><p>{person.userId}</p></article>
         ))}
       </section> : null}

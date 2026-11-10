@@ -12,7 +12,7 @@ export const Route = createFileRoute("/checkout/return")({
 
 function ReturnPage() {
   const { reference } = Route.useSearch();
-  const [message, setMessage] = useState("Checking this payment with Paystack…");
+  const [message, setMessage] = useState("Checking your payment…");
   const [ok, setOk] = useState(false);
 
   useEffect(() => {

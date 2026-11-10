@@ -82,7 +82,7 @@ function ProfilePage() {
           <label className="field">City<input value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })} /></label>
           <label className="field">State<input value={form.state} onChange={(event) => setForm({ ...form, state: event.target.value })} /></label>
           <label className="field">Photo URL<input value={form.avatarUrl} onChange={(event) => setForm({ ...form, avatarUrl: event.target.value })} placeholder="https://" /></label>
-          {!bundle.integrations.storage ? <p className="note">Object storage is not configured. Paste an image URL. Set BLOB_READ_WRITE_TOKEN to enable uploads.</p> : null}
+          <p className="note">Paste a photo link for now.</p>
           {message ? <p className="warn">{message}</p> : null}
           <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
             <button type="button" className="btn" onClick={() => void save()}>Save</button>

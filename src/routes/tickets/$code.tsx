@@ -39,7 +39,7 @@ function TicketPage() {
               <div><span>Venue</span><strong>{ticket.venue}</strong></div>
               <div><span>Code</span><strong>{ticket.code}</strong></div>
             </div>
-            <p className="note" style={{ marginTop: 12 }}>This QR is a ticket token. It does not include payment details. The gate checks it on the server, once.</p>
+            <p className="note" style={{ marginTop: 12 }}>Show this at the door. It works once.</p>
           </div>
         </article>
       ) : null}

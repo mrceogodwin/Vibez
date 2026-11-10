@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { MapPin } from "lucide-react";
+import { Calendar, MapPin, Minus, Plus, X } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { AppFrame } from "@/components/vibez/frame";
 import { Media, Sample } from "@/components/vibez/media";
@@ -11,11 +11,19 @@ export const Route = createFileRoute("/events/$slug")({
   component: EventPage,
 });
 
+function friendly(error: string) {
+  if (/paystack|configured|server|control room|catalogue|sample listing/i.test(error)) {
+    return "Payments aren't available for this one.";
+  }
+  return error;
+}
+
 function EventPage() {
   const { slug } = Route.useParams();
   const { events, curators } = Route.useLoaderData();
   const event = events.find((item) => item.slug === slug);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [tierCode, setTierCode] = useState(event?.tickets[0]?.code ?? "");
   const [qty, setQty] = useState(1);
   const [buyerName, setBuyerName] = useState("");
@@ -25,15 +33,22 @@ function EventPage() {
   const [pending, setPending] = useState(false);
 
   if (!event) {
-    return <AppFrame><div className="empty"><h2>Event not listed</h2><Link className="btn" to="/events">Back to events</Link></div></AppFrame>;
+    return (
+      <AppFrame>
+        <div className="empty"><h2>Event not found</h2><Link className="btn" to="/events">All events</Link></div>
+      </AppFrame>
+    );
   }
+
   const tier = event.tickets.find((item) => item.code === tierCode) ?? event.tickets[0];
   const curator = curators.find((item) => item.slug === event.curator);
   const subtotal = tier ? tier.priceKobo * qty : 0;
+  const when = event.start && event.end ? formatWhen(event.start, event.end) : "";
+  const maps = `https://maps.apple.com/?q=${encodeURIComponent(`${event.venue}, ${event.address}`)}`;
 
   async function pay(formEvent: FormEvent) {
     formEvent.preventDefault();
-    if (!tier) return;
+    if (!tier || event?.sample) return;
     setPending(true);
     setMessage("");
     try {
@@ -41,17 +56,16 @@ function EventPage() {
         data: { eventSlug: event!.slug, tierCode: tier.code, qty, buyerName, buyerEmail, buyerPhone },
       });
       if (!result.configured) {
-        setMessage(result.message);
+        setMessage("Payments aren't available right now.");
         return;
       }
       if (result.free) {
         await navigate({ to: "/checkout/return", search: { reference: result.reference } });
         return;
       }
-      if (result.message) setMessage(result.message);
       window.location.assign(result.authorizationUrl);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Checkout failed.");
+      setMessage(friendly(error instanceof Error ? error.message : "Couldn't start checkout."));
     } finally {
       setPending(false);
     }
@@ -59,44 +73,104 @@ function EventPage() {
 
   return (
     <AppFrame>
-      <div className="app-hero" style={{ minHeight: 210 }}>
-        <Media src={event.cover} alt="" />
-        <div className="copy">
-          <Sample on={event.sample} />
-          <h1>{event.title}</h1>
-          <p>{event.category} · {event.city}</p>
+      <article className="ev">
+        <div className="ev-hero">
+          <Media src={event.cover} alt="" />
+          <div className="ev-shade" />
+          <div className="ev-title">
+            <Sample on={event.sample} />
+            <h1>{event.title}</h1>
+            <p>{event.category} · {event.city}</p>
+          </div>
         </div>
-      </div>
-      <div className="panel">
-        <p><MapPin size={14} /> {event.venue} · {event.address}</p>
-        <p>{event.start && event.end ? formatWhen(event.start, event.end) : ""}</p>
-        <p>{event.description}</p>
-        {event.ageNote ? <p className="note">{event.ageNote}</p> : null}
-        {event.refundPolicy ? <p className="note">{event.refundPolicy}</p> : null}
-        {curator ? <p><Link to="/curators/$slug" params={{ slug: curator.slug }}>{curator.name}</Link> · {curator.role}</p> : null}
-      </div>
-      <form className="panel" onSubmit={(eventForm) => void pay(eventForm)}>
-        <h2>Tickets</h2>
-        {event.sample ? <p className="note">This is sample catalogue data. Tickets are not on sale.</p> : null}
-        {event.tickets.map((item) => (
-          <label key={item.code} className="rowlink" style={{ cursor: "pointer" }}>
-            <input type="radio" name="tier" checked={tier?.code === item.code} onChange={() => setTierCode(item.code)} />
-            <span>{item.name}<small>{item.detail} · {item.remaining} left of {item.quantity}</small></span>
-            <strong>{item.priceKobo === 0 ? "Free" : naira(item.priceKobo)}</strong>
-          </label>
-        ))}
-        <label className="field">Quantity
-          <input type="number" min={1} max={10} value={qty} onChange={(eventInput) => setQty(Number(eventInput.target.value))} />
-        </label>
-        <label className="field">Attendee name<input value={buyerName} onChange={(eventInput) => setBuyerName(eventInput.target.value)} required /></label>
-        <label className="field">Email<input type="email" value={buyerEmail} onChange={(eventInput) => setBuyerEmail(eventInput.target.value)} required /></label>
-        <label className="field">Phone<input value={buyerPhone} onChange={(eventInput) => setBuyerPhone(eventInput.target.value)} /></label>
-        <p className="note">Ticket subtotal {naira(subtotal)}. The service fee is added on the server from the Control Room setting. A redirect from Paystack is not treated as payment.</p>
-        {message ? <p className="warn">{message}</p> : null}
-        <button className="btn" type="submit" disabled={pending || event.sample} style={{ width: "100%", marginTop: 12 }}>
-          {event.sample ? "Sample listing" : pending ? "Starting…" : subtotal === 0 ? "Get free tickets" : "Pay with Paystack"}
+        <div className="ev-chips">
+          <span><Calendar size={14} /> {when}</span>
+          <span><MapPin size={14} /> {event.venue}</span>
+        </div>
+        <p className="ev-about">{event.blurb || event.description}</p>
+        <section className="ev-tiers">
+          <h2>Tickets</h2>
+          {event.tickets.map((item) => (
+            <button
+              key={item.code}
+              type="button"
+              className={tier?.code === item.code ? "tier is-on" : "tier"}
+              onClick={() => { setTierCode(item.code); setQty(1); setOpen(true); }}
+            >
+              <span><strong>{item.name}</strong><em>{item.detail}</em></span>
+              <b>{item.priceKobo === 0 ? "Free" : naira(item.priceKobo)}</b>
+            </button>
+          ))}
+        </section>
+        <section>
+          <h2>Lineup</h2>
+          {curator ? (
+            <Link to="/curators/$slug" params={{ slug: curator.slug }} className="lineup">
+              <span className="media"><img src={curator.photo} alt="" /></span>
+              <span><strong>{curator.name}</strong><em>{curator.role}</em></span>
+            </Link>
+          ) : <p className="note">Lineup coming soon.</p>}
+        </section>
+        <section>
+          <h2>Venue</h2>
+          <a className="venue" href={maps}>
+            <span className="venue-map" aria-hidden="true" />
+            <span>
+              <strong>{event.venue}</strong>
+              <em>{event.address}</em>
+            </span>
+          </a>
+        </section>
+      </article>
+      <div className="buybar">
+        <div>
+          <span>From</span>
+          <strong>{tier ? (tier.priceKobo === 0 ? "Free" : naira(tier.priceKobo)) : "—"}</strong>
+        </div>
+        <button type="button" className="btn" onClick={() => setOpen(true)}>
+          {event.sample ? "Preview" : "Get tickets"}
         </button>
-      </form>
+      </div>
+      {open ? (
+        <div className="sheet is-open">
+          <button type="button" className="sheet-bg" aria-label="Close" onClick={() => setOpen(false)} />
+          <form className="sheet-card checkout" onSubmit={(formEvent) => void pay(formEvent)}>
+            <div className="sheet-handle" />
+            <div className="checkout-head">
+              <div>
+                <h2>{event.title}</h2>
+                <p>{when}</p>
+              </div>
+              <button type="button" className="app-iconbtn" aria-label="Close" onClick={() => setOpen(false)}><X size={16} /></button>
+            </div>
+            <div className="checkout-tiers">
+              {event.tickets.map((item) => (
+                <button key={item.code} type="button" className={tier?.code === item.code ? "tier is-on" : "tier"} onClick={() => { setTierCode(item.code); setQty(1); }}>
+                  <span><strong>{item.name}</strong><em>{item.detail}</em></span>
+                  <b>{item.priceKobo === 0 ? "Free" : naira(item.priceKobo)}</b>
+                </button>
+              ))}
+            </div>
+            <div className="stepper">
+              <span>Quantity</span>
+              <div>
+                <button type="button" aria-label="Fewer" onClick={() => setQty((value) => Math.max(1, value - 1))}><Minus size={16} /></button>
+                <strong>{qty}</strong>
+                <button type="button" aria-label="More" onClick={() => setQty((value) => Math.min(10, value + 1))}><Plus size={16} /></button>
+              </div>
+            </div>
+            <label className="field">Name<input value={buyerName} onChange={(input) => setBuyerName(input.target.value)} required autoComplete="name" /></label>
+            <label className="field">Email<input type="email" value={buyerEmail} onChange={(input) => setBuyerEmail(input.target.value)} required autoComplete="email" /></label>
+            <label className="field">Phone<input value={buyerPhone} onChange={(input) => setBuyerPhone(input.target.value)} autoComplete="tel" inputMode="tel" /></label>
+            <div className="summary">
+              <span>{qty} × {tier?.name}</span>
+              <strong>{naira(subtotal)}</strong>
+            </div>
+            {message ? <p className="warn">{message}</p> : null}
+            <button className="btn" type="submit" disabled={pending || event.sample}>{event.sample ? "Not for sale" : pending ? "One moment…" : subtotal === 0 ? "Get tickets" : `Pay ${naira(subtotal)}`}</button>
+          </form>
+        </div>
+      ) : null}
     </AppFrame>
   );
 }
