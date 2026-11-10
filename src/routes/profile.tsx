@@ -30,7 +30,12 @@ function ProfilePage() {
         {city ? <p className="fd-sub">Location: {city}</p> : null}
         {roles.length ? <p className="fd-sub">Roles: {roles.join(", ")}</p> : null}
         {genres.length ? <p className="fd-sub">Genres: {genres.join(", ")}</p> : null}
-        <p className="fd-switch"><Link to="/personalise">Edit preferences</Link></p>
+        <div className="fd-menu">
+          <Link to="/account">Tickets and saved events</Link>
+          <Link to="/events">Browse events</Link>
+          <Link to="/create">List an event</Link>
+          <Link to="/personalise">Edit preferences</Link>
+        </div>
         <Dock tone="light" />
       </div>
     </main>

@@ -20,6 +20,7 @@ import { Route as OrganiserRouteImport } from './routes/organiser'
 import { Route as PersonaliseRouteImport } from './routes/personalise'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PromoteRouteImport } from './routes/promote'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TvRouteImport } from './routes/tv'
@@ -87,6 +88,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromoteRoute = PromoteRouteImport.update({
+  id: '/promote',
+  path: '/promote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -167,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/personalise': typeof PersonaliseRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/promote': typeof PromoteRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/tv': typeof TvRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/personalise': typeof PersonaliseRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/promote': typeof PromoteRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/tv': typeof TvRoute
@@ -220,6 +228,7 @@ export interface FileRoutesById {
   '/personalise': typeof PersonaliseRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/promote': typeof PromoteRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/tv': typeof TvRoute
@@ -248,6 +257,7 @@ export interface FileRouteTypes {
     | '/personalise'
     | '/privacy'
     | '/profile'
+    | '/promote'
     | '/register'
     | '/terms'
     | '/tv'
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/personalise'
     | '/privacy'
     | '/profile'
+    | '/promote'
     | '/register'
     | '/terms'
     | '/tv'
@@ -300,6 +311,7 @@ export interface FileRouteTypes {
     | '/personalise'
     | '/privacy'
     | '/profile'
+    | '/promote'
     | '/register'
     | '/terms'
     | '/tv'
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   PersonaliseRoute: typeof PersonaliseRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
+  PromoteRoute: typeof PromoteRoute
   RegisterRoute: typeof RegisterRoute
   TermsRoute: typeof TermsRoute
   TvRoute: typeof TvRoute
@@ -419,6 +432,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promote': {
+      id: '/promote'
+      path: '/promote'
+      fullPath: '/promote'
+      preLoaderRoute: typeof PromoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -527,6 +547,7 @@ const rootRouteChildren: RootRouteChildren = {
   PersonaliseRoute: PersonaliseRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
+  PromoteRoute: PromoteRoute,
   RegisterRoute: RegisterRoute,
   TermsRoute: TermsRoute,
   TvRoute: TvRoute,

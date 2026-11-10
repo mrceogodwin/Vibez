@@ -42,9 +42,9 @@ export function Dock({ tone }: { tone: "dark" | "light" }) {
                 <X size={18} />
               </button>
             </div>
+            <Link to="/music" onClick={() => setOpen(false)}>Submit music</Link>
             <Link to="/create" onClick={() => setOpen(false)}>List an event</Link>
-            <Link to="/discover" onClick={() => setOpen(false)}>Promote music</Link>
-            <Link to="/discover" onClick={() => setOpen(false)}>Run an ad campaign</Link>
+            <Link to="/promote" onClick={() => setOpen(false)}>Run an ad campaign</Link>
           </div>
         </div>
       ) : null}

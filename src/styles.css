@@ -251,3 +251,23 @@
 .fd-switch a{color:#1016C9;font-weight:800}
 @media (min-width:900px){.ob{box-shadow:0 20px 60px rgba(8,16,80,.18)}}
 @media (prefers-reduced-motion:reduce){.ob-splash{animation:none}}
+
+.vz-app.is-light{background:#f6f7fb;color:#101426}
+.vz-app.is-light .vz-top{background:#fff;border-bottom:1px solid #e6eaf3;position:sticky}
+.vz-app.is-light .vz-logo{width:118px;height:auto;display:block}
+.vz-app.is-light .vz-icon{background:#fff;border-color:#e6eaf3;color:#101426}
+.vz-app.is-light .vz-main{padding-bottom:108px}
+.vz-app.is-light .vz-dock{display:none}
+.vz-app.is-light .vz-page-title,.vz-app.is-light .vz-detail h1,.vz-app.is-light .vz-card-title{color:#101426}
+.vz-app.is-light .vz-sub,.vz-app.is-light .vz-prose,.vz-app.is-light .vz-meta,.vz-app.is-light .vz-note,.vz-app.is-light .vz-price{color:#69738a}
+.vz-app.is-light .vz-card,.vz-app.is-light .vz-panel,.vz-app.is-light .vz-poster,.vz-app.is-light .vz-empty{background:#fff;border-color:#e6eaf3;color:#101426}
+.vz-app.is-light .vz-chip{background:#fff;color:#101426;border-color:#e6eaf3}
+.vz-app.is-light .vz-chip.is-on,.vz-app.is-light .vz-btn{background:#1016C9;color:#fff;border-color:transparent}
+.vz-app.is-light .vz-field input,.vz-app.is-light .vz-field textarea,.vz-app.is-light .vz-field select,.vz-app.is-light .vz-searchbox{background:#fff;color:#101426;border-color:#e6eaf3}
+.vz-app.is-light .vz-menu-panel{background:#fff;color:#101426;border-color:#e6eaf3}
+.vz-app.is-light .vz-menu-panel a{color:#101426}
+.vz-app.is-light .vz-menu-panel a.is-on{color:#1016C9}
+.vz-app.is-light .vz-kicker,.vz-app.is-light .vz-more{color:#1016C9}
+.vz-app.is-light .vz-back{color:#1016C9}
+.fd-menu{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.fd-menu a{background:#fff;border-radius:14px;padding:14px;font-weight:800;color:#101426;text-decoration:none;border:1px solid #e6eaf3}

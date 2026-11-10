@@ -30,7 +30,7 @@ function AccountPage() {
   return (
     <Shell>
       <h1 className="vz-page-title">Account</h1>
-      <p className="vz-sub">Saved on this device. This is not a signed-in VIBEZ account and it does not take payment.</p>
+      <p className="vz-sub">Saved events and ticket holds on this device. Payment is not taken here.</p>
 
       <section className="vz-panel">
         <h2>{profile ? profile.name : "Your name on this device"}</h2>

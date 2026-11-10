@@ -62,11 +62,11 @@ function HomePage() {
         ) : null}
         {tab === "For You" || tab === "Promotions" ? (
           <div className="fd-actions">
-            <Link to="/discover"><span className="c1"><Music size={18} /></span>Music Placements</Link>
-            <Link to="/discover"><span className="c2"><Megaphone size={18} /></span>Promote Music</Link>
+            <Link to="/promote"><span className="c1"><Music size={18} /></span>Music Placements</Link>
+            <Link to="/promote"><span className="c2"><Megaphone size={18} /></span>Promote Music</Link>
             <Link to="/events"><span className="c3"><Ticket size={18} /></span>Event Tickets</Link>
             <Link to="/create"><span className="c4"><Calendar size={18} /></span>List an Event</Link>
-            <Link to="/discover"><span className="c5"><Flame size={18} /></span>Run an Ad Campaign</Link>
+            <Link to="/promote"><span className="c5"><Flame size={18} /></span>Run an Ad Campaign</Link>
           </div>
         ) : null}
         {tab === "For You" ? (
