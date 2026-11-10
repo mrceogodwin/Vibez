@@ -35,7 +35,7 @@ function ActivityPage() {
           <Link className="btn" to="/login">Log in</Link>
         </div>
       ) : items === null ? (
-        <div className="panel">Loading your activity…</div>
+        <div className="skel" style={{ height: 180, marginTop: 16 }} />
       ) : items.length === 0 ? (
         <div className="empty">
           <div className="mark"><Bell /></div>

@@ -22,6 +22,10 @@ type PlayerState = {
   toggle: () => void;
   next: () => void;
   prev: () => void;
+  progress: number;
+  duration: number;
+  setTimes: (progress: number, duration: number) => void;
+  jump: (index: number) => void;
   seekRequest: number | null;
   requestSeek: (seconds: number) => void;
   clearSeek: () => void;
@@ -36,7 +40,15 @@ export const usePlayer = create<PlayerState>((set, get) => ({
   playing: false,
   shuffle: false,
   repeat: "off",
+  progress: 0,
+  duration: 0,
   seekRequest: null,
+  setTimes: (progress, duration) => set({ progress, duration }),
+  jump: (index) => {
+    const track = get().queue[index];
+    if (!track) return;
+    set({ index, playing: Boolean(track.previewUrl), seekRequest: 0, progress: 0 });
+  },
   play: (track, queue) => {
     const list = queue?.length ? queue : [track];
     const index = Math.max(0, list.findIndex((item) => item.id === track.id));

@@ -22,6 +22,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as OrganiseRouteImport } from './routes/organise'
 import { Route as OrganiserRouteImport } from './routes/organiser'
 import { Route as PersonaliseRouteImport } from './routes/personalise'
+import { Route as PlayerRouteImport } from './routes/player'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PromoteRouteImport } from './routes/promote'
@@ -112,6 +113,11 @@ const OrganiserRoute = OrganiserRouteImport.update({
 const PersonaliseRoute = PersonaliseRouteImport.update({
   id: '/personalise',
   path: '/personalise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayerRoute = PlayerRouteImport.update({
+  id: '/player',
+  path: '/player',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -259,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/organise': typeof OrganiseRoute
   '/organiser': typeof OrganiserRoute
   '/personalise': typeof PersonaliseRoute
+  '/player': typeof PlayerRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/promote': typeof PromoteRoute
@@ -300,6 +307,7 @@ export interface FileRoutesByTo {
   '/organise': typeof OrganiseRoute
   '/organiser': typeof OrganiserRoute
   '/personalise': typeof PersonaliseRoute
+  '/player': typeof PlayerRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/promote': typeof PromoteRoute
@@ -342,6 +350,7 @@ export interface FileRoutesById {
   '/organise': typeof OrganiseRoute
   '/organiser': typeof OrganiserRoute
   '/personalise': typeof PersonaliseRoute
+  '/player': typeof PlayerRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/promote': typeof PromoteRoute
@@ -385,6 +394,7 @@ export interface FileRouteTypes {
     | '/organise'
     | '/organiser'
     | '/personalise'
+    | '/player'
     | '/privacy'
     | '/profile'
     | '/promote'
@@ -426,6 +436,7 @@ export interface FileRouteTypes {
     | '/organise'
     | '/organiser'
     | '/personalise'
+    | '/player'
     | '/privacy'
     | '/profile'
     | '/promote'
@@ -467,6 +478,7 @@ export interface FileRouteTypes {
     | '/organise'
     | '/organiser'
     | '/personalise'
+    | '/player'
     | '/privacy'
     | '/profile'
     | '/promote'
@@ -509,6 +521,7 @@ export interface RootRouteChildren {
   OrganiseRoute: typeof OrganiseRoute
   OrganiserRoute: typeof OrganiserRoute
   PersonaliseRoute: typeof PersonaliseRoute
+  PlayerRoute: typeof PlayerRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   PromoteRoute: typeof PromoteRoute
@@ -628,6 +641,13 @@ declare module '@tanstack/react-router' {
       path: '/personalise'
       fullPath: '/personalise'
       preLoaderRoute: typeof PersonaliseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/player': {
+      id: '/player'
+      path: '/player'
+      fullPath: '/player'
+      preLoaderRoute: typeof PlayerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -829,6 +849,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrganiseRoute: OrganiseRoute,
   OrganiserRoute: OrganiserRoute,
   PersonaliseRoute: PersonaliseRoute,
+  PlayerRoute: PlayerRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   PromoteRoute: PromoteRoute,

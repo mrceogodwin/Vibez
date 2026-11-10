@@ -39,6 +39,7 @@ function AdsPage() {
       <p className="note">Every live placement is labelled Sponsored. Impressions and clicks below are recorded events, not estimates.</p>
       <form className="panel" onSubmit={(event) => void onSubmit(event)}>
         <h2>New campaign</h2>
+        <div className="wizard" aria-hidden="true"><i className="is-on" /><i className={form.name ? "is-on" : undefined} /><i className={form.headline ? "is-on" : undefined} /></div>
         <label className="field">Business<input value={form.businessName} onChange={(event) => setForm({ ...form, businessName: event.target.value })} required /></label>
         <label className="field">Campaign<input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} required /></label>
         <label className="field">Objective<input value={form.objective} onChange={(event) => setForm({ ...form, objective: event.target.value })} /></label>

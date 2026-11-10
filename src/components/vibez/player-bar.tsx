@@ -14,6 +14,7 @@ export function PlayerBar() {
   const audio = useRef<HTMLAudioElement | null>(null);
   const track = queue[index];
 
+  const setTimes = usePlayer((state) => state.setTimes);
   useEffect(() => {
     const node = audio.current;
     if (!node || !track?.previewUrl) return;
@@ -21,6 +22,13 @@ export function PlayerBar() {
     if (playing) void node.play().catch(() => undefined);
     else node.pause();
   }, [track?.id, track?.previewUrl, playing]);
+  useEffect(() => {
+    const node = audio.current;
+    if (!node) return;
+    const tick = () => setTimes(node.currentTime || 0, Number.isFinite(node.duration) ? node.duration : track?.durationSeconds || 0);
+    node.addEventListener("timeupdate", tick);
+    return () => node.removeEventListener("timeupdate", tick);
+  }, [setTimes, track?.durationSeconds, track?.id]);
 
   useEffect(() => {
     if (seekRequest == null || !audio.current) return;
@@ -35,8 +43,7 @@ export function PlayerBar() {
       <audio ref={audio} preload="none" onEnded={next} />
       <Link
         className="mini"
-        to="/$username/$slug"
-        params={{ username: `@${track.username}`, slug: track.slug }}
+        to="/player"
         aria-label={`Now playing ${track.title}`}
       >
         <span className="media"><img src={track.artwork} alt="" className="is-in" /></span>

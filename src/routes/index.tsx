@@ -1,16 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Calendar,
-  Link2,
-  Megaphone,
-  Music,
-  QrCode,
-  Ticket,
-  Users,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowRight, Calendar, Link2, Megaphone, Music, QrCode, Ticket, Users } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: Welcome,
@@ -18,35 +8,70 @@ export const Route = createFileRoute("/")({
 
 const slides = [
   {
+    kicker: "Welcome to Vibez",
     title: "Your World of Music, Events & Entertainment.",
     body: "Discover music, follow your favourite artists, explore events and experience entertainment in one place.",
-    photo: "/media/onboard-tickets.jpg",
-    alt: "Artist in sunglasses at a blue-lit show",
+    photo: "/media/onboard-headphones.jpg",
+    alt: "A young woman smiling with white headphones on",
+    cta: "Get Started",
+    kind: "tiles" as const,
   },
   {
+    kicker: "Create. Promote. Grow.",
     title: "Your Sound Deserves to Be Heard.",
-    body: "Promote your music, reach entertainment communities, secure music placements and grow your audience with Vibez.",
-    photo: "/media/onboard-sound.jpg",
-    alt: "Artist in headphones and a blue hoodie",
+    body: "Promote music, reach communities, secure placements and grow your audience.",
+    photo: "/media/onboard-stage.jpg",
+    alt: "A guitarist performing under blue stage lights",
+    cta: "Continue",
+    kind: "promote" as const,
   },
   {
+    kicker: "Discover. Experience. Connect.",
     title: "Discover. Experience. Connect.",
-    body: "Find exciting events around you, discover new experiences and secure your tickets with Vibez.",
-    photo: "/media/onboard-discover.jpg",
-    alt: "Artist laughing in front of a concert stage",
+    body: "Explore concerts, festivals, parties and entertainment experiences.",
+    photo: "/media/onboard-crowd.jpg",
+    alt: "A concert crowd under coloured lights",
+    cta: "Get Started",
+    kind: "discover" as const,
   },
-] as const;
+];
 
 function Welcome() {
   const navigate = useNavigate();
+  const scroller = useRef<HTMLDivElement>(null);
   const [splash, setSplash] = useState(true);
   const [slide, setSlide] = useState(0);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const timer = window.setTimeout(() => setSplash(false), reduce ? 350 : 1500);
+    const timer = window.setTimeout(() => setSplash(false), reduce ? 200 : 1200);
     return () => window.clearTimeout(timer);
   }, []);
+
+  function go(index: number) {
+    const node = scroller.current;
+    const next = Math.max(0, Math.min(slides.length - 1, index));
+    if (!node) {
+      setSlide(next);
+      return;
+    }
+    node.scrollTo({ left: next * node.clientWidth, behavior: "smooth" });
+    setSlide(next);
+  }
+
+  function onScroll() {
+    const node = scroller.current;
+    if (!node || node.clientWidth === 0) return;
+    setSlide(Math.round(node.scrollLeft / node.clientWidth));
+  }
+
+  function advance() {
+    if (slide >= slides.length - 1) {
+      void navigate({ to: "/register" });
+      return;
+    }
+    go(slide + 1);
+  }
 
   return (
     <main className="ob-page">
@@ -55,68 +80,68 @@ function Welcome() {
           <img src="/brand/vibez-mark.png" alt="Vibez" />
         </div>
       ) : null}
-      <div className="ob">
-        <section className="ob-hero">
-          <div className="ob-top">
-            <img className="ob-logo" src="/brand/vibez-mark.png" alt="Vibez" />
-            <button type="button" className="ob-skip" onClick={() => void navigate({ to: "/home" })}>
-              Skip
-            </button>
-          </div>
-          <div className="ob-stage">
-            <h1>{slides[slide].title}</h1>
-            {slide > 0 ? <div className="ob-rule" /> : null}
-            <p>{slides[slide].body}</p>
-            <img className="ob-photo" src={slides[slide].photo} alt="" />
-          </div>
-        </section>
-        <section className="ob-sheet">
-          {slide === 0 ? <Tiles /> : null}
-          {slide === 1 ? <SoundList /> : null}
-          {slide === 2 ? <DiscoverList /> : null}
-          <div className="ob-dots" role="tablist" aria-label="Introduction">
+      <div className="ob ob-carousel-app">
+        <div className="ob-top ob-top-float">
+          <img className="ob-logo" src="/brand/vibez-mark.png" alt="Vibez" />
+          <button type="button" className="ob-skip" onClick={() => void navigate({ to: "/home" })}>
+            Skip
+          </button>
+        </div>
+        <div
+          className="ob-carousel"
+          ref={scroller}
+          onScroll={onScroll}
+          tabIndex={0}
+          aria-label="Introduction"
+          onKeyDown={(event) => {
+            if (event.key === "ArrowRight") go(slide + 1);
+            if (event.key === "ArrowLeft") go(slide - 1);
+          }}
+        >
+          {slides.map((item) => (
+            <section className="ob-slide" key={item.title} aria-roledescription="slide">
+              <div className="ob-hero">
+                <div className="ob-stage">
+                  <p className="ob-kicker">{item.kicker}</p>
+                  <h1>{item.title}</h1>
+                  <p>{item.body}</p>
+                  <img className="ob-photo" src={item.photo} alt={item.alt} />
+                </div>
+              </div>
+              <div className="ob-sheet">
+                {item.kind === "tiles" ? <Tiles /> : null}
+                {item.kind === "promote" ? <SoundList /> : null}
+                {item.kind === "discover" ? <DiscoverList /> : null}
+              </div>
+            </section>
+          ))}
+        </div>
+        <div className="ob-dock">
+          <div className="ob-dots" role="tablist" aria-label="Onboarding screens">
             {slides.map((item, index) => (
               <button
                 key={item.title}
                 type="button"
+                role="tab"
+                aria-selected={index === slide}
                 className={index === slide ? "is-on" : undefined}
-                aria-label={`Screen ${index + 1}`}
-                onClick={() => setSlide(index)}
-              />
+                aria-label={`Show screen ${index + 1}: ${item.kicker}`}
+                onClick={() => go(index)}
+              >
+                <i />
+              </button>
             ))}
           </div>
-          {slide === 0 ? (
-            <div className="ob-actions">
-              <Link to="/register" className="ob-primary">
-                Create Account
-              </Link>
-              <Link to="/login" className="ob-ghost">
-                Log In
-              </Link>
-            </div>
-          ) : (
-            <div className="ob-nav">
-              <button type="button" className="ob-ghost" onClick={() => setSlide((value) => value - 1)}>
-                <ArrowLeft size={16} /> Back
-              </button>
-              {slide === 1 ? (
-                <button type="button" className="ob-primary" onClick={() => setSlide(2)}>
-                  Continue <ArrowRight size={16} />
-                </button>
-              ) : (
-                <Link to="/register" className="ob-primary">
-                  Get Started <ArrowRight size={16} />
-                </Link>
-              )}
-            </div>
-          )}
-          {slide === 0 ? (
-            <p className="ob-legal">
-              By continuing, you agree to our <Link to="/terms">Terms of Service</Link> and{" "}
-              <Link to="/privacy">Privacy Policy</Link>.
-            </p>
-          ) : null}
-        </section>
+          <button type="button" className="ob-primary" onClick={advance}>
+            {slides[slide].cta} <ArrowRight size={16} />
+          </button>
+          <p className="ob-legal">
+            <Link to="/login">Log in</Link>
+            {" · "}
+            By continuing, you agree to our <Link to="/legal/$doc" params={{ doc: "terms" }}>Terms</Link> and{" "}
+            <Link to="/legal/$doc" params={{ doc: "privacy" }}>Privacy Policy</Link>.
+          </p>
+        </div>
       </div>
     </main>
   );
@@ -145,9 +170,9 @@ function Tiles() {
 function SoundList() {
   return (
     <div className="ob-list">
-      <Row icon={Music} title="Music Placements & Artist Profiles" body="Get featured, build your artist page and reach more listeners." />
-      <Row icon={Users} title="Community Music Push" body="Promote your releases through active entertainment communities." />
-      <Row icon={Megaphone} title="Advertising Campaigns" body="Run targeted ads for your music, events or brand on Vibez." />
+      <Row icon={Music} title="Music Placements" body="Feature a release. Editorial approval stays independent of payment." />
+      <Row icon={Users} title="Community Music Push" body="Invite communities that choose to promote. No member lists." />
+      <Row icon={Megaphone} title="Advertising Campaigns" body="Book a placement. Live ads are labelled Sponsored." />
     </div>
   );
 }
@@ -155,32 +180,21 @@ function SoundList() {
 function DiscoverList() {
   return (
     <div className="ob-list">
-      <Row icon={Ticket} title="Event Tickets" body="Buy tickets securely for concerts, shows, festivals and more." />
-      <Row icon={Calendar} title="Discover Events" body="Explore upcoming events in your city and across Nigeria." />
-      <Row icon={QrCode} title="Digital Entry" body="Access your tickets with unique QR codes at the venue." />
+      <Row icon={Calendar} title="Discover Events" body="Concerts, festivals and parties, with sample listings marked." />
+      <Row icon={Ticket} title="Secure Tickets" body="Paystack confirms the payment before a ticket exists." />
+      <Row icon={QrCode} title="Digital Entry" body="A wallet pass with a QR code the gate checks on the server." />
     </div>
   );
 }
 
-function Row({
-  icon: Icon,
-  title,
-  body,
-}: {
-  icon: typeof Music;
-  title: string;
-  body: string;
-}) {
+function Row({ icon: Icon, title, body }: { icon: typeof Music; title: string; body: string }) {
   return (
     <article className="ob-row">
-      <span className="ob-ico">
-        <Icon size={26} strokeWidth={1.75} />
-      </span>
+      <span className="ob-ico"><Icon size={26} strokeWidth={1.75} /></span>
       <div>
         <h2>{title}</h2>
         <p>{body}</p>
       </div>
-      <ArrowRight className="chev" size={18} />
     </article>
   );
 }

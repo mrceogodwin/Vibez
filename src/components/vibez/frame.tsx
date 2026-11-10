@@ -43,6 +43,11 @@ export function AppFrame({ children, bare = false }: { children: ReactNode; bare
   }
 
   useEffect(() => {
+    const stored = window.localStorage.getItem("vibez.theme");
+    if (stored === "dark" || stored === "light") document.documentElement.dataset.theme = stored;
+  }, []);
+
+  useEffect(() => {
     let stop = false;
     loadSession()
       .then((value) => {
