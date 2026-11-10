@@ -67,7 +67,7 @@ function PlayerPage() {
       <div className="art"><img src={track.artwork} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
       <h1 style={{ margin: "8px 0 0", fontSize: 28 }}>{track.title}</h1>
       <p style={{ margin: 0, color: "rgba(255,255,255,.75)" }}>{track.artist}{track.sample ? " · Sample" : ""}</p>
-      {!track.previewUrl ? <p className="note" style={{ color: "#d5dcf5", background: "transparent", borderColor: "rgba(255,255,255,.2)" }}>No licensed preview is attached, so this player stays silent.</p> : null}
+      {!track.previewUrl ? <p className="note" style={{ color: "#d5dcf5", background: "transparent", borderColor: "rgba(255,255,255,.2)" }}>No preview for this song yet.</p> : null}
       <div className="scrub" style={{ marginTop: 18 }} onClick={(event) => {
         const rect = event.currentTarget.getBoundingClientRect();
         if (!duration) return;

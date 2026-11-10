@@ -88,7 +88,7 @@ function LoginPage() {
               Continue with Google
             </button>
           ) : (
-            <p className="note">Google sign-in is not configured in this build.</p>
+            <p className="note">Google sign-in isn't available right now.</p>
           )}
           <p className="ob-switch">
             <Link to="/reset">Forgot password?</Link>

@@ -43,7 +43,7 @@ function CreateEventPage() {
   return (
     <AppFrame>
       <h1 style={{ marginTop: 8 }}>List an event</h1>
-      <p className="note">Drafts are saved on the server as pending. They are not public until the Control Room approves them. Sample catalogue events are separate and not for sale.</p>
+      <p className="note">We'll review it before it goes live.</p>
       {slug ? (
         <div className="empty">
           <h2>Submitted for review</h2>

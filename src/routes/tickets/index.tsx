@@ -22,7 +22,7 @@ function TicketsPage() {
         <div className="empty">
           <div className="mark"><Ticket /></div>
           <h2>No tickets yet</h2>
-          <p>Tickets appear after Paystack confirms a payment, or immediately for a free ticket. Sample events are not for sale.</p>
+          <p>Your passes show up here after you buy.</p>
           <Link className="btn" to="/events">Find an event</Link>
         </div>
       ) : null}

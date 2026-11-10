@@ -29,7 +29,7 @@ function EventsPage() {
   return (
     <AppFrame>
       <h1 style={{ margin: "8px 0 4px", fontSize: 32 }}>Events</h1>
-      <p style={{ margin: 0, color: "#69738a" }}>Sample listings stay labelled and are not on sale.</p>
+      <p style={{ margin: 0, color: "#69738a" }}>Concerts, parties and nights near you.</p>
       <form className="app-search" style={{ marginTop: 12 }} onSubmit={(event) => event.preventDefault()}>
         <Search size={18} />
         <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search events or cities" aria-label="Search events" />

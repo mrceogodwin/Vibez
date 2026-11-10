@@ -116,7 +116,7 @@ function VerifyPage() {
               />
             ))}
           </div>
-          {devCode ? <p className="note">Email delivery is not configured. Use this one-time code: <strong>{devCode}</strong></p> : null}
+          {devCode ? <p className="note">Your code is <strong>{devCode}</strong></p> : null}
           {error ? <p className="ob-error">{error}</p> : null}
           <button type="button" className="ob-primary" style={{ width: "100%", marginTop: 18 }} onClick={submit}>
             Verify Email

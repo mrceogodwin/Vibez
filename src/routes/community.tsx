@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
+import { Actions, Board, RealChart, Stat } from "@/components/vibez/board";
 import { AppFrame } from "@/components/vibez/frame";
 import { naira } from "@/lib/catalogue";
 import { answerInvite, loadCommunities, loadMyCommunity, sendEvidence, submitCommunity, submitPush } from "@/lib/platform.functions";
@@ -28,7 +29,7 @@ function CommunityPage() {
     event.preventDefault();
     try {
       const result = await submitPush({ data: { title, listeningUrl, note, communityIds: picked } });
-      setMessage(result.configured ? `${result.payouts} Amount recorded: ${naira(result.amountKobo)}.` : result.message);
+      setMessage(result.configured ? `Sent. ${naira(result.amountKobo)}.` : "Saved. Paid campaigns aren't available yet.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not create the campaign.");
     }
@@ -36,29 +37,40 @@ function CommunityPage() {
 
   return (
     <AppFrame>
-      <h1>Community push</h1>
-      <p className="note">Communities are opted in. Vibez does not store member phone numbers and does not promise streams. Payouts to owners are not enabled.</p>
+      <Board kicker="Community" title="Push">
+        <div className="hero-stats">
+          <Stat label="Communities" value={String(board.length)} />
+          <Stat label="Campaigns" value={String(mine?.campaigns.length ?? 0)} />
+          <Stat label="Invites" value={String(mine?.incoming.length ?? 0)} />
+        </div>
+        <RealChart
+          data={(mine?.campaigns ?? []).map((item) => ({ name: String(item.title).split(" ")[0], value: Number(item.amountKobo) / 100 }))}
+          empty="Campaign totals show up here after you send one."
+        />
+        <Actions items={[
+          { href: "#campaign", label: "New push", detail: "Pick communities" },
+          { href: "#apply", label: "Your group", detail: "Apply to join" },
+          { href: "/studio", label: "Studio", detail: "Your music" },
+        ]} />
       <section>
         {board.map((item) => (
           <label key={item.id} className="panel" style={{ display: "block" }}>
             <input type="checkbox" checked={picked.includes(item.id)} onChange={() => setPicked((current) => current.includes(item.id) ? current.filter((id) => id !== item.id) : [...current, item.id])} />
             <strong> {item.name}</strong> {item.sample ? <em className="pill sample">Sample</em> : null}
             <p>{item.platform} · {item.city} · {naira(item.priceKobo)}</p>
-            <p>{item.description}</p>
-            <p>{item.audience} {item.estimatedReach == null ? "Reach is not measured by Vibez." : `Owner estimate ${item.estimatedReach}. Not measured by Vibez.`}</p>
+            <p>{item.city} · {item.platform}</p>
           </label>
         ))}
       </section>
-      <form className="panel" onSubmit={(event) => void push(event)}>
+      <form id="campaign" className="panel" onSubmit={(event) => void push(event)}>
         <h2>Campaign</h2>
-        <div className="wizard" aria-hidden="true"><i className="is-on" /><i className={title ? "is-on" : undefined} /><i className={picked.length ? "is-on" : undefined} /></div>
         <label className="field">Title<input value={title} onChange={(event) => setTitle(event.target.value)} required /></label>
         <label className="field">Listening link<input value={listeningUrl} onChange={(event) => setListeningUrl(event.target.value)} required /></label>
         <label className="field">Note<textarea value={note} onChange={(event) => setNote(event.target.value)} /></label>
         {message ? <p className="warn">{message}</p> : null}
         <button className="btn" type="submit">Submit campaign</button>
       </form>
-      <form className="panel" onSubmit={(event) => {
+      <form id="apply" className="panel" onSubmit={(event) => {
         event.preventDefault();
         submitCommunity({ data: apply }).then(() => setMessage("Community application sent.")).catch((error) => setMessage(error instanceof Error ? error.message : "Could not apply."));
       }}>
@@ -92,6 +104,7 @@ function CommunityPage() {
           ))}
         </section>
       ) : null}
+      </Board>
     </AppFrame>
   );
 }
