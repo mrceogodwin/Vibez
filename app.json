@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Vibez",
+    "slug": "vibez",
+    "scheme": "vibez",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "ng.vibez.app",
+      "supportsTablet": true,
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "ng.vibez.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#0D0D0F",
+        "foregroundImage": "./assets/images/icon.png"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "server",
+      "favicon": "./assets/images/favicon.png",
+      "name": "Vibez",
+      "themeColor": "#0D0D0F",
+      "backgroundColor": "#0D0D0F"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-font",
+      "expo-web-browser",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0D0D0F",
+          "image": "./assets/images/icon.png",
+          "imageWidth": 76
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "extra": {
+      "router": {}
+    }
+  }
+}
