@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const secret = process.env.PAYSTACK_SECRET_KEY ?? "";
   if (!secret) {
     return json(
-      { error: { code: "not_configured", message: "Paystack is optional and is not configured. Set PAYSTACK_SECRET_KEY to enable it." } },
+      { error: { code: "not_configured", message: "This payment provider is not active." } },
       503,
     );
   }

@@ -27,10 +27,12 @@ export function appleConfigured() {
 
 export async function beginOAuth(provider: "google" | "apple", request: Request) {
   if (provider === "google" && !googleConfigured()) {
-    return html("Google sign-in is not configured. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.");
+    console.error("oauth_unavailable provider=google reason=missing_config");
+    return html("Google sign-in is temporarily unavailable.");
   }
   if (provider === "apple" && !appleConfigured()) {
-    return html("Apple sign-in is not configured yet. Set APPLE_CLIENT_ID, APPLE_TEAM_ID, APPLE_KEY_ID, and APPLE_PRIVATE_KEY.");
+    console.error("oauth_unavailable provider=apple reason=missing_config");
+    return html("Apple sign-in is temporarily unavailable.");
   }
   const state = randomToken();
   const native = new URL(request.url).searchParams.get("client") === "native";
@@ -120,7 +122,8 @@ export async function buildAppleClientSecret(env: Record<string, string | undefi
 
 export async function finishApple(request: Request) {
   if (!appleConfigured()) {
-    return html("Apple sign-in is not configured yet. Set APPLE_CLIENT_ID, APPLE_TEAM_ID, APPLE_KEY_ID, and APPLE_PRIVATE_KEY.");
+    console.error("oauth_unavailable provider=apple reason=missing_config");
+    return html("Apple sign-in is temporarily unavailable.");
   }
   const url = new URL(request.url);
   const code = url.searchParams.get("code");

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { interpretCheckout } from "./fulfill";
-import { assertLiveChargeAllowed } from "./bachs";
+import { assertLiveChargeAllowed, paymentAvailability } from "./bachs";
 import { HttpError } from "../auth/rbac";
 
 describe("checkout interpretation", () => {
@@ -20,9 +20,21 @@ describe("checkout interpretation", () => {
 });
 
 describe("live charge guard", () => {
-  it("blocks a live key outside production", () => {
-    expect(() => assertLiveChargeAllowed("sk_live_test", {})).toThrow(HttpError);
-    expect(() => assertLiveChargeAllowed("sk_sandbox_test", {})).not.toThrow();
-    expect(() => assertLiveChargeAllowed("sk_live_test", { VERCEL_ENV: "production" })).not.toThrow();
+  it("blocks a live key outside production without naming configuration", () => {
+    expect(paymentAvailability({}).status).toBe("unavailable");
+    expect(paymentAvailability({ BACHS_SECRET_KEY: "sk_live_test" })).toMatchObject({
+      enabled: false,
+      status: "paused",
+      message: "Top-ups are temporarily unavailable.",
+    });
+    expect(paymentAvailability({ BACHS_SECRET_KEY: "sk_sandbox_test" }).enabled).toBe(true);
+    expect(paymentAvailability({ BACHS_SECRET_KEY: "sk_live_test", VERCEL_ENV: "production" }).status).toBe("ready");
+    try {
+      assertLiveChargeAllowed("sk_live_test", {});
+    } catch (error) {
+      expect(error).toBeInstanceOf(HttpError);
+      expect((error as Error).message).toBe("Top-ups are temporarily unavailable.");
+      expect((error as Error).message).not.toMatch(/SECRET|BACHS_/);
+    }
   });
 });

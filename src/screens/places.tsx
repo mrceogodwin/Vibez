@@ -9,13 +9,11 @@ import { useSession } from "@/lib/session";
 import { formatNaira } from "@/server/money";
 
 export function DiscoverScreen() {
-  return (
-    <Page title="Discover" body="Search and recommendations are not in this release. This screen reads the same live catalogue as Home, and it is empty until real content is published." />
-  );
+  return <Page title="Discover" body="Nothing to explore yet. People, music, communities and events will show up here as they are published." />;
 }
 
 export function ChatsScreen() {
-  return <Page title="Chats" body="Direct messages, groups and voice notes are not in this release. There are no sample conversations." />;
+  return <Page title="Chats" body="Your conversations will show up here." />;
 }
 
 export function NotificationsScreen() {
@@ -67,7 +65,7 @@ type WalletResponse = {
   credits: number;
   bundles: { code: string; amount_kobo: number; credits: number }[];
   entries: { id: string; amount_kobo: number; entry_type: string; created_at: string }[];
-  payments: { enabled: boolean; message: string };
+  payments: { enabled: boolean; status: string; message: string };
   plusUntil: string | null;
 };
 
@@ -113,13 +111,13 @@ export function WalletScreen() {
 
   return (
     <Page title="Wallet" body={data ? `${data.balanceLabel} · ${data.credits.toLocaleString("en-NG")} credits` : "Loading your balance"}>
-      <T color={colors.textMuted}>1 credit = ₦1. The balance is calculated on the server from the ledger.</T>
-      {data?.payments.message ? <T color={data.payments.enabled ? colors.textMuted : colors.orange}>{data.payments.message}</T> : null}
+      <T color={colors.textMuted}>1 credit equals ₦1. Your balance comes from your transaction history.</T>
+      {data && !data.payments.enabled ? <T color={colors.textMuted}>{data.payments.message}</T> : null}
       {error ? <T color={colors.danger}>{error}</T> : null}
       {message ? <T color={colors.success}>{message}</T> : null}
       <T variant="headline">Top up</T>
       {data?.bundles.map((bundle) => (
-        <Pressable key={bundle.code} accessibilityRole="button" disabled={!data.payments.enabled} onPress={() => topup(bundle.code)} style={styles.card}>
+        <Pressable key={bundle.code} accessibilityRole="button" disabled={!data.payments.enabled} onPress={() => topup(bundle.code)} style={[styles.card, styles.bundle, !data.payments.enabled && styles.bundleOff]}>
           <T variant="label">{formatNaira(Number(bundle.amount_kobo))}</T>
           <T variant="caption" color={colors.textMuted}>
             {bundle.credits.toLocaleString("en-NG")} credits
@@ -172,8 +170,10 @@ function EmptyLine({ text }: { text: string }) {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
-  content: { padding: spacing.xl, paddingTop: 72, paddingBottom: 120, gap: spacing.md },
+  content: { padding: spacing.xl, paddingTop: 64, paddingBottom: 148, gap: spacing.lg },
   card: { backgroundColor: colors.card, borderRadius: radius.lg, padding: spacing.lg, gap: 4, borderWidth: 1, borderColor: colors.line },
+  bundle: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 56 },
+  bundleOff: { opacity: 0.72 },
   stats: { flexDirection: "row", gap: spacing.lg },
   stat: { alignItems: "flex-start" },
 });

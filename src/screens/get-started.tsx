@@ -120,7 +120,7 @@ async function startProvider(
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.bg, paddingHorizontal: spacing.xl, paddingTop: 54, gap: spacing.lg },
+  screen: { flex: 1, backgroundColor: colors.bg, paddingHorizontal: spacing.xl, paddingTop: 54, paddingBottom: spacing.xxl, gap: spacing.lg },
   back: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
   logo: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm, marginTop: -36 },
   fan: { height: 210, alignItems: "center", justifyContent: "center", marginVertical: spacing.sm },

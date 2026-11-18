@@ -2,6 +2,7 @@ import { fail, json } from "@/server/http";
 import { getPool } from "@/server/db";
 import { requireUser } from "@/server/auth/service";
 import { creditsFromKobo, formatNaira } from "@/server/money";
+import { paymentAvailability } from "@/server/payments/bachs";
 
 export async function GET(request: Request) {
   try {
@@ -14,8 +15,7 @@ export async function GET(request: Request) {
        FROM vibez.wallet_ledger WHERE user_id = $1 ORDER BY created_at DESC LIMIT 30`,
       [user.id],
     );
-    const live = process.env.BACHS_SECRET_KEY?.startsWith("sk_live_") === true;
-    const allowed = process.env.VERCEL_ENV === "production" || process.env.BACHS_ALLOW_LIVE === "true";
+    const payments = paymentAvailability(process.env, true);
     return json({
       balanceKobo: user.balanceKobo,
       balanceLabel: formatNaira(user.balanceKobo),
@@ -23,11 +23,7 @@ export async function GET(request: Request) {
       plusUntil: user.plusUntil,
       bundles: bundles.rows,
       entries: entries.rows,
-      payments: !process.env.BACHS_SECRET_KEY
-        ? { enabled: false, message: "Bachs is not configured. Set BACHS_SECRET_KEY." }
-        : live && !allowed
-          ? { enabled: false, message: "Live Bachs charges are disabled outside production." }
-          : { enabled: true, message: "Payments are confirmed by Bachs on the server, not by this page." },
+      payments: { enabled: payments.enabled, status: payments.status, message: payments.message },
     });
   } catch (error) {
     return fail(error);

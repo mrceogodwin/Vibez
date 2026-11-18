@@ -6,7 +6,8 @@ export function createEmailSender(env: Record<string, string | undefined> = proc
   return {
     async send(message) {
       if (!env.RESEND_API_KEY || !env.EMAIL_FROM) {
-        return { delivered: false, error: "Email delivery is not configured. Set RESEND_API_KEY and EMAIL_FROM." };
+        console.error("email_unavailable reason=missing_mail_config");
+        return { delivered: false, error: "Email delivery is not configured." };
       }
       const response = await fetchImpl("https://api.resend.com/emails", {
         method: "POST",

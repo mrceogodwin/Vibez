@@ -249,6 +249,7 @@ describe.skipIf(!enabled)("phase 1 database", () => {
   it("does not deliver mail when Resend is not configured", async () => {
     const result = await createEmailSender({}) .send({ to: "a@b.co", subject: "Hi", text: "Hi" });
     expect(result.delivered).toBe(false);
-    expect(result.error).toContain("RESEND_API_KEY");
+    expect(result.error).toBe("Email delivery is not configured.");
+    expect(result.error).not.toMatch(/RESEND|EMAIL_FROM/);
   });
 });

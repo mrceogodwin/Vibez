@@ -4,7 +4,8 @@ import { r2UnavailableMessage, readR2Config } from "./r2";
 describe("r2 config", () => {
   it("stays unconfigured until every variable is present", () => {
     expect(readR2Config({})).toBeNull();
-    expect(r2UnavailableMessage()).toContain("R2_BUCKET");
+    expect(r2UnavailableMessage()).toBe("Uploads are temporarily unavailable.");
+    expect(r2UnavailableMessage()).not.toMatch(/R2_/);
     expect(
       readR2Config({
         R2_ACCOUNT_ID: "a",

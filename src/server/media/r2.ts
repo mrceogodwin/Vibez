@@ -21,7 +21,8 @@ export function readR2Config(env: Record<string, string | undefined> = process.e
 }
 
 export function r2UnavailableMessage(): string {
-  return "Media uploads are not configured yet. Set R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, and R2_PUBLIC_URL.";
+  console.error("uploads_unavailable reason=missing_media_config");
+  return "Uploads are temporarily unavailable.";
 }
 
 export async function presignUpload(config: R2Config, key: string, contentType: string): Promise<string> {

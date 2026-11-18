@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
-import { useRouter } from "expo-router";
+import { usePathname, useRouter } from "expo-router";
 import { colors, radius, spacing } from "@/theme";
 import { T } from "@/components/ui";
 import { IconBell, IconChat, IconCompass, IconGame, IconHome, IconMic, IconMusic, IconPeople, IconPlus, IconTicket, IconUser, Mark } from "@/components/icons";
@@ -100,14 +100,16 @@ export function HomeScreen() {
             <T color={colors.textMuted}>Posts, music and events from people you follow will show up in this spot. There is no sample content.</T>
           </View>
         )}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tiles}>
+        <View style={styles.tiles}>
           {tiles.map((tile) => (
             <Pressable key={tile.id} accessibilityRole="button" onPress={() => setFilter(tile.id)} style={styles.tile}>
               <tile.icon color={tile.tint} />
-              <T variant="caption">{tile.label}</T>
+              <T variant="caption" center style={{ fontSize: 10, lineHeight: 12, textAlign: "center" }}>
+                {tile.label}
+              </T>
             </Pressable>
           ))}
-        </ScrollView>
+        </View>
         <Section title="Trending Now" onSeeAll={() => router.push("/discover")} />
         {data && data.trending.length === 0 ? (
           <Empty text="Nothing is trending yet. When members publish, it will appear here." />
@@ -166,6 +168,8 @@ function Empty({ text }: { text: string }) {
 
 export function Dock() {
   const router = useRouter();
+  const pathname = usePathname();
+  const active = dockTab(pathname);
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -180,16 +184,24 @@ export function Dock() {
         </Pressable>
       ) : null}
       <View style={styles.dock}>
-        <DockItem label="Home" icon={IconHome} active onPress={() => router.push("/home")} />
-        <DockItem label="Discover" icon={IconCompass} onPress={() => router.push("/discover")} />
+        <DockItem label="Home" icon={IconHome} active={active === "home"} onPress={() => router.push("/home")} />
+        <DockItem label="Discover" icon={IconCompass} active={active === "discover"} onPress={() => router.push("/discover")} />
         <Pressable accessibilityRole="button" accessibilityLabel="Create" onPress={() => setOpen(true)} style={styles.create}>
           <IconPlus color="#fff" />
         </Pressable>
-        <DockItem label="Chats" icon={IconChat} onPress={() => router.push("/chats")} />
-        <DockItem label="Profile" icon={IconUser} onPress={() => router.push("/profile")} />
+        <DockItem label="Chats" icon={IconChat} active={active === "chats"} onPress={() => router.push("/chats")} />
+        <DockItem label="Profile" icon={IconUser} active={active === "profile"} onPress={() => router.push("/profile")} />
       </View>
     </>
   );
+}
+
+function dockTab(pathname: string): "home" | "discover" | "chats" | "profile" | null {
+  if (pathname === "/home" || pathname === "/") return "home";
+  if (pathname.startsWith("/discover")) return "discover";
+  if (pathname.startsWith("/chats")) return "chats";
+  if (pathname.startsWith("/profile") || pathname.startsWith("/wallet")) return "profile";
+  return null;
 }
 
 function DockItem({
@@ -220,13 +232,13 @@ const styles = StyleSheet.create({
   headerActions: { flexDirection: "row", alignItems: "center", gap: spacing.md },
   iconButton: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
   avatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: colors.orange, alignItems: "center", justifyContent: "center", backgroundColor: colors.bgRaised },
-  scroll: { padding: spacing.xl, gap: spacing.lg, paddingBottom: 120 },
+  scroll: { paddingHorizontal: spacing.lg, paddingTop: spacing.lg, gap: spacing.lg, paddingBottom: 128 },
   chips: { gap: spacing.sm },
   chip: { paddingHorizontal: 14, paddingVertical: 8, borderRadius: radius.pill, backgroundColor: colors.chip },
   chipOn: { backgroundColor: colors.orange },
   hero: { backgroundColor: colors.card, borderRadius: radius.xl, padding: spacing.xl, gap: spacing.sm, borderWidth: 1, borderColor: colors.line, minHeight: 180, justifyContent: "flex-end" },
-  tiles: { gap: spacing.md },
-  tile: { width: 68, height: 78, borderRadius: 18, backgroundColor: colors.card, alignItems: "center", justifyContent: "center", gap: 6, borderWidth: 1, borderColor: colors.line },
+  tiles: { flexDirection: "row", gap: 8 },
+  tile: { flex: 1, height: 78, borderRadius: 18, backgroundColor: colors.card, alignItems: "center", justifyContent: "center", gap: 4, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 2 },
   section: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   empty: { backgroundColor: colors.bgRaised, borderRadius: radius.lg, padding: spacing.lg, borderWidth: 1, borderColor: colors.line },
   rail: { gap: spacing.md },

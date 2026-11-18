@@ -225,7 +225,7 @@ function AuthFrame({ title, subtitle, children }: { title: string; subtitle: str
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.bg, padding: spacing.xl, paddingTop: 54, gap: spacing.md },
+  screen: { flex: 1, backgroundColor: colors.bg, padding: spacing.xl, paddingTop: 54, paddingBottom: spacing.xxxl, gap: spacing.lg },
   back: { width: 44, height: 44, justifyContent: "center" },
   brand: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
 });
