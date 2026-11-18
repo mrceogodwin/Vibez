@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { colors, radius, spacing } from "@/theme";
 import { Button, T } from "@/components/ui";
 import { api } from "@/lib/api";
+import { clearSessionToken } from "@/lib/session-token";
 import { useSession } from "@/lib/session";
 import { formatNaira } from "@/server/money";
 
@@ -42,6 +43,7 @@ export function ProfileScreen() {
   const router = useRouter();
   async function logout() {
     await api("/api/auth/logout", { method: "POST" });
+    await clearSessionToken();
     await refresh();
     router.replace("/login");
   }

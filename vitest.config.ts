@@ -19,7 +19,7 @@ export default defineConfig({
     fileParallelism: false,
     testTimeout: 30000,
     hookTimeout: 30000,
-    include: ["src/server/**/*.test.ts"],
+    include: ["src/**/*.test.ts"],
   },
   resolve: {
     alias: { "@": path.resolve(__dirname, "src") },

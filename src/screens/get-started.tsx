@@ -1,6 +1,9 @@
-import { Linking, Platform, Pressable, StyleSheet, View } from "react-native";
+import { Platform, Pressable, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
+import * as WebBrowser from "expo-web-browser";
 import { useRouter } from "expo-router";
+import { saveSessionToken } from "@/lib/session-token";
+import { useSession } from "@/lib/session";
 import { colors, radius, spacing } from "@/theme";
 import { T } from "@/components/ui";
 import { IconApple, IconBack, IconGoogle, IconMail, Mark } from "@/components/icons";
@@ -11,6 +14,7 @@ const gamer = require("../../assets/images/portrait-gamer.jpg");
 
 export function GetStarted() {
   const router = useRouter();
+  const { refresh } = useSession();
   return (
     <View style={styles.screen}>
       <Pressable accessibilityRole="button" accessibilityLabel="Back" onPress={() => router.back()} style={styles.back}>
@@ -41,8 +45,8 @@ export function GetStarted() {
         or continue with
       </T>
       <View style={styles.socials}>
-        <Social label="Continue with Apple" href="/api/auth/apple/start" icon={<IconApple />} />
-        <Social label="Continue with Google" href="/api/auth/google/start" icon={<IconGoogle />} />
+        <Social label="Continue with Apple" provider="apple" icon={<IconApple />} onSession={refresh} />
+        <Social label="Continue with Google" provider="google" icon={<IconGoogle />} onSession={refresh} />
         <Social label="Continue with email" href="/signup" icon={<IconMail />} internal />
       </View>
       <T variant="caption" color={colors.textDim} center>
@@ -60,22 +64,59 @@ export function GetStarted() {
   );
 }
 
-function Social({ label, href, icon, internal }: { label: string; href: string; icon: React.ReactNode; internal?: boolean }) {
+function Social({
+  label,
+  provider,
+  href,
+  icon,
+  internal,
+  onSession,
+}: {
+  label: string;
+  provider?: "google" | "apple";
+  href?: string;
+  icon: React.ReactNode;
+  internal?: boolean;
+  onSession?: () => Promise<void>;
+}) {
   const router = useRouter();
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={label}
       onPress={() => {
-        if (internal) router.push(href as never);
-        else if (Platform.OS === "web") window.location.href = href;
-        else void Linking.openURL(`${process.env.EXPO_PUBLIC_API_URL || ""}${href}`);
+        if (internal && href) {
+          router.push(href as never);
+          return;
+        }
+        if (!provider) return;
+        void startProvider(provider, router, onSession);
       }}
       style={styles.social}
     >
       {icon}
     </Pressable>
   );
+}
+
+async function startProvider(
+  provider: "google" | "apple",
+  router: { replace: (href: string) => void },
+  onSession?: () => Promise<void>,
+) {
+  const path = `/api/auth/${provider}/start`;
+  if (Platform.OS === "web") {
+    window.location.href = path;
+    return;
+  }
+  const apiBase = process.env.EXPO_PUBLIC_API_URL || "";
+  const result = await WebBrowser.openAuthSessionAsync(`${apiBase}${path}?client=native`, "vibez://auth");
+  if (result.type !== "success") return;
+  const token = new URL(result.url).searchParams.get("token");
+  if (!token) return;
+  await saveSessionToken(token);
+  await onSession?.();
+  router.replace("/home");
 }
 
 const styles = StyleSheet.create({

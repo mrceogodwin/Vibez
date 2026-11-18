@@ -1,6 +1,6 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { getPool, withTx } from "./db";
-import { signUp, verifyEmail, login, currentUser, readToken } from "./auth/service";
+import { signUp, verifyEmail, login, currentUser, readToken, resendVerification } from "./auth/service";
 import { createEmailSender } from "./email";
 import { handleBachsWebhook, createTopup } from "./payments/orders";
 import { signBachsBody } from "./payments/signature";
@@ -228,6 +228,22 @@ describe.skipIf(!enabled)("phase 1 database", () => {
       paidClient(),
     );
     expect(checkout.checkoutUrl).toContain("https://checkout.bachs.io/");
+  });
+
+  it("sends a fresh verification link when the first email was not delivered", async () => {
+    const email = `resend-${crypto.randomUUID()}@example.test`;
+    const sender = { async send() { return { delivered: false, error: "test sink" }; } };
+    await signUp(
+      getPool(),
+      sender,
+      { email, password: "correct horse battery", displayName: "Resend User", username: `re${crypto.randomUUID().slice(0, 8)}` },
+      "http://localhost:8081",
+      "127.0.0.1",
+    );
+    const again = await resendVerification(getPool(), sender, email, "http://localhost:8081", "127.0.0.2");
+    expect(again.verificationPath).toContain("token=");
+    const token = new URL(`http://localhost${again.verificationPath}`).searchParams.get("token");
+    expect((await verifyEmail(getPool(), token!)).ok).toBe(true);
   });
 
   it("does not deliver mail when Resend is not configured", async () => {

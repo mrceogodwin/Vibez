@@ -125,7 +125,7 @@ export async function signUp(db: Db, sender: EmailSender, input: unknown, origin
     emailDelivered: delivery.delivered,
     message: delivery.delivered
       ? "Check your email to verify your account."
-      : "Your account was created, but email delivery is not configured.",
+      : "Your account was created, but the verification email was not sent. Send it again once mail delivery is available.",
     verificationPath: !delivery.delivered && !isProduction() ? `/verify-email?token=${user.token}` : undefined,
   };
 }
@@ -278,6 +278,36 @@ export async function requestPasswordReset(db: Db, sender: EmailSender, email: s
     ok: true,
     message: "If an account exists for that email, a reset link is on its way.",
     resetPath: path,
+  };
+}
+
+export async function resendVerification(db: Db, sender: EmailSender, email: string, origin: string, ip: string) {
+  const parsed = z.string().trim().email().transform((value) => value.toLowerCase()).parse(email);
+  await rateLimit(db, `verify-resend:${ip}`, 5, 3600);
+  const found = await db.query<{ id: string }>(
+    "SELECT id FROM vibez.users WHERE email = $1 AND status = 'active' AND email_verified_at IS NULL",
+    [parsed],
+  );
+  let path: string | undefined;
+  if (found.rows[0]) {
+    const token = await issueToken(db, found.rows[0].id, "email_verify", 24);
+    const url = `${origin}/verify-email?token=${token}`;
+    const delivery = await sender.send({
+      to: parsed,
+      subject: "Verify your Vibez email",
+      text: `Confirm your Vibez account by opening this link: ${url}`,
+    });
+    await db.query(
+      `INSERT INTO vibez.outbound_emails (to_address, subject, body, status, error)
+       VALUES ($1, 'Verify your Vibez email', 'verification', $2, $3)`,
+      [parsed, delivery.delivered ? "sent" : "undelivered", delivery.error ?? null],
+    );
+    if (!delivery.delivered && !isProduction()) path = `/verify-email?token=${token}`;
+  }
+  return {
+    ok: true,
+    message: "If that email has an unverified Vibez account, a new verification link is on its way.",
+    verificationPath: path,
   };
 }
 

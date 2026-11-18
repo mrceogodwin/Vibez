@@ -1,11 +1,10 @@
-export function GET() {
-  return Response.json(
-    {
-      error: {
-        code: "not_configured",
-        message: "Apple sign-in is designed in and stays off until APPLE_CLIENT_ID, APPLE_TEAM_ID, APPLE_KEY_ID, and APPLE_PRIVATE_KEY are set.",
-      },
-    },
-    { status: 503 },
-  );
+import { fail } from "@/server/http";
+import { finishApple } from "@/server/auth/oauth";
+
+export async function GET(request: Request) {
+  try {
+    return await finishApple(request);
+  } catch (error) {
+    return fail(error);
+  }
 }

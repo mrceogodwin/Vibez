@@ -1,4 +1,6 @@
 import { Platform } from "react-native";
+import { bearerHeader } from "./bearer";
+import { readSessionToken } from "./session-token";
 
 export type ApiError = Error & { code?: string };
 
@@ -10,7 +12,11 @@ function base() {
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const headers = new Headers(init?.headers);
   if (init?.body && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
-  if (Platform.OS !== "web") headers.set("x-vibez-client", "native");
+  if (Platform.OS !== "web") {
+    headers.set("x-vibez-client", "native");
+    const authorization = bearerHeader(await readSessionToken());
+    if (authorization && !headers.has("Authorization")) headers.set("Authorization", authorization);
+  }
   const response = await fetch(`${base()}${path}`, { ...init, headers, credentials: "include" });
   const data = (await response.json().catch(() => ({}))) as { error?: { message?: string; code?: string } };
   if (!response.ok) {

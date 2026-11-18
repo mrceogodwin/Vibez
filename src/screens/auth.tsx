@@ -5,6 +5,7 @@ import { colors, spacing } from "@/theme";
 import { Button, Field, T } from "@/components/ui";
 import { IconBack, Mark } from "@/components/icons";
 import { api } from "@/lib/api";
+import { saveSessionToken } from "@/lib/session-token";
 import { useSession } from "@/lib/session";
 
 export function LoginScreen() {
@@ -19,7 +20,11 @@ export function LoginScreen() {
     setLoading(true);
     setError("");
     try {
-      await api("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
+      const result = await api<{ token?: string }>("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+      if (result.token) await saveSessionToken(result.token);
       await refresh();
       router.replace("/home");
     } catch (err) {
@@ -49,13 +54,34 @@ export function SignupScreen() {
   const [form, setForm] = useState({ displayName: "", username: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
+  const [canResend, setCanResend] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  async function resend() {
+    setLoading(true);
+    setError("");
+    try {
+      const result = await api<{ message: string; verificationPath?: string }>("/api/auth/resend-verification", {
+        method: "POST",
+        body: JSON.stringify({ email: form.email }),
+      });
+      if (result.verificationPath) {
+        router.replace(result.verificationPath as never);
+        return;
+      }
+      setInfo(result.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not send another verification email.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function submit() {
     setLoading(true);
     setError("");
     try {
-      const result = await api<{ message: string; verificationPath?: string }>("/api/auth/signup", {
+      const result = await api<{ message: string; emailDelivered?: boolean; verificationPath?: string }>("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify(form),
       });
@@ -64,6 +90,7 @@ export function SignupScreen() {
         return;
       }
       setInfo(result.message);
+      setCanResend(result.emailDelivered === false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not create the account.");
     } finally {
@@ -80,6 +107,7 @@ export function SignupScreen() {
       {error ? <T color={colors.danger}>{error}</T> : null}
       {info ? <T color={colors.success}>{info}</T> : null}
       <Button title="Create account" onPress={submit} loading={loading} />
+      {canResend ? <Button title="Send the verification email again" variant="dark" onPress={resend} loading={loading} /> : null}
     </AuthFrame>
   );
 }
