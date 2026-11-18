@@ -19,7 +19,7 @@
     "android": {
       "package": "ng.vibez.app",
       "adaptiveIcon": {
-        "backgroundColor": "#0C0C0E",
+        "backgroundColor": "#0D0D0F",
         "foregroundImage": "./assets/images/icon.png"
       }
     },
@@ -28,8 +28,8 @@
       "output": "server",
       "favicon": "./assets/images/favicon.png",
       "name": "Vibez",
-      "themeColor": "#0C0C0E",
-      "backgroundColor": "#0C0C0E"
+      "themeColor": "#0D0D0F",
+      "backgroundColor": "#0D0D0F"
     },
     "plugins": [
       "expo-router",
@@ -39,7 +39,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#0C0C0E",
+          "backgroundColor": "#0D0D0F",
           "image": "./assets/images/icon.png",
           "imageWidth": 76
         }
