@@ -1,90 +1,71 @@
-#!/usr/bin/env node
-/**
- * Deploy-time database migrator (node-postgres, `pg`).
- *
- * Runs during `npm run build` — on every Vercel deploy — applying pending files
- * in ../migrations to DATABASE_URL. Each file is applied in one transaction and
- * recorded in a `_migrations` table, so it runs once and is safe to re-run.
- *
- * The read is non-recursive, so the opt-in auth schema under migrations/auth/
- * is not applied to an app that never asked for sign-in.
- *
- * No DATABASE_URL (local / preview builds) -> skip; the PGLite fallback applies
- * the same files at startup instead (see src/lib/db.ts).
- */
-import { readdir, readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
-import pg from "pg";
-import { pendingMigrations } from "./migration-plan.mjs";
+import { readFileSync, existsSync } from "node:fs";
+import { Pool } from "pg";
+
+function loadEnvFile() {
+  for (const file of [".env.local", ".env"]) {
+    if (!existsSync(file)) continue;
+    for (const line of readFileSync(file, "utf8").split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const eq = trimmed.indexOf("=");
+      if (eq < 1) continue;
+      const key = trimmed.slice(0, eq);
+      const value = trimmed.slice(eq + 1);
+      if (!process.env[key]) process.env[key] = value;
+    }
+  }
+}
+
+const PRODUCTION_HOST_MARK = "ep-soft-wind-zam8gd6x";
+
+loadEnvFile();
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
-  console.log(
-    "[migrate] DATABASE_URL not set — skipping (the PGLite fallback migrates itself).",
-  );
+  console.log("DATABASE_URL is not set. Skipping migrations.");
   process.exit(0);
 }
 
-const migrationsDir = join(dirname(fileURLToPath(import.meta.url)), "..", "migrations");
-
-async function main() {
-  let entries;
-  try {
-    entries = await readdir(migrationsDir);
-  } catch {
-    console.log("[migrate] no migrations/ directory — nothing to do.");
-    return;
-  }
-  // An app with no schema of its own must not pay for a database connection.
-  if (pendingMigrations(entries, []).length === 0) {
-    console.log("[migrate] no migrations — nothing to do.");
-    return;
-  }
-
-  const pool = new pg.Pool({ connectionString: databaseUrl, max: 1 });
-  const client = await pool.connect();
-  try {
-    await client.query(
-      "CREATE TABLE IF NOT EXISTS _migrations (name TEXT PRIMARY KEY, applied_at TIMESTAMPTZ NOT NULL DEFAULT now())",
-    );
-    const applied = (await client.query("SELECT name FROM _migrations")).rows.map(
-      (r) => r.name,
-    );
-
-    let count = 0;
-    for (const { name } of pendingMigrations(entries, applied)) {
-      const text = await readFile(join(migrationsDir, name), "utf8");
-      try {
-        await client.query("BEGIN");
-        // pg's simple-query protocol runs a whole multi-statement file at once.
-        await client.query(text);
-        await client.query("INSERT INTO _migrations (name) VALUES ($1)", [name]);
-        await client.query("COMMIT");
-      } catch (err) {
-        console.error(`[migrate] error applying ${name}`);
-        try {
-          await client.query("ROLLBACK");
-        } catch {
-          // ROLLBACK fails when the connection died — keep the original error.
-        }
-        throw err;
-      }
-      console.log(`[migrate] applied ${name}`);
-      count += 1;
-    }
-    console.log(count ? `[migrate] done — ${count} migration(s) applied.` : "[migrate] up to date.");
-  } finally {
-    client.release();
-    await pool.end();
-  }
+const host = new URL(databaseUrl).hostname;
+if (host.includes(PRODUCTION_HOST_MARK) && process.env.MIGRATE_ALLOW_PRODUCTION !== "yes") {
+  console.error(
+    `Refusing to migrate ${host}. That is the production Neon endpoint. Use the cursor-phase1-rebuild branch, or set MIGRATE_ALLOW_PRODUCTION=yes for an approved additive apply.`,
+  );
+  process.exit(1);
 }
 
-main().catch((err) => {
-  console.error("[migrate] failed:", err?.message || err);
-  // pg errors carry the context needed to debug a bad SQL file.
-  for (const key of ["code", "detail", "hint", "position", "where"]) {
-    if (err?.[key] != null) console.error(`[migrate]   ${key}: ${err[key]}`);
+const directUrl = databaseUrl.replace("-pooler.", ".");
+const pool = new Pool({ connectionString: directUrl, max: 1 });
+const sql = readFileSync(new URL("../db/migrations/0001_vibez_schema.sql", import.meta.url), "utf8");
+const filename = "0001_vibez_schema.sql";
+
+const client = await pool.connect();
+try {
+  const reg = await client.query("SELECT to_regclass('vibez.schema_migrations') AS name");
+  if (reg.rows[0]?.name) {
+    const applied = await client.query("SELECT 1 FROM vibez.schema_migrations WHERE filename = $1", [filename]);
+    if (applied.rowCount) {
+      console.log(`${filename} already applied on ${host}`);
+      process.exit(0);
+    }
   }
+  const before = await client.query("SELECT count(*)::int AS n FROM public.events");
+  await client.query("BEGIN");
+  await client.query(sql);
+  await client.query("INSERT INTO vibez.schema_migrations (filename) VALUES ($1)", [filename]);
+  await client.query("COMMIT");
+  const after = await client.query("SELECT count(*)::int AS n FROM public.events");
+  const tables = await client.query(
+    "SELECT count(*)::int AS n FROM information_schema.tables WHERE table_schema = 'vibez' AND table_type = 'BASE TABLE'",
+  );
+  console.log(
+    `Applied ${filename} on ${host}. vibez tables: ${tables.rows[0].n}. public.events rows before/after: ${before.rows[0].n}/${after.rows[0].n}.`,
+  );
+} catch (error) {
+  await client.query("ROLLBACK").catch(() => {});
+  console.error(error);
   process.exit(1);
-});
+} finally {
+  client.release();
+  await pool.end();
+}
